@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '8.0'
+
+target 'YTKJsBridge_Example' do
+  pod 'YTKJsBridge', :path => '../'
+
+  target 'YTKJsBridge_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
