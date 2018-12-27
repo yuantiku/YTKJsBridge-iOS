@@ -36,7 +36,9 @@ YTKJsBridge 的基本思想是把一个或多个JS注入方法的实现放到一
 
 你可以在Podfile中加入下面一行代码来使用YTKJsBridge
 
+```ruby
 pod 'YTKJsBridge'
+```
 
 ## 安装要求
 
