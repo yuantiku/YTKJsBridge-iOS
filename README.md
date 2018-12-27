@@ -76,8 +76,43 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 
 @end
 ```
+然后客户端向网页注入该方法类即可，下面就是向网页注入名为sayHello的方法，代码如下：
 
-客户端调用网页JS方法，直接调用YTKWebViewJsBridge的类方法即可。
+```objectivec
+UIWebView *webView = [UIWebView new];
+NSURL *URL = [NSURL URLWithString:@"http://www.yuanfudao.com"];
+[webView loadRequest:[NSURLRequest requestWithURL:URL]];
+YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
+[self.bridge addJsCommandHandler:[YTKAlertHandler new] forCommandName:@"sayHello"];
+
+```
+
+网页调用客户端注入的方法，下面就是网页调用客户端来执行sayHello方法的代码，由于客户端注入的sayHello方法不需要参数，因此传递数据data中的arguments时空的，如下所示：
+
+```JavaScript
+//准备要传给native的数据，包括指令，数据，回调等
+var data = {
+    name:'sayHello',
+    arguments:null,
+    callback:'',
+};
+//直接使用这个客户端注入的sayHello函数
+sayHello(data);
+```
+客户端调用网页JS方法，直接调用YTKWebViewJsBridge的类方法即可，下面就是客户端调用网页执行名为alert的JS方法，带有三个参数message，cancelTitle，confirmTitle，分别代表alert提示的文案、取消按钮文案、确认按钮文案，如下所示：
+
+```objectivec
+UIWebView *webView = [UIWebView new];
+NSURL *URL = [NSURL URLWithString:@"http://www.yuanfudao.com"];
+[webView loadRequest:[NSURLRequest requestWithURL:URL]];
+NSDictionary *parameter = @{@"message" : @"hello, world",
+                        @"cancelTitle" : @"cancel",
+                       @"confirmTitle" : @"confirm"};
+[YTKJsBridge callJsCommandName:@"alert"
+                      argument:@[parameter]
+                  errorMessage:nil
+                     inWebView:UIWebView];
+```
 
 ## 作者
 
