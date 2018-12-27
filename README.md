@@ -55,6 +55,10 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 客户端向网页注入方法，首先需要创建一个实现了YTKJsCommandHandler协议的类，下面就是向网页注入弹出alert的方法的类实现，如下所示：
 
 ```objectivec
+@interface YTKAlertHandler : NSObject <YTKJsCommandHandler>
+
+@end
+
 @implementation YTKAlertHandler
 
 @synthesize webView;
