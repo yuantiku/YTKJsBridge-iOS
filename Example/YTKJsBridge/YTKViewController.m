@@ -7,14 +7,14 @@
 //
 
 #import "YTKViewController.h"
-#import "YTKWebViewJsBridge.h"
+#import "YTKJsBridge.h"
 #import "YTKAlertHandler.h"
 
 @interface YTKViewController ()
 
 @property (nonatomic, strong) UIWebView *webView;
 
-@property (nonatomic, strong) YTKWebViewJsBridge *bridge;
+@property (nonatomic, strong) YTKJsBridge *bridge;
 
 @end
 
@@ -40,9 +40,9 @@
     return _webView;
 }
 
-- (YTKWebViewJsBridge *)bridge {
+- (YTKJsBridge *)bridge {
     if (nil == _bridge) {
-        _bridge = [[YTKWebViewJsBridge alloc] initWithWebView:self.webView];
+        _bridge = [[YTKJsBridge alloc] initWithWebView:self.webView];
     }
     return _bridge;
 }

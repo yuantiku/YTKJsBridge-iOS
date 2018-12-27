@@ -1,6 +1,6 @@
 //
 //  UIWebView+JavaScriptContext.m
-//  YTKWebViewJsBridge
+//  YTKJsBridge
 //
 //  Created by lihaichun on 2018/12/21.
 //  Copyright © 2018年 fenbi. All rights reserved.

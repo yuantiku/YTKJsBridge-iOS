@@ -1,17 +1,17 @@
 //
-//  YTKWebViewJsBridge.m
-//  YTKWebViewJsBridge
+//  YTKJsBridge.m
+//  YTKJsBridge
 //
 //  Created by lihaichun on 2018/12/21.
 //  Copyright © 2018年 fenbi. All rights reserved.
 //
 
-#import "YTKWebViewJsBridge.h"
+#import "YTKJsBridge.h"
 #import "UIWebView+JavaScriptContext.h"
 #import "YTKJsCommandHandler.h"
 #import "YTKJsCommand.h"
 
-@interface YTKWebViewJsBridge () <YTKWebViewDelegate>
+@interface YTKJsBridge () <YTKWebViewDelegate>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "Wdeprecated-declarations"
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation YTKWebViewJsBridge
+@implementation YTKJsBridge
 
 + (NSString *)callJsCommandName:(NSString *)commandName
                        argument:(NSArray *)argument

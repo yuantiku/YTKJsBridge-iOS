@@ -1,6 +1,6 @@
 //
-//  YTKWebViewJsBridge.h
-//  YTKWebViewJsBridge
+//  YTKJsBridge.h
+//  YTKJsBridge
 //
 //  Created by lihaichun on 2018/12/21.
 //  Copyright © 2018年 fenbi. All rights reserved.
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol YTKJsCommandHandler;
 
-@interface YTKWebViewJsBridge : NSObject
+@interface YTKJsBridge : NSObject
 
 /** 调用js commandName方法 */
 + (NSString *)callJsCommandName:(NSString *)commandName
