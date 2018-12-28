@@ -7,13 +7,10 @@
 //
 
 #import "YTKAlertHandler.h"
-#import <UIKit/UIKit.h>
 
 @implementation YTKAlertHandler
 
-@synthesize webView;
-
-- (void)handleJSCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
+- (void)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertView *av = [[UIAlertView alloc] initWithTitle: @"Hello, World!"
                                                      message: nil

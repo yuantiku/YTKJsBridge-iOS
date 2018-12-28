@@ -6,12 +6,11 @@
 //  Copyright © 2018年 fenbi. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "YTKJSCommandHandler.h"
+#import "YTKBaseCommandHandler.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YTKAlertHandler : NSObject <YTKJsCommandHandler>
+@interface YTKAlertHandler : YTKBaseCommandHandler
 
 @end
 

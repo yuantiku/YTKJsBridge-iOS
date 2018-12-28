@@ -10,6 +10,7 @@
 #import "UIWebView+JavaScriptContext.h"
 #import "YTKJsCommandHandler.h"
 #import "YTKJsCommand.h"
+#import "YTKJsCommandManager.h"
 
 @interface YTKJsBridge () <YTKWebViewDelegate>
 
@@ -20,6 +21,8 @@
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *, id<YTKJsCommandHandler>> *pendingJsHandlers;
 
+@property (nonatomic, strong) YTKJsCommandManager *manager;
+
 @end
 
 @implementation YTKJsBridge
@@ -28,7 +31,7 @@
                        argument:(NSArray *)argument
                    errorMessage:(NSString *)errorMessage
                       inWebView:(UIWebView *)webView {
-    if (webView == nil || commandName == nil) {
+    if (webView == nil || NO == [commandName isKindOfClass:[NSString class]]) {
         return nil;
     }
 
@@ -59,6 +62,8 @@
     return json;
 }
 
+#pragma mark - Public Methods
+
 - (instancetype)initWithWebView:(UIWebView *)webView {
     self = [super init];
     if (self) {
@@ -70,16 +75,14 @@
 }
 
 - (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler forCommandName:(NSString *)commandName {
-    if (nil == handler || NO == [commandName isKindOfClass:[NSString class]]) {
-        NSLog(@"ERROR, invalid parameter");
-        return;
-    }
-    if (self.webView.ytk_javaScriptContext) {
-        [self addJsCommandHandler:handler forCommandName:commandName toContext:self.webView.ytk_javaScriptContext];
-    } else {
-        [self.pendingJsHandlers setObject:handler forKey:commandName];
-    }
+    [self.manager addJsCommandHandler:handler forCommandName:commandName];
 }
+
+- (void)removeJsCommandHandlerForCommandName:(NSString *)commandName {
+    [self.manager removeJsCommandHandlerForCommandName:commandName];
+}
+
+#pragma mark - Utils
 
 - (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler forCommandName:(NSString *)commandName toContext:(JSContext *)context {
     if (nil == handler || NO == [commandName isKindOfClass:[NSString class]] || nil == context) {
@@ -87,9 +90,9 @@
     }
     context[commandName] = ^(JSValue *data) {
         handler.webView = self.webView;
-        if ([handler respondsToSelector:@selector(handleJSCommand:inWebView:)]) {
-            YTKJsCommand *commamd = [[YTKJsCommand alloc] initWithDictionary:[data toObjectOfClass:[YTKJsCommand class]]];
-            [handler handleJSCommand:commamd inWebView:self.webView];
+        if ([handler respondsToSelector:@selector(handleJsCommand:inWebView:)]) {
+            YTKJsCommand *commamd = [[YTKJsCommand alloc] initWithDictionary:[data toDictionary]];
+            [handler handleJsCommand:commamd inWebView:self.webView];
         }
     };
 }
@@ -97,9 +100,17 @@
 #pragma mark - YTKWebViewDelegate
 
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)context {
-    [self.pendingJsHandlers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id<YTKJsCommandHandler>  _Nonnull obj, BOOL * _Nonnull stop) {
-        [self addJsCommandHandler:obj forCommandName:key toContext:context];
-    }];
+    /** 向JS注入全局YTKJsBridge函数 */
+    [self addJsCommandHandler:self.manager forCommandName:self.class.description toContext:context];
+}
+
+#pragma mark - Getter
+
+- (YTKJsCommandManager *)manager {
+    if (nil == _manager) {
+        _manager = [YTKJsCommandManager new];
+    }
+    return _manager;
 }
 
 @end

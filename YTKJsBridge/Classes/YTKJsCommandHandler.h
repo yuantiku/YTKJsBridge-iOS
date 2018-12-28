@@ -7,17 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "YTKJsCommand.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@class YTKJsCommand;
-@class UIWebView;
 
 @protocol YTKJsCommandHandler <NSObject>
 
 @property (nonatomic, weak, nullable) UIWebView *webView;
 
-- (void)handleJSCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView;
+- (void)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView;
+
+/** default YES */
+- (BOOL)shouldCallDefaultJsCallback;
 
 @end
 
