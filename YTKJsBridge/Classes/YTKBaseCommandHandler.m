@@ -10,6 +10,7 @@
 @implementation YTKBaseCommandHandler
 
 @synthesize webView;
+@synthesize commandNames;
 
 #pragma mark - YTKJsCommandHandler
 
@@ -19,6 +20,11 @@
 
 - (BOOL)shouldCallDefaultJsCallback {
     return YES;
+}
+
+- (NSArray<NSString *> *)commandNames {
+    NSAssert(NO, @"Sub class must rewrite this method !");
+    return @[];
 }
 
 @end

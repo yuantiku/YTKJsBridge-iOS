@@ -53,7 +53,7 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 
 ## 使用方法
 
-客户端向网页注入方法，首先需要创建一个实现了YTKJsCommandHandler协议的类，YTKJsBridge提供了一个handler的极累YTKBaseCommandHandler，可以通过继承来实现，下面就是向网页注入弹出alert的方法的类实现，注意：协议方法@selector(handleJsCommand:inWebView:)是在异步线程执行的，如下所示：
+客户端向网页注入方法，首先需要创建一个实现了YTKJsCommandHandler协议的类，YTKJsBridge提供了一个handler的极累YTKBaseCommandHandler，可以通过继承来实现，下面就是向网页注入名为sayHello的方法，方法功能是弹出alert的类实现，注意：协议方法@selector(handleJsCommand:inWebView:)是在异步线程执行的，如下所示：
 
 ```objective-c
 @interface YTKAlertHandler : YTKBaseCommandHandler
@@ -61,6 +61,10 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 @end
 
 @implementation YTKAlertHandler
+
+- (NSArray<NSString *> *)commandNames {
+    return @[@"sayHello"];
+}
 
 - (void)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -75,15 +79,14 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 
 @end
 ```
-然后客户端向网页注入该方法类即可，下面就是向网页注入名为sayHello的方法，代码如下：
+然后客户端向网页注入该方法类即可，下面就是向网页注入YTKAlertHandler，代码如下：
 
 ```objective-c
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 // 向JS注入全局sayHello方法
-[bridge addJsCommandHandler:[YTKAlertHandler new] forCommandName:@"sayHello"];
-
+[bridge addJsCommandHandler:[YTKAlertHandler new]];
 ```
 
 网页调用客户端注入的方法，下面就是网页调用客户端来执行sayHello方法的代码，由于客户端注入的sayHello方法不需要参数，因此传递数据data中的arguments是空的，如下所示：

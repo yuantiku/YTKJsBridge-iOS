@@ -74,8 +74,10 @@
     return self;
 }
 
-- (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler forCommandName:(NSString *)commandName {
-    [self.manager addJsCommandHandler:handler forCommandName:commandName];
+- (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler {
+    [handler.commandNames enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.manager addJsCommandHandler:handler forCommandName:obj];
+    }];
 }
 
 - (void)removeJsCommandHandlerForCommandName:(NSString *)commandName {

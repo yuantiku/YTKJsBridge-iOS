@@ -10,6 +10,10 @@
 
 @implementation YTKAlertHandler
 
+- (NSArray<NSString *> *)commandNames {
+    return @[@"sayHello"];
+}
+
 - (void)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertView *av = [[UIAlertView alloc] initWithTitle: @"Hello, World!"
