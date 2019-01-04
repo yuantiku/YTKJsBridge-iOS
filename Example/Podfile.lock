@@ -1,0 +1,16 @@
+PODS:
+  - YTKJsBridge (0.1.0)
+
+DEPENDENCIES:
+  - YTKJsBridge (from `../`)
+
+EXTERNAL SOURCES:
+  YTKJsBridge:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  YTKJsBridge: 587050cdfe2d527129b7012075e1941e7eb52618
+
+PODFILE CHECKSUM: 883d4ce09ffa0f42382fd014a4ecb172bb9d384f
+
+COCOAPODS: 1.5.3
