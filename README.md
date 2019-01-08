@@ -53,7 +53,7 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 
 ## 使用方法
 
-客户端向网页注入方法，首先需要创建一个方法的实现类，下面就是向网页注入名为sayHello的方法，方法功能是弹出alert，标题通过网页指定，注意：sayHello方法是在异步线程执行的，如下所示：
+客户端向网页注入方法，首先需要创建一个方法的实现类，下面就是向网页注入同步syncSayHello以及异步asyncSayHello的方法例子，方法功能是弹出alert，标题通过网页指定，注意：方法是在异步线程执行的，如下所示：
 
 ```objective-c
 @interface YTKAlertHandler : NSObject
@@ -62,7 +62,8 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 
 @implementation YTKAlertHandler
 
-- (void)sayHello:(nullable NSDictionary *)msg completion:(void(^)(NSError *error, id value))completion {
+// 同步方法syncSayHello
+- (void)syncSayHello:(nullable NSDictionary *)msg {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *title = [msg objectForKey:@"title"];
         UIAlertView *av = [[UIAlertView alloc] initWithTitle: title
@@ -72,9 +73,22 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
                                            otherButtonTitles: nil];
         [av show];
     });
-    if (completion) {
-        completion(nil, nil);
-    }
+}
+
+// 异步方法asyncSayHello，带有异步方法回调completion
+- (void)asyncSayHello:(nullable NSDictionary *)msg completion:(void(^)(NSError *error, id value))completion {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *title = [msg objectForKey:@"title"];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle: title
+                                                     message: nil
+                                                    delegate: nil
+                                           cancelButtonTitle: @"OK"
+                                           otherButtonTitles: nil];
+        [av show];
+        if (completion) {
+            completion(nil, nil);
+        }
+    });
 }
 
 @end
@@ -89,18 +103,32 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 [bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
 ```
 
-网页调用客户端注入的方法，下面就是网页调用客户端来异步执行yuantiku命名空间下的sayHello方法的代码，客户端注入的sayHello方法需要title参数，如下所示：
+网页调用客户端注入的方法，下面就是网页调用客户端来异步执行yuantiku命名空间下的asyncSayHello方法的代码，客户端注入的asyncSayHello方法需要title参数，如下所示：
 
 ```JavaScript
-// 准备要传给客户端的数据，包括指令，数据，回调等，
+// 准备要传给客户端异步方法asyncSayHello的数据，包括指令，数据，回调等，
 var data = {
-    methodName:"yuantiku.sayHello", // 带有命名空间的方法名
-    args:{title:"hello world"},  // 参数
+    methodName:"yuantiku.asyncSayHello", // 带有命名空间的方法名
+    args:{title:"async: hello world"},  // 参数
     callId:123  // callId为-1表示同步调用，否则为异步调用
 };
-// 直接使用这个客户端注入的全局YTKJsBridge方法调用yuantiku命名空间下的sayHello方法执行
+// 直接使用这个客户端注入的全局YTKJsBridge方法调用yuantiku命名空间下的asyncSayHello方法执行
 YTKJsBridge(data);
 ```
+
+下面就是网页调用客户端来同步执行yuantiku命名空间下的syncSayHello方法的代码，客户端注入的syncSayHello方法需要title参数，如下所示：
+
+```JavaScript
+// 准备要传给客户端同步方法syncSayHello的数据，包括指令，数据，回调等，
+var data = {
+    methodName:"yuantiku.syncSayHello", // 带有命名空间的方法名
+    args:{title:"sync: hello world"},  // 参数
+    callId:-1  // callId为-1表示同步调用，否则为异步调用
+};
+// 直接使用这个客户端注入的全局YTKJsBridge方法调用yuantiku命名空间下的syncSayHello方法执行
+YTKJsBridge(data);
+```
+
 客户端调用网页JS方法，直接调用YTKWebViewJsBridge的对象方法即可，下面就是客户端调用网页执行名为alert的JS方法，带有三个参数message，cancelTitle，confirmTitle，分别代表alert提示的文案、取消按钮文案、确认按钮文案，如下所示：
 
 ```objective-c
