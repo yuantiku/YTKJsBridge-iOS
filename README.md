@@ -62,10 +62,6 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 
 @implementation YTKAlertHandler
 
-- (NSArray<NSString *> *)commandNames {
-    return @[@"sayHello"];
-}
-
 - (void)sayHello:(nullable NSDictionary *)msg completion:(void(^)(NSError *error, id value))completion {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *title = [msg objectForKey:@"title"];
