@@ -86,7 +86,7 @@ UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 // 向JS注入在命名空间yuantiku之下的sayHello方法
-[self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
+[bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
 ```
 
 网页调用客户端注入的方法，下面就是网页调用客户端来异步执行yuantiku命名空间下的sayHello方法的代码，客户端注入的sayHello方法需要title参数，如下所示：
