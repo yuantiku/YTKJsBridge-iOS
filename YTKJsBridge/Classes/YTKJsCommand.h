@@ -12,11 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YTKJsCommand : NSObject
 
-@property (nonatomic, copy) NSString *name;
-
-@property (nonatomic, copy) NSDictionary *arguments;
-
-@property (nonatomic, copy) NSString *callback;
+/** 方法名称 */
+@property (nonatomic, copy) NSString *methodName;
+/** 参数 */
+@property (nonatomic, copy) NSDictionary *args;
+/** 回调id */
+@property (nonatomic, copy) NSString *callId;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

@@ -13,17 +13,19 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
-        NSString *name = [dictionary objectForKey:@"name"];
-        if ([name isKindOfClass:[NSString class]]) {
-            _name = name;
+        NSString *methodName = [dictionary objectForKey:@"methodName"];
+        if ([methodName isKindOfClass:[NSString class]]) {
+            _methodName = methodName;
         }
-        NSString *callback = [dictionary objectForKey:@"callback"];
-        if ([callback isKindOfClass:[NSString class]]) {
-            _callback = callback;
+        id callId = [dictionary objectForKey:@"callId"];
+        if ([callId isKindOfClass:[NSString class]]) {
+            _callId = (NSString *)callId;
+        } else if ([callId respondsToSelector:@selector(stringValue)]) {
+            _callId = [callId stringValue];
         }
-        NSDictionary *arguments = [dictionary objectForKey:@"arguments"];
-        if ([arguments isKindOfClass:[NSDictionary class]]) {
-            _arguments = arguments;
+        NSDictionary *args = [dictionary objectForKey:@"args"];
+        if ([args isKindOfClass:[NSDictionary class]]) {
+            _args = args;
         }
     }
     return self;

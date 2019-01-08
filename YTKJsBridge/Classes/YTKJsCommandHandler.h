@@ -16,12 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak, nullable) UIWebView *webView;
 
-@property (nonatomic, strong) NSArray<NSString *> *commandNames;
-
 - (void)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView;
-
-/** default YES */
-- (BOOL)shouldCallDefaultJsCallback;
 
 @end
 

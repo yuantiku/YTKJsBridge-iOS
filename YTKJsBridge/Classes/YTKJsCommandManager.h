@@ -12,11 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YTKJsCommandManager : NSObject <YTKJsCommandHandler>
 
-- (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler forCommandName:(NSString *)commandName;
 
-- (void)removeJsCommandHandlerForCommandName:(NSString *)commandName;
+- (void)addJsCommandHandlers:(NSArray<id> *)handlers forNamespace:(nullable NSString *)namespace;
 
-- (id<YTKJsCommandHandler>)handlerForCommandName:(NSString *)commandName;
+- (void)removeJsCommandHandlerForNamespace:(nullable NSString *)namespace;
+
+- (NSArray<id> *)handlersForNamespace:(nullable NSString *)namespace;
+
+- (void)setDebugMode:(BOOL)debug;
 
 @end
 

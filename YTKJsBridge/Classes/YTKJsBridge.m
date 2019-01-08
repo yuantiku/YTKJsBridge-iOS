@@ -11,6 +11,7 @@
 #import "YTKJsCommandHandler.h"
 #import "YTKJsCommand.h"
 #import "YTKJsCommandManager.h"
+#import "YTKJsUtils.h"
 
 @interface YTKJsBridge () <YTKWebViewDelegate>
 
@@ -19,48 +20,15 @@
 @property (nonatomic, strong) UIWebView *webView;
 #pragma clang diagnostic pop
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, id<YTKJsCommandHandler>> *pendingJsHandlers;
-
 @property (nonatomic, strong) YTKJsCommandManager *manager;
+
+@property (nonatomic) UInt64 callId;
+
+@property (nonatomic) BOOL isDebug;
 
 @end
 
 @implementation YTKJsBridge
-
-+ (NSString *)callJsCommandName:(NSString *)commandName
-                       argument:(NSArray *)argument
-                   errorMessage:(NSString *)errorMessage
-                      inWebView:(UIWebView *)webView {
-    if (webView == nil || NO == [commandName isKindOfClass:[NSString class]]) {
-        return nil;
-    }
-
-    NSMutableArray *args = [NSMutableArray array];
-    // put error message
-    if (errorMessage != nil) {
-        [args addObject:errorMessage];
-    } else {
-        [args addObject:[NSNull null]];
-    }
-    // put result
-    if (argument.count > 0) {
-        [args addObjectsFromArray:argument];
-    }
-
-    NSString *js = [NSString stringWithFormat:@"%@('%@')", commandName, [self jsonString:args]];
-    return [webView stringByEvaluatingJavaScriptFromString:js];
-}
-
-+ (NSString *)jsonString:(NSArray *)array {
-    NSError *error;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:array options:0 error:&error];
-    if (error) {
-        NSLog(@"ERROR, faild to get json data");
-        return nil;
-    }
-    NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    return json;
-}
 
 #pragma mark - Public Methods
 
@@ -68,20 +36,36 @@
     self = [super init];
     if (self) {
         _webView = webView;
-        _pendingJsHandlers = @{}.mutableCopy;
         webView.ytk_delegate = self;
     }
     return self;
 }
 
-- (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler {
-    [handler.commandNames enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self.manager addJsCommandHandler:handler forCommandName:obj];
-    }];
+- (void)addJsCommandHandlers:(NSArray *)handlers namespace:(nullable NSString *)namespace {
+    [self.manager addJsCommandHandlers:handlers forNamespace:namespace];
 }
 
-- (void)removeJsCommandHandlerForCommandName:(NSString *)commandName {
-    [self.manager removeJsCommandHandlerForCommandName:commandName];
+- (void)removeJsCommandHandlerForNamespace:(nullable NSString *)namespace {
+    [self.manager removeJsCommandHandlerForNamespace:namespace];
+}
+
+- (NSString *)callJsCommandName:(NSString *)commandName
+                       argument:(NSArray *)argument {
+    if (self.webView == nil || NO == [commandName isKindOfClass:[NSString class]]) {
+        return nil;
+    }
+
+    NSString *json = [YTKJsUtils objToJsonString:@{@"methodName" : commandName, @"args" : argument, @"callId" : @(self.callId ++)}];
+    NSString *js = [NSString stringWithFormat:@"window.dispatchNativeCall(%@)", json];
+    if (self.isDebug) {
+        NSLog(@"### native call: %@", js);
+    }
+    return [self.webView stringByEvaluatingJavaScriptFromString:js];
+}
+
+- (void)setDebugMode:(BOOL)debug {
+    self.isDebug = debug;
+    [self.manager setDebugMode:debug];
 }
 
 #pragma mark - Utils
@@ -104,6 +88,7 @@
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)context {
     /** 向JS注入全局YTKJsBridge函数 */
     [self addJsCommandHandler:self.manager forCommandName:self.class.description toContext:context];
+    [self addJsCommandHandler:self.manager forCommandName:@"makeCallback" toContext:context];
 }
 
 #pragma mark - Getter

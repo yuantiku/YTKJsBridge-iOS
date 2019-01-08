@@ -27,7 +27,7 @@
     [self.view addSubview:self.webView];
     self.webView.frame = self.view.frame;
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.bridge addJsCommandHandler:[YTKAlertHandler new]];
+    [self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
     NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
                                              withExtension:@"htm"];
     [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];

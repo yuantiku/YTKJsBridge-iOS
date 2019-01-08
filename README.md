@@ -11,8 +11,8 @@ YTKJsBridge是基于OC语言实现的一套客户端与网页JS相互调用的iO
 
 ## YTKJsBridge 提供了那些功能
 
- * 支持客户端向网页动态注入OC实现的方法。
- * 支持网页以同步方式调用客户端注入的OC方法。
+ * 支持客户端向网页动态注入OC实现的方法，并支持命名空间。
+ * 支持网页以同步、异步方式调用客户端注入的OC方法。
  * 支持网页调用客户端注入的OC方法的时候，直接以json格式数据作为参数，无需序列化。
  * 支持客户端主动调用网页提供的JavaScript方法。
 
@@ -24,11 +24,11 @@ YTKJsBridge 适合ObjectC实现的项目，并且项目中使用UIWebView作为�
 
 ## YTKJsBridge 的基本思想
 
-YTKJsBridge 的基本思想是把一个或多个JS注入方法的实现放到一个实现了YTKJsCommandHandler协议的类里面，所以使用YTKJsBridge，你的一个或多个相关的注入方法，可以通过实现YTKJsCommandHandler协议来放到单独的类进行管理。
+YTKJsBridge 的基本思想是把一个或多个JS注入方法的实现放到一个实现了类里面，并且同一个命名空间可以注册多个方法实现类，所以使用YTKJsBridge，你的一个或多个相关的注入方法，可以放到单独的类进行管理，并支持命名空间，也就是说多个注入方法实现类可以有同名方法。
 
 YTKJsBridge 会向网页注入一个名为YTKJsBridge的全局方法，后续所有需要向YTKJsBridge注入的方法，都是通过这个全局方法来调用执行的，后面使用方法中有具体的例子。
 
-把一个或多个注入方法的实现放到一个实现YTKJsCommandHandler协议的类里面，有如下好处：
+把一个或多个注入方法的实现放到一个类里面，有如下好处：
  * 天然将一类相关的注入方法实现都放在一个类中进行管理，可以避免注入方法四散到项目的各个地方又可能出现重复代码的问题。
  * 可以避免将所有的注入方法都放到一个类中实现，导致文件过长逻辑产生交叉，增加后续的维护成本。
 
@@ -53,10 +53,10 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 
 ## 使用方法
 
-客户端向网页注入方法，首先需要创建一个实现了YTKJsCommandHandler协议的类，YTKJsBridge提供了一个handler的极累YTKBaseCommandHandler，可以通过继承来实现，下面就是向网页注入名为sayHello的方法，方法功能是弹出alert的类实现，注意：协议方法@selector(handleJsCommand:inWebView:)是在异步线程执行的，如下所示：
+客户端向网页注入方法，首先需要创建一个方法的实现类，下面就是向网页注入名为sayHello的方法，方法功能是弹出alert，标题通过网页指定，注意：sayHello方法是在异步线程执行的，如下所示：
 
 ```objective-c
-@interface YTKAlertHandler : YTKBaseCommandHandler
+@interface YTKAlertHandler : NSObject
 
 @end
 
@@ -66,15 +66,19 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
     return @[@"sayHello"];
 }
 
-- (void)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
+- (void)sayHello:(nullable NSDictionary *)msg completion:(void(^)(NSError *error, id value))completion {
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle: @"Hello, World!"
+        NSString *title = [msg objectForKey:@"title"];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle: title
                                                      message: nil
                                                     delegate: nil
                                            cancelButtonTitle: @"OK"
                                            otherButtonTitles: nil];
         [av show];
     });
+    if (completion) {
+        completion(nil, nil);
+    }
 }
 
 @end
@@ -85,36 +89,34 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
-// 向JS注入全局sayHello方法
-[bridge addJsCommandHandler:[YTKAlertHandler new]];
+// 向JS注入在命名空间yuantiku之下的sayHello方法
+[self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
 ```
 
-网页调用客户端注入的方法，下面就是网页调用客户端来执行sayHello方法的代码，由于客户端注入的sayHello方法不需要参数，因此传递数据data中的arguments是空的，如下所示：
+网页调用客户端注入的方法，下面就是网页调用客户端来异步执行yuantiku命名空间下的sayHello方法的代码，客户端注入的sayHello方法需要title参数，如下所示：
 
 ```JavaScript
-// 准备要传给客户端的数据，包括指令，数据，回调等
+// 准备要传给客户端的数据，包括指令，数据，回调等，
 var data = {
-    name:'sayHello',
-    arguments:null,
-    callback:'',
+    methodName:"yuantiku.sayHello", // 带有命名空间的方法名
+    args:{title:"hello world"},  // 参数
+    callId:123  // callId为-1表示同步调用，否则为异步调用
 };
-// 直接使用这个客户端注入的全局YTKJsBridge方法调用sayHello方法执行
+// 直接使用这个客户端注入的全局YTKJsBridge方法调用yuantiku命名空间下的sayHello方法执行
 YTKJsBridge(data);
 ```
-客户端调用网页JS方法，直接调用YTKWebViewJsBridge的类方法即可，下面就是客户端调用网页执行名为alert的JS方法，带有三个参数message，cancelTitle，confirmTitle，分别代表alert提示的文案、取消按钮文案、确认按钮文案，如下所示：
+客户端调用网页JS方法，直接调用YTKWebViewJsBridge的对象方法即可，下面就是客户端调用网页执行名为alert的JS方法，带有三个参数message，cancelTitle，confirmTitle，分别代表alert提示的文案、取消按钮文案、确认按钮文案，如下所示：
 
 ```objective-c
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
+YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 // 准备传入JS的数据，包括指令，数据等
 NSDictionary *parameter = @{@"message" : @"hello, world",
                         @"cancelTitle" : @"cancel",
                        @"confirmTitle" : @"confirm"};
 // 客户端调用网页的alert方法，弹出alert弹窗
-[YTKJsBridge callJsCommandName:@"alert"
-                      argument:@[parameter]
-                  errorMessage:nil
-                     inWebView:UIWebView];
+[bridge callJsCommandName:@"alert" argument:@[parameter]];
 ```
 
 ## 作者
