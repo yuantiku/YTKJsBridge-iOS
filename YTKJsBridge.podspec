@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YTKJsBridge'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'YTKJsBridge is used for UIWebview javascript function injection and call javascript code.'
 
 # This description is used to generate tags and improve search results.
