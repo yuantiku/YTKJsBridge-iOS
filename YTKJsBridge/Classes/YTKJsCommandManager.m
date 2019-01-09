@@ -35,6 +35,12 @@
     return self;
 }
 
+- (void)dealloc {
+    if (self.isDebug) {
+        NSLog(@"%@ %@", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    }
+}
+
 - (void)addJsCommandHandlers:(NSArray<id> *)handlers forNamespace:(nullable NSString *)namespace {
     if (NO == [handlers isKindOfClass:NSArray.class] || handlers.count == 0) {
         if (self.isDebug) {
@@ -81,7 +87,8 @@
     if (NO ==[command.methodName isKindOfClass:[NSString class]] || [command.methodName isEqualToString:@"makeCallback"]) {
         return;
     }
-    [self callCommand:command];
+    __weak typeof(self)weakSelf = self;
+    [weakSelf callCommand:command];
 }
 
 #pragma mark - Utils

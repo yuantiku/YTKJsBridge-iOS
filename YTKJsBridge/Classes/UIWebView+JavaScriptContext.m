@@ -11,12 +11,6 @@
 
 static NSHashTable<UIWebView *> *YTKWebViews = nil;
 
-@protocol YTKWebFrame <NSObject>
-
-- (id)parentFrame;
-
-@end
-
 @interface UIWebView (JavaScriptCore_Private)
 
 - (void)didCreateJavaScriptContext:(JSContext *)context;
@@ -25,11 +19,7 @@ static NSHashTable<UIWebView *> *YTKWebViews = nil;
 
 @implementation NSObject (WebFrameLoadDelegate)
 
-- (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)context forFrame:(id<YTKWebFrame>)frame {
-    NSParameterAssert([frame respondsToSelector:@selector(parentFrame)]);
-    if ([frame respondsToSelector:@selector(parentFrame)] && [frame parentFrame] != nil)
-        return;
-
+- (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)context forFrame:(id)frame {
     void (^notifyDidCreateJavaScriptContext)(void) = ^{
         for (UIWebView *webView in YTKWebViews) {
             NSString *cookie = [NSString stringWithFormat: @"ytk_webView_%lud", (unsigned long)webView.hash];

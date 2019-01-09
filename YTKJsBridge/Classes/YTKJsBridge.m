@@ -30,13 +30,20 @@
 
 @implementation YTKJsBridge
 
+- (void)dealloc {
+    if (self.isDebug) {
+        NSLog(@"%@ %@", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    }
+}
+
 #pragma mark - Public Methods
 
 - (instancetype)initWithWebView:(UIWebView *)webView {
     self = [super init];
     if (self) {
         _webView = webView;
-        webView.ytk_delegate = self;
+        __weak typeof(self) weakSelf = self;
+        webView.ytk_delegate = weakSelf;
     }
     return self;
 }
@@ -74,11 +81,16 @@
     if (nil == handler || NO == [commandName isKindOfClass:[NSString class]] || nil == context) {
         return;
     }
+    __weak typeof(self) weakSelf = self;
     context[commandName] = ^(JSValue *data) {
-        handler.webView = self.webView;
+        if (nil == weakSelf) {
+            return;
+        }
+        __strong typeof(self) strongSelf = weakSelf;
+        handler.webView = strongSelf.webView;
         if ([handler respondsToSelector:@selector(handleJsCommand:inWebView:)]) {
             YTKJsCommand *commamd = [[YTKJsCommand alloc] initWithDictionary:[data toDictionary]];
-            [handler handleJsCommand:commamd inWebView:self.webView];
+            [handler handleJsCommand:commamd inWebView:strongSelf.webView];
         }
     };
 }
@@ -87,8 +99,9 @@
 
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)context {
     /** 向JS注入全局YTKJsBridge函数 */
-    [self addJsCommandHandler:self.manager forCommandName:self.class.description toContext:context];
-    [self addJsCommandHandler:self.manager forCommandName:@"makeCallback" toContext:context];
+    __weak typeof(self) weakSelf = self;
+    [self addJsCommandHandler:weakSelf.manager forCommandName:self.class.description toContext:context];
+    [self addJsCommandHandler:weakSelf.manager forCommandName:@"makeCallback" toContext:context];
 }
 
 #pragma mark - Getter
