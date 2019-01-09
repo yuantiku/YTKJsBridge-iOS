@@ -17,7 +17,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "Wdeprecated-declarations"
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, weak) UIWebView *webView;
 #pragma clang diagnostic pop
 
 @property (nonatomic, strong) YTKJsCommandManager *manager;
