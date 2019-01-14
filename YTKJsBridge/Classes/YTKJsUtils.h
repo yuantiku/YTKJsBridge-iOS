@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nonnull NSArray<NSString *> *)parseNamespace:(nonnull NSString *)method;
 
++ (NSArray<NSString *> *)allMethodFromClass:(Class)class;
+
 @end
 
 NS_ASSUME_NONNULL_END

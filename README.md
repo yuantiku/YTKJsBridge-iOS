@@ -28,6 +28,8 @@ YTKJsBridge 的基本思想是把一个或多个JS注入方法的实现放到一
 
 YTKJsBridge 会向网页注入一个名为YTKJsBridge的全局方法，后续所有需要向YTKJsBridge注入的方法，都是通过这个全局方法来调用执行的，后面使用方法中有具体的例子。
 
+同时也支持以block的形式作为方法实现注入JS方法。
+
 把一个或多个注入方法的实现放到一个类里面，有如下好处：
  * 天然将一类相关的注入方法实现都放在一个类中进行管理，可以避免注入方法四散到项目的各个地方又可能出现重复代码的问题。
  * 可以避免将所有的注入方法都放到一个类中实现，导致文件过长逻辑产生交叉，增加后续的维护成本。
@@ -51,82 +53,128 @@ pod 'YTKJsBridge'
 
 clone当前repo， 到Example目录下执行`pod install`命令，就可以运行例子工程
 
+## 数据格式说明
+
+JS调用客户端的数据格式如下：
+
+```json
+{
+    "methodName": "math.fib" // 方法名，math是命名空间，fib为具体方法名
+    "args": {key1: value1, key2: value2, ...} // 参数字典
+    "callId": xxx // 同步为-1， 异步为非-1
+}
+```
+
+客户端通过调用JS的全局方法dispatchCallbackFromNative向JS回传数据，数据以json序列化的字符串传递，数据格式如下：
+
+```json
+{
+    "callId": xxx, // 同步调用callId为-1，异步调用不是-1，用以标记回传与调用的对应关系
+    "code": 0, // 非0表示失败
+    "ret": object, // 回传数据
+    "message": "", // 错误描述
+}
+```
+
+客户端通过调用JS的全局方法dispatchNativeCall调用JS，数据以json序列化的字符串传递，数据格式如下：
+
+```json
+{
+    "methodName": "", // js方法名
+    "args": [], // 参数数组
+    "callId": xxx,
+}
+```
+
 ## 使用方法
 
-客户端向网页注入方法，首先需要创建一个方法的实现类，下面就是向网页注入同步syncSayHello以及异步asyncSayHello的方法例子，方法功能是弹出alert，标题通过网页指定，注意：方法是在异步线程执行的，如下所示：
+客户端以block的形式向网页注入方法，例如：注入命名空间math下的同步方法fib和异步方法asyncFib，用来计算斐波那契数列，注意：方法是在异步线程执行的，具体如下:
 
 ```objective-c
-@interface YTKAlertHandler : NSObject
+// 斐波那契数列
+- (NSInteger)fibSequence:(NSInteger)n {
+    if (n < 2) {
+        return n == 0 ? 0 : 1;
+    } else {
+        return [self fibSequence:n - 1] + [self fibSequence:n -2];
+    }
+}
+
+UIWebView *webView = [UIWebView new];
+// webView加载代码省略...
+YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
+// 向JS注入在命名空间math之下的同步方法fib
+[bridge addSyncJsCommandName:@"fib" namespace:@"math" handler:(id)^(NSDictionary *arguments) {
+    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+    return @([self fibSequence:n]);
+}];
+// 向JS注入在命名空间math之下的异步方法asyncFib
+[bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" handler:^(NSDictionary *arguments, YTKDataBlock block) {
+    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+    block(nil, @([self fibSequence:n]));
+}];
+
+```
+
+为了避免客户端的代码以block的形式注入会比较分散，YTKJsBridge提供以对象的形式向JS注入方法。
+首先需要创建一个方法的实现类，下面就是向网页注入在命名空间math下的同步fib以及异步asyncFib的方法例子，方法功能是计算斐波那契数列，如下所示：
+
+```objective-c
+@interface YTKFibHandler : NSObject
 
 @end
 
-@implementation YTKAlertHandler
+@implementation YTKFibHandler
 
-// 同步方法syncSayHello
-- (void)syncSayHello:(nullable NSDictionary *)msg {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *title = [msg objectForKey:@"title"];
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle: title
-                                                     message: nil
-                                                    delegate: nil
-                                           cancelButtonTitle: @"OK"
-                                           otherButtonTitles: nil];
-        [av show];
-    });
+// fibSequence的实现忽略，与前面demo代码实现一致
+// 同步方法fib
+- (NSNumber *)fib:(NSDictionary *)arguments {
+    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+    return @([self fibSequence:n]);
 }
 
-// 异步方法asyncSayHello，带有异步方法回调completion
-- (void)asyncSayHello:(nullable NSDictionary *)msg completion:(void(^)(NSError *error, id value))completion {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *title = [msg objectForKey:@"title"];
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle: title
-                                                     message: nil
-                                                    delegate: nil
-                                           cancelButtonTitle: @"OK"
-                                           otherButtonTitles: nil];
-        [av show];
-        if (completion) {
-            completion(nil, nil);
-        }
-    });
+// 异步方法asyncFib，带有异步方法回调completion
+- (void)asyncFib:(NSDictionary *)arguments completion:(YTKDataBlock)completion {
+    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+    completion(nil, @([self fibSequence:n]));
 }
-
 @end
 ```
-然后客户端向网页注入该方法类即可，下面就是向网页注入YTKAlertHandler，代码如下：
+然后客户端向网页注入该方法类即可，下面就是向网页注入YTKFibHandler，代码如下：
 
 ```objective-c
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 // 向JS注入在命名空间yuantiku之下的sayHello方法
-[bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
+[bridge addJsCommandHandlers:@[[YTKFibHandler new]] namespace:@"math"];
 ```
 
-网页调用客户端注入的方法，下面就是网页调用客户端来异步执行yuantiku命名空间下的asyncSayHello方法的代码，客户端注入的asyncSayHello方法需要title参数，如下所示：
+网页调用客户端注入的方法，下面就是网页调用客户端来异步执行math命名空间下的asyncFib方法的代码，客户端注入的asyncFib方法需要参数n，如下所示：
 
 ```JavaScript
 // 准备要传给客户端异步方法asyncSayHello的数据，包括指令，数据，回调等，
 var data = {
-    methodName:"yuantiku.asyncSayHello", // 带有命名空间的方法名
-    args:{title:"async: hello world"},  // 参数
+    methodName:"math.asyncFib", // 带有命名空间的方法名
+    args:{n: 5},  // 参数
     callId:123  // callId为-1表示同步调用，否则为异步调用
 };
-// 直接使用这个客户端注入的全局YTKJsBridge方法调用yuantiku命名空间下的asyncSayHello方法执行
+// 直接使用这个客户端注入的全局YTKJsBridge方法调用math命名空间下的asyncFib方法执行
 YTKJsBridge(data);
 ```
 
-下面就是网页调用客户端来同步执行yuantiku命名空间下的syncSayHello方法的代码，客户端注入的syncSayHello方法需要title参数，如下所示：
+下面就是网页调用客户端来同步执行math命名空间下的fib方法的代码，客户端注入的fib方法需要参数n，如下所示：
 
 ```JavaScript
 // 准备要传给客户端同步方法syncSayHello的数据，包括指令，数据，回调等，
 var data = {
-    methodName:"yuantiku.syncSayHello", // 带有命名空间的方法名
-    args:{title:"sync: hello world"},  // 参数
+    methodName:"math.fib", // 带有命名空间的方法名
+    args:{n: 8},  // 参数
     callId:-1  // callId为-1表示同步调用，否则为异步调用
 };
-// 直接使用这个客户端注入的全局YTKJsBridge方法调用yuantiku命名空间下的syncSayHello方法执行
+// 直接使用这个客户端注入的全局YTKJsBridge方法调用math命名空间下的fib方法执行
 YTKJsBridge(data);
+// 通过dispatchCallbackFromNative来接收回传数据
 ```
 
 客户端调用网页JS方法，直接调用YTKWebViewJsBridge的对象方法即可，下面就是客户端调用网页执行名为alert的JS方法，带有三个参数message，cancelTitle，confirmTitle，分别代表alert提示的文案、取消按钮文案、确认按钮文案，如下所示：
@@ -142,7 +190,16 @@ NSDictionary *parameter = @{@"message" : @"hello, world",
 // 客户端调用网页的alert方法，弹出alert弹窗
 [bridge callJsCommandName:@"alert" argument:@[parameter]];
 ```
+客户端监听JS的事件，下面例子就是客户端监听JS页面大小发生变化resize事件的例子，如下所示：
 
+```objective-c
+UIWebView *webView = [UIWebView new];
+// webView加载代码省略...
+YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
+[bridge listenJsEvent:@"resize" handler:^(NSDictionary *arguments) {
+    // 客户端监听js页面大小发生变化事件
+}];
+```
 ## 作者
 
 YTKJsBridge 的主要作者是：

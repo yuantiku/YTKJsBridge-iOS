@@ -56,6 +56,34 @@
     [self.manager removeJsCommandHandlerForNamespace:namespace];
 }
 
+- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncBlock)handler {
+    [self.manager addSyncJsCommandName:commandName handler:handler];
+}
+
+- (void)addSyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKSyncBlock)handler {
+    [self.manager addSyncJsCommandName:commandName namespace:namespace handler:handler];
+}
+
+- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncBlock)handler {
+    [self.manager addAsyncJsCommandName:commandName handler:handler];
+}
+
+- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKAsyncBlock)handler {
+    [self.manager addAsyncJsCommandName:commandName namespace:namespace handler:handler];
+}
+
+- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler {
+    [self.manager listenJsEvent:event handler:handler];
+}
+
+- (void)unlistenJsEvent:(NSString *)event {
+    [self.manager unlistenJsEvent:event];
+}
+
+- (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace {
+    [self.manager removeJsCommandName:commandName namespace:namespace];
+}
+
 - (NSString *)callJsCommandName:(NSString *)commandName
                        argument:(NSArray *)argument {
     if (self.webView == nil || NO == [commandName isKindOfClass:[NSString class]]) {

@@ -1,5 +1,5 @@
 PODS:
-  - YTKJsBridge (0.1.0)
+  - YTKJsBridge (0.1.3)
 
 DEPENDENCIES:
   - YTKJsBridge (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  YTKJsBridge: d35dc2893a285ae3494ba09e9c59b537df617c44
+  YTKJsBridge: 3fb27df535234a4e07ee73992ec7c59defc18b6a
 
 PODFILE CHECKSUM: 883d4ce09ffa0f42382fd014a4ecb172bb9d384f
 

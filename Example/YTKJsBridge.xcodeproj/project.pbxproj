@@ -26,6 +26,7 @@
 		A645C7FBAFC94412D17AE2F9 /* Pods_YTKJsBridge_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A95B9077891155B406945E36 /* Pods_YTKJsBridge_Example.framework */; };
 		FE83DFB221D243930031F86E /* testWebView.htm in Resources */ = {isa = PBXBuildFile; fileRef = FE83DFB021D243930031F86E /* testWebView.htm */; };
 		FE83DFB321D243930031F86E /* YTKAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FE83DFB121D243930031F86E /* YTKAlertHandler.m */; };
+		FEB39DC021EC95FE001ED68B /* YTKFibHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB39DBF21EC95FE001ED68B /* YTKFibHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,8 @@
 		FE83DFAF21D243930031F86E /* YTKAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTKAlertHandler.h; sourceTree = "<group>"; };
 		FE83DFB021D243930031F86E /* testWebView.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = testWebView.htm; sourceTree = "<group>"; };
 		FE83DFB121D243930031F86E /* YTKAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTKAlertHandler.m; sourceTree = "<group>"; };
+		FEB39DBE21EC95FE001ED68B /* YTKFibHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YTKFibHandler.h; sourceTree = "<group>"; };
+		FEB39DBF21EC95FE001ED68B /* YTKFibHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YTKFibHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +148,8 @@
 				FE83DFB021D243930031F86E /* testWebView.htm */,
 				FE83DFAF21D243930031F86E /* YTKAlertHandler.h */,
 				FE83DFB121D243930031F86E /* YTKAlertHandler.m */,
+				FEB39DBE21EC95FE001ED68B /* YTKFibHandler.h */,
+				FEB39DBF21EC95FE001ED68B /* YTKFibHandler.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -371,6 +376,7 @@
 				6003F5A7195388D20070C39A /* YTKViewController.m in Sources */,
 				FE83DFB321D243930031F86E /* YTKAlertHandler.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				FEB39DC021EC95FE001ED68B /* YTKFibHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

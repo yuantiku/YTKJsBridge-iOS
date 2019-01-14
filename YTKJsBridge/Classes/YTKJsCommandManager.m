@@ -7,13 +7,16 @@
 
 #import "YTKJsCommandManager.h"
 #import "YTKJsCommandHandler.h"
-#import "YTKJsBridge.h"
 #import "YTKJsUtils.h"
 #import <objc/message.h>
 
 @interface YTKJsCommandManager ()
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSArray<id> *> *commandHandlers;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, YTKAsyncBlock> *asyncHandlers;
+
+@property (nonatomic, strong) NSMutableDictionary<NSString *, YTKEventBlock> *eventHandlers;
+
+@property (nonatomic, strong) NSMutableDictionary<NSString *, YTKSyncBlock> *syncHandlers;
 
 @property (nonatomic, strong) NSString *jsCache;
 
@@ -28,7 +31,9 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _commandHandlers = @{}.mutableCopy;
+        _asyncHandlers = @{}.mutableCopy;
+        _eventHandlers = @{}.mutableCopy;
+        _syncHandlers = @{}.mutableCopy;
         _jsCache = @"";
         _isDebug = NO;
     }
@@ -48,17 +53,36 @@
         }
         return;
     }
-    if (namespace == nil) {
-        namespace = @"";
-    }
 
-    NSMutableArray *arr = [self.commandHandlers objectForKey:namespace].mutableCopy;
-    if (arr) {
-        [arr addObjectsFromArray:handlers];
-    } else {
-        arr = handlers.mutableCopy;
-    }
-    [self.commandHandlers setObject:handlers forKey:namespace];
+    [handlers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSArray<NSString *> *allMethods = [YTKJsUtils allMethodFromClass:[obj class]];
+        [allMethods enumerateObjectsUsingBlock:^(NSString * _Nonnull method, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSArray *tmpArr = [method componentsSeparatedByString:@":"];
+            NSRange range = [method rangeOfString:@":"];
+            if (range.length > 0) {
+                SEL sel = NSSelectorFromString(method);
+                NSString *commandName = [method substringWithRange:NSMakeRange(0, range.location)];
+                if (tmpArr.count == 2) {
+                    /** sync */
+                    id(*action)(id, SEL, id) = (id(*)(id, SEL, id))objc_msgSend;
+
+                    YTKSyncBlock block = (id)^(NSDictionary *arguments) {
+                        id ret = action(obj, sel, arguments);
+                        return ret;
+                    };
+                    [self addSyncJsCommandName:commandName namespace:namespace handler:block];
+                } else if (tmpArr.count == 3) {
+                    /** async */
+                    void(*action)(id, SEL, id, id) = (void(*)(id, SEL, id, id))objc_msgSend;
+
+                    YTKAsyncBlock block = ^(NSDictionary *arguments, YTKDataBlock dataBlock) {
+                        action(obj, sel, arguments, dataBlock);
+                    };
+                    [self addAsyncJsCommandName:commandName namespace:namespace handler:block];
+                }
+            }
+        }];
+    }];
 }
 
 - (void)removeJsCommandHandlerForNamespace:(nullable NSString *)namespace {
@@ -66,19 +90,88 @@
         namespace = @"";
     }
 
-    [self.commandHandlers removeObjectForKey:namespace];
-}
+    NSDictionary<NSString *, YTKSyncBlock> *syncHandlers = [self.syncHandlers copy];
+    [syncHandlers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, YTKSyncBlock  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSArray *arr = [YTKJsUtils parseNamespace:key];
+        NSString *namespace = arr.firstObject;
+        if ([namespace isKindOfClass:[NSString class]] && [namespace isEqualToString:namespace]) {
+            [self.syncHandlers removeObjectForKey:key];
+        }
+    }];
 
-- (NSArray<id> *)handlersForNamespace:(nullable NSString *)namespace {
-    if (namespace == nil) {
-        namespace = @"";
-    }
-
-    return [self.commandHandlers objectForKey:namespace];
+    NSDictionary<NSString *, YTKAsyncBlock> *asyncHandlers = [self.asyncHandlers copy];
+    [asyncHandlers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, YTKAsyncBlock  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSArray *arr = [YTKJsUtils parseNamespace:key];
+        NSString *namespace = arr.firstObject;
+        if ([namespace isKindOfClass:[NSString class]] && [namespace isEqualToString:namespace]) {
+            [self.asyncHandlers removeObjectForKey:key];
+        }
+    }];
 }
 
 - (void)setDebugMode:(BOOL)debug {
     _isDebug = debug;
+}
+
+- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler {
+    if (NO == [event isKindOfClass:[NSString class]] || event.length == 0 || nil == handler) {
+        return;
+    }
+
+    [self.eventHandlers setObject:handler forKey:event];
+}
+
+- (void)unlistenJsEvent:(NSString *)event {
+    if (NO == [event isKindOfClass:[NSString class]] || event.length == 0) {
+        return;
+    }
+
+    [self.eventHandlers  removeObjectForKey:event];
+}
+
+- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncBlock)handler {
+    [self addSyncJsCommandName:commandName namespace:nil handler:handler];
+}
+
+- (void)addSyncJsCommandName:(NSString *)commandName namespace:(NSString *)namespace handler:(YTKSyncBlock)handler {
+    if (NO == [commandName isKindOfClass:[NSString class]] || commandName.length == 0 || nil == handler) {
+        return;
+    }
+    NSString *name = commandName;
+    if ([namespace isKindOfClass:[NSString class]] && namespace.length > 0) {
+        name = [NSString stringWithFormat:@"%@.%@", namespace, commandName];
+    }
+
+    [self.syncHandlers setObject:handler forKey:name];
+}
+
+- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncBlock)handler {
+    [self addAsyncJsCommandName:commandName namespace:nil handler:handler];
+}
+
+- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(NSString *)namespace handler:(YTKAsyncBlock)handler {
+    if (NO == [commandName isKindOfClass:[NSString class]] || commandName.length == 0 || nil == handler) {
+        return;
+    }
+    NSString *name = commandName;
+    if ([namespace isKindOfClass:[NSString class]] && namespace.length > 0) {
+        name = [NSString stringWithFormat:@"%@.%@", namespace, commandName];
+    }
+
+    [self.asyncHandlers setObject:handler forKey:name];
+}
+
+- (void)removeJsCommandName:(NSString *)commandName namespace:(NSString *)namespace {
+    if (NO == [commandName isKindOfClass:[NSString class]] || commandName.length == 0) {
+        return;
+    }
+    NSString *name = commandName;
+    if ([namespace isKindOfClass:[NSString class]] && namespace.length > 0) {
+        name = [NSString stringWithFormat:@"%@.%@", namespace, commandName];
+    }
+
+    [self.asyncHandlers removeObjectForKey:name];
+    [self.syncHandlers removeObjectForKey:name];
 }
 
 #pragma mark - YTKJsCommandHandler
@@ -100,72 +193,64 @@
     NSString *commandName = command.methodName;
     NSDictionary *args = command.args;
     NSString *callId = command.callId;
-    NSArray *nameStr = [YTKJsUtils parseNamespace:[commandName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-    NSArray<id> *handlers = [self handlersForNamespace:nameStr[0]];
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:@{@"code" : @-1, @"ret" : @""}];
-
-    if (nil == handlers || handlers.count == 0) {
-        if (self.isDebug) {
-            NSLog(@"js call not implemented method");
-        }
-        NSMutableDictionary *dict = result.mutableCopy;
-        [dict setObject:callId ?: @"" forKey:@"callId"];
-        [self evaluatingDictionary:dict];
-        return;
-    }
     NSString *error = [NSString stringWithFormat:@"Error! \n Method %@ is not invoked, since there is not a implementation for it",commandName];
-    commandName = nameStr[1];
     if (NO == [args isKindOfClass:[NSDictionary class]] || args == nil) {
         args = @{};
     }
 
-    __block BOOL founded = NO;
-    [handlers enumerateObjectsUsingBlock:^(id  _Nonnull handler, NSUInteger idx, BOOL * _Nonnull stop) {
-        /** callId为-1代表是同步调用，否则为异步调用 */
-        BOOL isAsync = callId && NO == [callId isEqualToString:@"-1"];
-        NSInteger argCount = isAsync ? 2 : 1;
-        NSString *method = [YTKJsUtils methodByNameArg:argCount selName:commandName class:[handler class]];
-        SEL sel = NSSelectorFromString(method);
-        if ([handler respondsToSelector:sel]) {
-            founded = YES;
-            if (callId && NO == [callId isEqualToString:@"-1"]) {
-                /** async call */
-                __weak typeof(self) weakSelf = self;
-                void(^completionHandler)(NSError *, id) = ^(NSError *error, id value) {
-                    result[@"code"] = @0;
-                    if (value != nil) {
-                        result[@"ret"] = value;
-                    }
-                    NSMutableDictionary *dict = result.mutableCopy;
-                    [dict setObject:callId forKey:@"callId"];
-                    NSString *json = [YTKJsUtils objToJsonString:dict];
-                    NSString *js = [NSString stringWithFormat:@"window.dispatchCallbackFromNative(%@);", json];
-                    __strong typeof(self) strongSelf = weakSelf;
-                    [strongSelf callJsCallbackWithJsString:js];
-                };
+    BOOL isAsync = callId && NO == [callId isEqualToString:@"-1"];
+    BOOL founded = NO;
+    if (isAsync) {
+        /** async call */
+        __weak typeof(self) weakSelf = self;
 
-                void(*action)(id, SEL, id, id) = (void(*)(id, SEL, id, id))objc_msgSend;
-                action(handler, sel, args, completionHandler);
-            } else {
-                /** sync call */
-                id ret;
-                id(*action)(id, SEL, id) = (id(*)(id, SEL, id))objc_msgSend;
-                ret = action(handler, sel, args);
-                [result setValue:@0 forKey:@"code"];
-                if (ret != nil) {
-                    [result setValue:ret forKey:@"ret"];
-                }
-                NSMutableDictionary *dict = result.mutableCopy;
-                [dict setObject:callId ?: @"" forKey:@"callId"];
-                [self evaluatingDictionary:dict];
+        YTKDataBlock completionHandler = ^(NSError *error, id value) {
+            result[@"code"] = @0;
+            if (value != nil) {
+                result[@"ret"] = value;
             }
-            *stop = YES;
+            NSMutableDictionary *dict = result.mutableCopy;
+            [dict setObject:callId forKey:@"callId"];
+            NSString *json = [YTKJsUtils objToJsonString:dict];
+            NSString *js = [NSString stringWithFormat:@"window.dispatchCallbackFromNative(%@);", json];
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf callJsCallbackWithJsString:js];
+        };
+
+        YTKAsyncBlock action = [self.asyncHandlers objectForKey:commandName];
+        if (action) {
+            founded = YES;
+            action(args, completionHandler);
         }
-    }];
+    } else {
+        /** sync call */
+        YTKSyncBlock action = [self.syncHandlers objectForKey:commandName];
+        YTKEventBlock eventHandler = [self.eventHandlers objectForKey:commandName];
+        if (action) {
+            founded = YES;
+            id ret = action(args);
+            [result setValue:@0 forKey:@"code"];
+            if (ret != nil) {
+                [result setValue:ret forKey:@"ret"];
+            }
+            NSMutableDictionary *dict = result.mutableCopy;
+            [dict setObject:callId ?: @"" forKey:@"callId"];
+            [self evaluatingDictionary:dict];
+        } else if (eventHandler) {
+            founded = YES;
+            eventHandler(args);
+            [result setValue:@0 forKey:@"code"];
+            NSMutableDictionary *dict = result.mutableCopy;
+            [dict setObject:callId ?: @"" forKey:@"callId"];
+            [self evaluatingDictionary:dict];
+        }
+    }
+
     if (NO == founded) {
         NSString *js = error;
         if (self.isDebug) {
-            js = [NSString stringWithFormat:@"window.alert(decodeURIComponent(\"%@\"));",js];
+            js = [NSString stringWithFormat:@"window.alert(decodeURIComponent(\"%@\"));", js];
             [self callJsCallbackWithJsString:js];
         } else {
             NSMutableDictionary *dict = result.mutableCopy;
