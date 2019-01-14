@@ -57,7 +57,7 @@ clone当前repo， 到Example目录下执行`pod install`命令，就可以运�
 
 JS调用客户端的数据格式如下：
 
-```json
+```JavaScript
 {
     "methodName": "math.fib" // 方法名，math是命名空间，fib为具体方法名
     "args": {key1: value1, key2: value2, ...} // 参数字典
@@ -67,7 +67,7 @@ JS调用客户端的数据格式如下：
 
 客户端通过调用JS的全局方法dispatchCallbackFromNative向JS回传数据，数据以json序列化的字符串传递，数据格式如下：
 
-```json
+```JavaScript
 {
     "callId": xxx, // 同步调用callId为-1，异步调用不是-1，用以标记回传与调用的对应关系
     "code": 0, // 非0表示失败
@@ -78,7 +78,7 @@ JS调用客户端的数据格式如下：
 
 客户端通过调用JS的全局方法dispatchNativeCall调用JS，数据以json序列化的字符串传递，数据格式如下：
 
-```json
+```JavaScript
 {
     "methodName": "", // js方法名
     "args": [], // 参数数组
