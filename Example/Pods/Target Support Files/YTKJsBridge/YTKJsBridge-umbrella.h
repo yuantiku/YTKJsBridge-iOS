@@ -15,6 +15,7 @@
 #import "YTKJsCommand.h"
 #import "YTKJsCommandHandler.h"
 #import "YTKJsCommandManager.h"
+#import "YTKJsEventHandler.h"
 #import "YTKJsUtils.h"
 
 FOUNDATION_EXPORT double YTKJsBridgeVersionNumber;

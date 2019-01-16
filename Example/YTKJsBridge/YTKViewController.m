@@ -41,10 +41,26 @@
     }];
     [self.bridge listenJsEvent:@"resize" handler:^(NSDictionary *arguments) {
         // 客户端监听js页面大小发生变化事件
+        NSLog(@"%@", arguments);
     }];
     NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
                                              withExtension:@"htm"];
     [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
+
+    UIButton *btn = [UIButton new];
+    [btn setBackgroundColor:UIColor.greenColor];
+    [btn setTitle:@"close" forState:UIControlStateNormal];
+    [self.view addSubview:btn];
+    btn.frame = CGRectMake(100, 500, 200, 100);
+    [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)btnPressed:(UIButton *)btn {
+    [self.bridge notifyEvent:@"close" argument:@"close page notification"];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (NSInteger)fibSequence:(NSInteger)n {
@@ -65,6 +81,7 @@
 - (YTKJsBridge *)bridge {
     if (nil == _bridge) {
         _bridge = [[YTKJsBridge alloc] initWithWebView:self.webView];
+        [_bridge setDebugMode:YES];
     }
     return _bridge;
 }

@@ -32,3 +32,22 @@
 }
 
 @end
+
+@implementation YTKJsEvent
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        NSString *event = [dictionary objectForKey:@"event"];
+        if ([event isKindOfClass:[NSString class]]) {
+            _event = event;
+        }
+        id arg = [dictionary objectForKey:@"arg"];
+        if (arg) {
+            _arg = arg;
+        }
+    }
+    return self;
+}
+
+@end

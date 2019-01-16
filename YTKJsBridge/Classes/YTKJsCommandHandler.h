@@ -16,7 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak, nullable) UIWebView *webView;
 
-- (void)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView;
+- (nullable NSDictionary *)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView;
+
+@end
+
+@protocol YTKJsEventHandler <NSObject>
+
+@property (nonatomic, weak, nullable) UIWebView *webView;
+
+- (void)handleJsEvent:(YTKJsEvent *)event inWebView:(UIWebView *)webView;
 
 @end
 

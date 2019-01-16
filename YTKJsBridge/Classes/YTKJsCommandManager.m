@@ -14,8 +14,6 @@
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *, YTKAsyncBlock> *asyncHandlers;
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, YTKEventBlock> *eventHandlers;
-
 @property (nonatomic, strong) NSMutableDictionary<NSString *, YTKSyncBlock> *syncHandlers;
 
 @property (nonatomic, strong) NSString *jsCache;
@@ -32,7 +30,6 @@
     self = [super init];
     if (self) {
         _asyncHandlers = @{}.mutableCopy;
-        _eventHandlers = @{}.mutableCopy;
         _syncHandlers = @{}.mutableCopy;
         _jsCache = @"";
         _isDebug = NO;
@@ -45,6 +42,8 @@
         NSLog(@"%@ %@", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
     }
 }
+
+#pragma mark - Public Methods
 
 - (void)addJsCommandHandlers:(NSArray<id> *)handlers forNamespace:(nullable NSString *)namespace {
     if (NO == [handlers isKindOfClass:NSArray.class] || handlers.count == 0) {
@@ -109,26 +108,6 @@
     }];
 }
 
-- (void)setDebugMode:(BOOL)debug {
-    _isDebug = debug;
-}
-
-- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler {
-    if (NO == [event isKindOfClass:[NSString class]] || event.length == 0 || nil == handler) {
-        return;
-    }
-
-    [self.eventHandlers setObject:handler forKey:event];
-}
-
-- (void)unlistenJsEvent:(NSString *)event {
-    if (NO == [event isKindOfClass:[NSString class]] || event.length == 0) {
-        return;
-    }
-
-    [self.eventHandlers  removeObjectForKey:event];
-}
-
 - (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncBlock)handler {
     [self addSyncJsCommandName:commandName namespace:nil handler:handler];
 }
@@ -174,19 +153,35 @@
     [self.syncHandlers removeObjectForKey:name];
 }
 
+- (NSString *)callJsWithDictionary:(NSDictionary *)dictionary {
+    if (self.webView == nil || NO == [dictionary isKindOfClass:[NSDictionary class]]) {
+        return nil;
+    }
+    NSString *json = [YTKJsUtils objToJsonString:dictionary];
+    NSString *js = [NSString stringWithFormat:@"window.dispatchNativeCall(%@)", json];
+    if (self.isDebug) {
+        NSLog(@"### send native call: %@", js);
+    }
+    return [self.webView stringByEvaluatingJavaScriptFromString:js];
+}
+
+- (void)setDebugMode:(BOOL)debug {
+    _isDebug = debug;
+}
+
 #pragma mark - YTKJsCommandHandler
 
-- (void)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
-    if (NO ==[command.methodName isKindOfClass:[NSString class]] || [command.methodName isEqualToString:@"makeCallback"]) {
-        return;
+- (NSDictionary *)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
+    if (NO == [command.methodName isKindOfClass:[NSString class]] || [command.methodName isEqualToString:@"makeCallback"]) {
+        return nil;
     }
     __weak typeof(self)weakSelf = self;
-    [weakSelf callCommand:command];
+    return [weakSelf callCommand:command];
 }
 
 #pragma mark - Utils
 
-- (void)callCommand:(YTKJsCommand *)command {
+- (NSDictionary *)callCommand:(YTKJsCommand *)command {
     if (self.isDebug) {
         NSLog(@"### receive methodName:%@, args:%@, callId:%@", command.methodName, command.args, command.callId);
     }
@@ -206,9 +201,9 @@
         __weak typeof(self) weakSelf = self;
 
         YTKDataBlock completionHandler = ^(NSError *error, id value) {
-            result[@"code"] = @0;
+            [result setObject:@0 forKey:@"code"];
             if (value != nil) {
-                result[@"ret"] = value;
+                [result setObject:value forKey:@"ret"];
             }
             NSMutableDictionary *dict = result.mutableCopy;
             [dict setObject:callId forKey:@"callId"];
@@ -226,41 +221,30 @@
     } else {
         /** sync call */
         YTKSyncBlock action = [self.syncHandlers objectForKey:commandName];
-        YTKEventBlock eventHandler = [self.eventHandlers objectForKey:commandName];
         if (action) {
             founded = YES;
             id ret = action(args);
-            [result setValue:@0 forKey:@"code"];
             if (ret != nil) {
                 [result setValue:ret forKey:@"ret"];
             }
-            NSMutableDictionary *dict = result.mutableCopy;
-            [dict setObject:callId ?: @"" forKey:@"callId"];
-            [self evaluatingDictionary:dict];
-        } else if (eventHandler) {
-            founded = YES;
-            eventHandler(args);
-            [result setValue:@0 forKey:@"code"];
-            NSMutableDictionary *dict = result.mutableCopy;
-            [dict setObject:callId ?: @"" forKey:@"callId"];
-            [self evaluatingDictionary:dict];
         }
     }
 
+    [result setObject:callId ?: @"" forKey:@"callId"];
     if (NO == founded) {
         NSString *js = error;
         if (self.isDebug) {
             js = [NSString stringWithFormat:@"window.alert(decodeURIComponent(\"%@\"));", js];
             [self callJsCallbackWithJsString:js];
-        } else {
-            NSMutableDictionary *dict = result.mutableCopy;
-            [dict setObject:callId ?: @"" forKey:@"callId"];
-            [self evaluatingDictionary:dict];
-        }
-        if (self.isDebug) {
             NSLog(@"%@", error);
         }
+        if (isAsync) {
+            [self evaluatingDictionary:result];
+        }
+    } else {
+        [result setObject:@0 forKey:@"code"];
     }
+    return result;
 }
 
 - (void)callJsCallbackWithJsString:(NSString *)js {

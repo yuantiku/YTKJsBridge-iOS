@@ -23,4 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface YTKJsEvent : NSObject
+
+@property (nonatomic, copy) NSString *event;
+
+@property (nonatomic, strong) id arg;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+@end
+
 NS_ASSUME_NONNULL_END

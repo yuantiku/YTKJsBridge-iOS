@@ -14,7 +14,7 @@
 typedef void (^YTKDataBlock) (NSError * __nullable error, id __nullable data);
 typedef void (^YTKAsyncBlock) (NSDictionary * __nullable arguments, YTKDataBlock block);
 typedef id (^YTKSyncBlock) (NSDictionary * __nullable arguments);
-typedef void (^YTKEventBlock) (NSDictionary * __nullable arguments);
+typedef void (^YTKEventBlock) (id __nullable arguments);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,14 +41,18 @@ NS_ASSUME_NONNULL_BEGIN
 /** 移除命名空间namespace下的注入的js commandName方法 */
 - (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace;
 
-/** 注册js事件监听处理block */
-- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler;
-
-- (void)unlistenJsEvent:(NSString *)event;
-
 /** 调用js commandName方法 */
 - (NSString *)callJsCommandName:(NSString *)commandName
                        argument:(NSArray *)argument;
+
+/** 注册js事件监听处理block */
+- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler;
+
+/** 移除事件监听 */
+- (void)unlistenJsEvent:(NSString *)event;
+
+/** native发起事件通知给JS */
+- (void)notifyEvent:(NSString *)event argument:(nullable id)argument;
 
 - (void)setDebugMode:(BOOL)debug;
 

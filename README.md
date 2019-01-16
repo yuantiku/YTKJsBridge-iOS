@@ -12,6 +12,7 @@ YTKJsBridge是基于OC语言实现的一套客户端与网页JS相互调用的iO
 ## YTKJsBridge 提供了那些功能
 
  * 支持客户端向网页动态注入OC实现的方法，并支持命名空间。
+ * 支持双向事件监听机制。
  * 支持网页以同步、异步方式调用客户端注入的OC方法。
  * 支持网页调用客户端注入的OC方法的时候，直接以json格式数据作为参数，无需序列化。
  * 支持客户端主动调用网页提供的JavaScript方法。
@@ -34,6 +35,8 @@ YTKJsBridge 会向网页注入一个名为YTKJsBridge的全局方法，后续所
  * 天然将一类相关的注入方法实现都放在一个类中进行管理，可以避免注入方法四散到项目的各个地方又可能出现重复代码的问题。
  * 可以避免将所有的注入方法都放到一个类中实现，导致文件过长逻辑产生交叉，增加后续的维护成本。
 
+YTKJsBridge 提供了事件监听处理的机制，在原有JS方法注入的基础上进行抽象，简化了数据回传处理。
+
 当然，如果说他有什么不好，那就是你的工程以及网页都需要使用YTKJsCommand定义的json结构进行数据传递，但是YTKJsCommand本身就是一个定义比较宽松的结构。
 
 ## 安装
@@ -46,8 +49,8 @@ pod 'YTKJsBridge'
 ## 安装要求
 
    | YTKJsBridge 版本 |  最低 iOS Target | 注意 |
-   |:----------------:|:----------------:|:-----|
-   | 0.1.0 | iOS 7 | 要求 Xcode 7 以上 |
+   |:----------------:|:----------------:|:-----:|
+   | 0.1.3 | iOS 7 | 要求 Xcode 7 以上 |
 
 ## 例子
 
@@ -86,7 +89,20 @@ JS调用客户端的数据格式如下：
 }
 ```
 
+客户端监听JS的事件，数据以字典形式传递，数据格式如下：
+
+```JavaScript
+{
+    "event": "", // event名
+    "arg": , // 参数，可以是任意格式，字典、数组、字符串、数字、BOOL等
+}
+```
+
+JS监听客户端的事件，数据以json序列化的字符串传递，json数据格式与JS事件格式一致
+
 ## 使用方法
+
+### 向JS注入方法
 
 客户端以block的形式向网页注入方法，例如：注入命名空间math下的同步方法fib和异步方法asyncFib，用来计算斐波那契数列，注意：方法是在异步线程执行的，具体如下:
 
@@ -103,11 +119,13 @@ JS调用客户端的数据格式如下：
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
+
 // 向JS注入在命名空间math之下的同步方法fib
 [bridge addSyncJsCommandName:@"fib" namespace:@"math" handler:(id)^(NSDictionary *arguments) {
     NSInteger n = [[arguments objectForKey:@"n"] integerValue];
     return @([self fibSequence:n]);
 }];
+
 // 向JS注入在命名空间math之下的异步方法asyncFib
 [bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" handler:^(NSDictionary *arguments, YTKDataBlock block) {
     NSInteger n = [[arguments objectForKey:@"n"] integerValue];
@@ -150,7 +168,9 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 [bridge addJsCommandHandlers:@[[YTKFibHandler new]] namespace:@"math"];
 ```
 
-网页调用客户端注入的方法，下面就是网页调用客户端来异步执行math命名空间下的asyncFib方法的代码，客户端注入的asyncFib方法需要参数n，如下所示：
+### JS调用native注入的方法
+
+下面就是网页调用客户端来异步执行math命名空间下的asyncFib方法的代码，客户端注入的asyncFib方法需要参数n，如下所示：
 
 ```JavaScript
 // 准备要传给客户端异步方法asyncSayHello的数据，包括指令，数据，回调等，
@@ -161,6 +181,7 @@ var data = {
 };
 // 直接使用这个客户端注入的全局YTKJsBridge方法调用math命名空间下的asyncFib方法执行
 YTKJsBridge(data);
+// 通过dispatchCallbackFromNative来接收回传数据
 ```
 
 下面就是网页调用客户端来同步执行math命名空间下的fib方法的代码，客户端注入的fib方法需要参数n，如下所示：
@@ -173,11 +194,13 @@ var data = {
     callId:-1  // callId为-1表示同步调用，否则为异步调用
 };
 // 直接使用这个客户端注入的全局YTKJsBridge方法调用math命名空间下的fib方法执行
-YTKJsBridge(data);
-// 通过dispatchCallbackFromNative来接收回传数据
+var dict = YTKJsBridge(data);
+var fib = dict["ret"]; // fib就是客户端返回的结果
 ```
 
-客户端调用网页JS方法，直接调用YTKWebViewJsBridge的对象方法即可，下面就是客户端调用网页执行名为alert的JS方法，带有三个参数message，cancelTitle，confirmTitle，分别代表alert提示的文案、取消按钮文案、确认按钮文案，如下所示：
+### native调用JS方法
+
+直接调用YTKWebViewJsBridge的对象方法即可，下面就是客户端调用网页执行名为alert的JS方法，带有三个参数message，cancelTitle，confirmTitle，分别代表alert提示的文案、取消按钮文案、确认按钮文案，如下所示：
 
 ```objective-c
 UIWebView *webView = [UIWebView new];
@@ -190,15 +213,55 @@ NSDictionary *parameter = @{@"message" : @"hello, world",
 // 客户端调用网页的alert方法，弹出alert弹窗
 [bridge callJsCommandName:@"alert" argument:@[parameter]];
 ```
-客户端监听JS的事件，下面例子就是客户端监听JS页面大小发生变化resize事件的例子，如下所示：
+
+### JS向native发送事件通知
+
+JS发送页面大小发生变化resize事件给客户端，如下所示：
+
+```JavaScript
+var event = {
+"event": "resize", // event名
+"arg": {"width": xxx, "height": xxx}, // 参数
+};
+sendEvent(event); // sendEvent是native注入的全局函数
+```
+
+### native监听JS事件
+
+下面例子就是客户端监听JS页面大小发生变化resize事件的例子，如下所示：
 
 ```objective-c
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
-[bridge listenJsEvent:@"resize" handler:^(NSDictionary *arguments) {
+[bridge listenJsEvent:@"resize" handler:^(id arguments) {
     // 客户端监听js页面大小发生变化事件
 }];
+```
+
+### native向JS发送事件通知
+
+下面例子就是客户端发送close事件的例子，如下所示：
+
+```objective-c
+UIWebView *webView = [UIWebView new];
+// webView加载代码省略...
+YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
+[bridge notifyEvent:@"close" argument:@"close page event"];
+```
+
+### JS监听native事件
+
+下面例子就是JS监听客户端close事件的例子，如下所示：
+
+```JavaScript
+// obj是native传入的event事件对象，dispatchNativeEvent是用来处理事件的全局函数
+window.dispatchNativeEvent = function(obj) {
+    if (obj.event == "close") {
+        // 处理close事件，这里通过alert将arg显示出来
+        alert(obj.arg);
+    }
+}
 ```
 ## 作者
 

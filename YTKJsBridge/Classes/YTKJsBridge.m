@@ -11,6 +11,7 @@
 #import "YTKJsCommandHandler.h"
 #import "YTKJsCommand.h"
 #import "YTKJsCommandManager.h"
+#import "YTKJsEventHandler.h"
 #import "YTKJsUtils.h"
 
 @interface YTKJsBridge () <YTKWebViewDelegate>
@@ -20,7 +21,11 @@
 @property (nonatomic, weak) UIWebView *webView;
 #pragma clang diagnostic pop
 
+/** 方法处理对象 */
 @property (nonatomic, strong) YTKJsCommandManager *manager;
+
+/** 事件处理对象 */
+@property (nonatomic, strong) YTKJsEventHandler *eventHandler;
 
 @property (nonatomic) UInt64 callId;
 
@@ -48,6 +53,9 @@
     return self;
 }
 
+#pragma mark - Public Methods
+
+/** command related */
 - (void)addJsCommandHandlers:(NSArray *)handlers namespace:(nullable NSString *)namespace {
     [self.manager addJsCommandHandlers:handlers forNamespace:namespace];
 }
@@ -72,35 +80,37 @@
     [self.manager addAsyncJsCommandName:commandName namespace:namespace handler:handler];
 }
 
-- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler {
-    [self.manager listenJsEvent:event handler:handler];
-}
-
-- (void)unlistenJsEvent:(NSString *)event {
-    [self.manager unlistenJsEvent:event];
-}
-
 - (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace {
     [self.manager removeJsCommandName:commandName namespace:namespace];
 }
 
 - (NSString *)callJsCommandName:(NSString *)commandName
                        argument:(NSArray *)argument {
-    if (self.webView == nil || NO == [commandName isKindOfClass:[NSString class]]) {
+    if (NO == [commandName isKindOfClass:[NSString class]]) {
         return nil;
     }
 
-    NSString *json = [YTKJsUtils objToJsonString:@{@"methodName" : commandName, @"args" : argument, @"callId" : @(self.callId ++)}];
-    NSString *js = [NSString stringWithFormat:@"window.dispatchNativeCall(%@)", json];
-    if (self.isDebug) {
-        NSLog(@"### native call: %@", js);
-    }
-    return [self.webView stringByEvaluatingJavaScriptFromString:js];
+    NSDictionary *dict = @{@"methodName" : commandName, @"args" : argument, @"callId" : @(self.callId ++)};
+    return [self.manager callJsWithDictionary:dict];
+}
+
+/** event related */
+- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler {
+    [self.eventHandler listenJsEvent:event handler:handler];
+}
+
+- (void)unlistenJsEvent:(NSString *)event {
+    [self.eventHandler unlistenJsEvent:event];
+}
+
+- (void)notifyEvent:(NSString *)event argument:(id)argument {
+    [self.eventHandler notifyEvent:event argument:argument];
 }
 
 - (void)setDebugMode:(BOOL)debug {
     self.isDebug = debug;
     [self.manager setDebugMode:debug];
+    [self.eventHandler setDebugMode:debug];
 }
 
 #pragma mark - Utils
@@ -109,16 +119,40 @@
     if (nil == handler || NO == [commandName isKindOfClass:[NSString class]] || nil == context) {
         return;
     }
+    handler.webView = self.webView;
     __weak typeof(self) weakSelf = self;
-    context[commandName] = ^(JSValue *data) {
+    context[commandName] = ^id(JSValue *data) {
+        if (nil == weakSelf) {
+            return nil;
+        }
+        __strong typeof(self) strongSelf = weakSelf;
+        JSValue *ret = nil;
+        if ([handler respondsToSelector:@selector(handleJsCommand:inWebView:)]) {
+            YTKJsCommand *commamd = [[YTKJsCommand alloc] initWithDictionary:[data toDictionary]];
+            NSDictionary *result = [handler handleJsCommand:commamd inWebView:strongSelf.webView];
+            if (result) {
+                ret = [JSValue valueWithObject:result inContext:[JSContext currentContext]];
+            }
+        }
+        return ret;
+    };
+}
+
+- (void)addJsEventHandler:(id<YTKJsEventHandler>)handler forEvent:(NSString *)event toContext:(JSContext *)context {
+    if (nil == handler || NO == [event isKindOfClass:[NSString class]] || nil == context) {
+        return;
+    }
+    handler.webView = self.webView;
+    __weak typeof(self) weakSelf = self;
+    context[event] = ^(JSValue *data) {
         if (nil == weakSelf) {
             return;
         }
         __strong typeof(self) strongSelf = weakSelf;
         handler.webView = strongSelf.webView;
-        if ([handler respondsToSelector:@selector(handleJsCommand:inWebView:)]) {
-            YTKJsCommand *commamd = [[YTKJsCommand alloc] initWithDictionary:[data toDictionary]];
-            [handler handleJsCommand:commamd inWebView:strongSelf.webView];
+        if ([handler respondsToSelector:@selector(handleJsEvent:inWebView:)]) {
+            YTKJsEvent *event = [[YTKJsEvent alloc] initWithDictionary:[data toDictionary]];
+            [handler handleJsEvent:event inWebView:strongSelf.webView];
         }
     };
 }
@@ -130,6 +164,7 @@
     __weak typeof(self) weakSelf = self;
     [self addJsCommandHandler:weakSelf.manager forCommandName:self.class.description toContext:context];
     [self addJsCommandHandler:weakSelf.manager forCommandName:@"makeCallback" toContext:context];
+    [self addJsEventHandler:weakSelf.eventHandler forEvent:@"sendEvent" toContext:context];
 }
 
 #pragma mark - Getter
@@ -139,6 +174,13 @@
         _manager = [YTKJsCommandManager new];
     }
     return _manager;
+}
+
+- (YTKJsEventHandler *)eventHandler {
+    if (nil == _eventHandler) {
+        _eventHandler = [YTKJsEventHandler new];
+    }
+    return _eventHandler;
 }
 
 @end

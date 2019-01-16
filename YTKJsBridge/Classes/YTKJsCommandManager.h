@@ -16,11 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 /** 向JS注入命名空间namespace的处理方法类对象数组 */
 - (void)addJsCommandHandlers:(NSArray<id> *)handlers forNamespace:(nullable NSString *)namespace;
 
-/** 向JS注入事件监听处理handler */
-- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler;
-
-- (void)unlistenJsEvent:(NSString *)event;
-
 /** 向JS注入同步处理block */
 - (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncBlock)handler;
 
@@ -40,6 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** 移除命名空间namespace下的commandName方法 */
 - (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace;
+
+/** 调用JS方法 */
+- (nullable NSString *)callJsWithDictionary:(NSDictionary *)dictionary;
 
 - (void)setDebugMode:(BOOL)debug;
 

@@ -7,26 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0662DFEFB4CA32F379D90F1A29114EB5 /* YTKJsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C43BD8598E5BE0FD975DEB01C253C98 /* YTKJsUtils.m */; };
 		10FBF4F2791E62A4C58EB587A7E68D6E /* Pods-YTKJsBridge_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 08CF40AAA980398142F94FECB5CB5C5A /* Pods-YTKJsBridge_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B795161A31FDAB3EBFB7CFA25812985 /* Pods-YTKJsBridge_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DAA9AACB464EEA97CAB2CF3CB9896A /* Pods-YTKJsBridge_Tests-dummy.m */; };
 		232A390A162806D3C9163E6C61D17285 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		2AD4960A23B69936DFFCE836E800C1A5 /* YTKJsBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E997760406C79D6D873CD75B21BB86B /* YTKJsBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3A4D4E3C875BE008B502C0625CC7F7C9 /* YTKJsCommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D625C535FBB604FE4485A5E338826 /* YTKJsCommandManager.m */; };
+		2A5CE2255C74EBC176F75B9CCFC20E25 /* UIWebView+JavaScriptContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B1054F451131825A8F096DEA7D0300E /* UIWebView+JavaScriptContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		300CD8B4ED6A40351C0E9F423C8E7613 /* YTKJsCommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F2E7C46E2847528F0C82F9F49601E6 /* YTKJsCommandManager.m */; };
 		3EF5F2FB49C7FC0AB39A632193C523EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		411C5D77863FEE22C84F2E6063D1035C /* YTKJsCommandManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D7FB73DF3D3ABBCC46C37609951A8995 /* YTKJsCommandManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3F3A7B72E3B06FF11879DA2CFC57CD9D /* YTKJsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1D3376888FEA0B35B95778CB8014C /* YTKJsCommand.m */; };
+		495A10921CD1A43C8AC9CA8C9FD9668A /* YTKJsUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 926B838E94D8DFE0BB1A0C6AD3AB7222 /* YTKJsUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50206FAF7674218D5E8AB095C117BD6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		5A3E54A93FCF77652C446BC160F8358B /* YTKJsBridge-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B52BDD26BA9C8375BF56494D2D8873 /* YTKJsBridge-dummy.m */; };
-		5AFE47BB8A8C70FF6361ED040375419E /* YTKJsBridge-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 02955B53C3E78977CC69F5522B3431DE /* YTKJsBridge-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7C719D886BE0521CE7C28A7BDC5F6834 /* UIWebView+JavaScriptContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E472EDEE05EAA2C5DD3D413EA0A6C0 /* UIWebView+JavaScriptContext.m */; };
-		8C260979BDFA10D09A0207BCC4E57D76 /* YTKJsCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = FCA5F706E603E7C5E14182806F8641A5 /* YTKJsCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A89618ADA1453671D79B141D6E74A0E2 /* YTKJsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAD278CCF0088510D78957897256319 /* YTKJsBridge.m */; };
-		C9A5288D490FEEAB08B20A3D7A07EE30 /* YTKJsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = FB18A4F71DC91484DB287FBF0A00D469 /* YTKJsCommand.m */; };
+		721ACFC7F7CB68F29748F94E49497D18 /* YTKJsBridge-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 159C585CD98ACF906E9C584E7B89D8E7 /* YTKJsBridge-dummy.m */; };
+		7295ED98B0DC17B81F3CDF81150241AC /* YTKJsCommandManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BF80672E72D2560699390BE8EAF1ABAE /* YTKJsCommandManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		74823FE0ED9EE1372A55AAEEF103C2D6 /* YTKJsCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C66B84B439C78DE1CA13E51C983FAD2 /* YTKJsCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		77501919E2E1725BEEAFF70D8B168151 /* YTKJsBridge-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CAD380AAEDDC36011DF80E917CEB5994 /* YTKJsBridge-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93BFEA048B1155E5F09E9436CDFC52FE /* YTKJsCommandHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C7783F4D2FE111458EAA1977ADAFE91 /* YTKJsCommandHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ABBB5EB75FF6234221AB156A89BAB44F /* YTKJsEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F069B536636C6CBAB9CEFFD61E273F3 /* YTKJsEventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C35E098F262E8E530D055AE3597526E8 /* YTKJsBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ED5375C45CA2DAC83B9C0F64FF83899 /* YTKJsBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C41AC760A380431C3E688AFD608ADE98 /* UIWebView+JavaScriptContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4E7EB782B4D0DF715CE6D66450DF38 /* UIWebView+JavaScriptContext.m */; };
 		CE0A000FEA9AC0B45EEFD1CEB1FC1BA4 /* Pods-YTKJsBridge_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E8F0B8F6828D690336FAA2B9DAE6D5 /* Pods-YTKJsBridge_Example-dummy.m */; };
-		DE45762CC105730C5481C40CB6A2240C /* YTKJsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AAE4C51CC2102E70D1B57CB43CE4AB /* YTKJsUtils.m */; };
-		DFA72D823356E567B0E436234B527585 /* YTKJsCommandHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = E4C92B3E313C81709F81A5F51B39621D /* YTKJsCommandHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E12E375FA450D3E2105EF5D64D2008EC /* YTKJsUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CB31B52A8696E8ABF0965C8F16899268 /* YTKJsUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDCD3C2C941AE5483E799F52E6AEAB4D /* YTKJsEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7449A44787126A958D5A2C6EF52697 /* YTKJsEventHandler.m */; };
 		E7006B82724A4B200D1FC61D78EE19A9 /* Pods-YTKJsBridge_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE3C01C3B8309057AE50A02A39829F73 /* Pods-YTKJsBridge_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F49E0019257E98CCF3B1F8F6D9D69492 /* UIWebView+JavaScriptContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 68301A418C95159737BED3AE550F5D1F /* UIWebView+JavaScriptContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ED27B4E11BFFBCFC49F8C8039AD24CAF /* YTKJsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3670C065E397D85B6D3DF027D5394BB2 /* YTKJsBridge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,51 +49,53 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		02955B53C3E78977CC69F5522B3431DE /* YTKJsBridge-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTKJsBridge-umbrella.h"; sourceTree = "<group>"; };
-		03AAE4C51CC2102E70D1B57CB43CE4AB /* YTKJsUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsUtils.m; path = YTKJsBridge/Classes/YTKJsUtils.m; sourceTree = "<group>"; };
 		08CF40AAA980398142F94FECB5CB5C5A /* Pods-YTKJsBridge_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-YTKJsBridge_Example-umbrella.h"; sourceTree = "<group>"; };
 		09D247AC8AA525FA6ABB9774203BD939 /* YTKJsBridge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = YTKJsBridge.framework; path = YTKJsBridge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0C1D625C535FBB604FE4485A5E338826 /* YTKJsCommandManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsCommandManager.m; path = YTKJsBridge/Classes/YTKJsCommandManager.m; sourceTree = "<group>"; };
-		0CAD278CCF0088510D78957897256319 /* YTKJsBridge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsBridge.m; path = YTKJsBridge/Classes/YTKJsBridge.m; sourceTree = "<group>"; };
+		0ED5375C45CA2DAC83B9C0F64FF83899 /* YTKJsBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsBridge.h; path = YTKJsBridge/Classes/YTKJsBridge.h; sourceTree = "<group>"; };
 		0F0897795B15B5A3D347F38F32E912B6 /* Pods-YTKJsBridge_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YTKJsBridge_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		1758DE632E788EC57015229DFE6255EC /* YTKJsBridge.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = YTKJsBridge.modulemap; sourceTree = "<group>"; };
-		1E997760406C79D6D873CD75B21BB86B /* YTKJsBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsBridge.h; path = YTKJsBridge/Classes/YTKJsBridge.h; sourceTree = "<group>"; };
-		27E472EDEE05EAA2C5DD3D413EA0A6C0 /* UIWebView+JavaScriptContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+JavaScriptContext.m"; path = "YTKJsBridge/Classes/UIWebView+JavaScriptContext.m"; sourceTree = "<group>"; };
+		159C585CD98ACF906E9C584E7B89D8E7 /* YTKJsBridge-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YTKJsBridge-dummy.m"; sourceTree = "<group>"; };
+		2CBB3453347E89EB68D428426DD1C326 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		2CF2194C4248F55A32FD8923606A30D0 /* Pods-YTKJsBridge_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-YTKJsBridge_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		3670C065E397D85B6D3DF027D5394BB2 /* YTKJsBridge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsBridge.m; path = YTKJsBridge/Classes/YTKJsBridge.m; sourceTree = "<group>"; };
+		3C66B84B439C78DE1CA13E51C983FAD2 /* YTKJsCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommand.h; path = YTKJsBridge/Classes/YTKJsCommand.h; sourceTree = "<group>"; };
 		40D4043E83970C43FF4C7B06CE978A5E /* Pods-YTKJsBridge_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-YTKJsBridge_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		43DA1B0BAB10D33AAAD7E8A1195EEB26 /* Pods-YTKJsBridge_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YTKJsBridge_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		4DC435A1438BFE5B08AE9CBC6E6DA7CD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56E3C512A407D0AC8D8DA830C1AA7452 /* Pods_YTKJsBridge_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_YTKJsBridge_Tests.framework; path = "Pods-YTKJsBridge_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		68301A418C95159737BED3AE550F5D1F /* UIWebView+JavaScriptContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIWebView+JavaScriptContext.h"; path = "YTKJsBridge/Classes/UIWebView+JavaScriptContext.h"; sourceTree = "<group>"; };
-		7BCA5579DF431B0AB7FBA71A4FA79F57 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		5C43BD8598E5BE0FD975DEB01C253C98 /* YTKJsUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsUtils.m; path = YTKJsBridge/Classes/YTKJsUtils.m; sourceTree = "<group>"; };
+		6C7783F4D2FE111458EAA1977ADAFE91 /* YTKJsCommandHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommandHandler.h; path = YTKJsBridge/Classes/YTKJsCommandHandler.h; sourceTree = "<group>"; };
+		6E8A37F35C1B908FFF7698D100B42DDB /* YTKJsBridge.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YTKJsBridge.xcconfig; sourceTree = "<group>"; };
+		7F069B536636C6CBAB9CEFFD61E273F3 /* YTKJsEventHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsEventHandler.h; path = YTKJsBridge/Classes/YTKJsEventHandler.h; sourceTree = "<group>"; };
+		86F2E7C46E2847528F0C82F9F49601E6 /* YTKJsCommandManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsCommandManager.m; path = YTKJsBridge/Classes/YTKJsCommandManager.m; sourceTree = "<group>"; };
 		9033B4528C2A23B6A168A5932D9E789F /* Pods-YTKJsBridge_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YTKJsBridge_Tests-resources.sh"; sourceTree = "<group>"; };
+		926B838E94D8DFE0BB1A0C6AD3AB7222 /* YTKJsUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsUtils.h; path = YTKJsBridge/Classes/YTKJsUtils.h; sourceTree = "<group>"; };
+		92A1D3376888FEA0B35B95778CB8014C /* YTKJsCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsCommand.m; path = YTKJsBridge/Classes/YTKJsCommand.m; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93BC2058C0176017187BB41D2FD435A7 /* Pods-YTKJsBridge_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-YTKJsBridge_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		97BE9209A1F84F2AEF456400A1699506 /* YTKJsBridge-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTKJsBridge-prefix.pch"; sourceTree = "<group>"; };
+		9B1054F451131825A8F096DEA7D0300E /* UIWebView+JavaScriptContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIWebView+JavaScriptContext.h"; path = "YTKJsBridge/Classes/UIWebView+JavaScriptContext.h"; sourceTree = "<group>"; };
 		AA8700E639C04143C6B016FE9DB1AA1E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BB4932DE95089196806DE55CE2F0FFA4 /* YTKJsBridge.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YTKJsBridge.xcconfig; sourceTree = "<group>"; };
+		AFDA2D27CA967D91A1458D3B1EC5F0BE /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		BBC1194D8CC5A6C8E6B5B1FC74FA9F37 /* YTKJsBridge.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = YTKJsBridge.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		BC4E7EB782B4D0DF715CE6D66450DF38 /* UIWebView+JavaScriptContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+JavaScriptContext.m"; path = "YTKJsBridge/Classes/UIWebView+JavaScriptContext.m"; sourceTree = "<group>"; };
+		BF80672E72D2560699390BE8EAF1ABAE /* YTKJsCommandManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommandManager.h; path = YTKJsBridge/Classes/YTKJsCommandManager.h; sourceTree = "<group>"; };
 		C7F55F47DC2D151373AA47D3F3E8EB78 /* Pods-YTKJsBridge_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-YTKJsBridge_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C7F8ECA4B989BDC9084C4C46AADA7AEF /* Pods_YTKJsBridge_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_YTKJsBridge_Example.framework; path = "Pods-YTKJsBridge_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C91E21BA795A59BD6B12764E64EF0535 /* Pods-YTKJsBridge_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-YTKJsBridge_Tests.modulemap"; sourceTree = "<group>"; };
-		C9E1E4AAEA3A58676CF51CAC07312BC0 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		CB31B52A8696E8ABF0965C8F16899268 /* YTKJsUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsUtils.h; path = YTKJsBridge/Classes/YTKJsUtils.h; sourceTree = "<group>"; };
+		CAD380AAEDDC36011DF80E917CEB5994 /* YTKJsBridge-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTKJsBridge-umbrella.h"; sourceTree = "<group>"; };
+		CE7A7993068C5AC9F856FE195C04EC7A /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF2A0729FB31D6ECEF8937E17B1ED407 /* Pods-YTKJsBridge_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YTKJsBridge_Example.release.xcconfig"; sourceTree = "<group>"; };
 		D0DAA9AACB464EEA97CAB2CF3CB9896A /* Pods-YTKJsBridge_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-YTKJsBridge_Tests-dummy.m"; sourceTree = "<group>"; };
 		D1E58080EF1CFAE9984428A4CEB38FBE /* Pods-YTKJsBridge_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YTKJsBridge_Example-resources.sh"; sourceTree = "<group>"; };
-		D49FF9CCFFAA573BBC431F0816FCE4A5 /* YTKJsBridge-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTKJsBridge-prefix.pch"; sourceTree = "<group>"; };
 		D67222DA4687FC280E71D11FFFD7BEA6 /* Pods-YTKJsBridge_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-YTKJsBridge_Example.modulemap"; sourceTree = "<group>"; };
-		D7FB73DF3D3ABBCC46C37609951A8995 /* YTKJsCommandManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommandManager.h; path = YTKJsBridge/Classes/YTKJsCommandManager.h; sourceTree = "<group>"; };
+		DB7449A44787126A958D5A2C6EF52697 /* YTKJsEventHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsEventHandler.m; path = YTKJsBridge/Classes/YTKJsEventHandler.m; sourceTree = "<group>"; };
 		DE3C01C3B8309057AE50A02A39829F73 /* Pods-YTKJsBridge_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-YTKJsBridge_Tests-umbrella.h"; sourceTree = "<group>"; };
-		E30EC9034FD75F1F4914BDE02F987E4C /* YTKJsBridge.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = YTKJsBridge.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		E4C92B3E313C81709F81A5F51B39621D /* YTKJsCommandHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommandHandler.h; path = YTKJsBridge/Classes/YTKJsCommandHandler.h; sourceTree = "<group>"; };
+		DE66CCDAB734454203F0330D84530B65 /* YTKJsBridge.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = YTKJsBridge.modulemap; sourceTree = "<group>"; };
 		E7E8F0B8F6828D690336FAA2B9DAE6D5 /* Pods-YTKJsBridge_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-YTKJsBridge_Example-dummy.m"; sourceTree = "<group>"; };
 		EA59B1DA7465451B81FC05CC9FC5FC64 /* Pods-YTKJsBridge_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YTKJsBridge_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE12C271D1E96FCEF08BB76A24553AC7 /* Pods-YTKJsBridge_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YTKJsBridge_Example-frameworks.sh"; sourceTree = "<group>"; };
 		F424FACE5ECD5506DB8F4B1A93E0FB57 /* Pods-YTKJsBridge_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YTKJsBridge_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		F45C985C64875D8BBE65971293CECA11 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4B52BDD26BA9C8375BF56494D2D8873 /* YTKJsBridge-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YTKJsBridge-dummy.m"; sourceTree = "<group>"; };
-		FB18A4F71DC91484DB287FBF0A00D469 /* YTKJsCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsCommand.m; path = YTKJsBridge/Classes/YTKJsCommand.m; sourceTree = "<group>"; };
-		FCA5F706E603E7C5E14182806F8641A5 /* YTKJsCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommand.h; path = YTKJsBridge/Classes/YTKJsCommand.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26EEDAC108661684C923438DCD3E23EC /* YTKJsBridge */ = {
+			isa = PBXGroup;
+			children = (
+				9B1054F451131825A8F096DEA7D0300E /* UIWebView+JavaScriptContext.h */,
+				BC4E7EB782B4D0DF715CE6D66450DF38 /* UIWebView+JavaScriptContext.m */,
+				0ED5375C45CA2DAC83B9C0F64FF83899 /* YTKJsBridge.h */,
+				3670C065E397D85B6D3DF027D5394BB2 /* YTKJsBridge.m */,
+				3C66B84B439C78DE1CA13E51C983FAD2 /* YTKJsCommand.h */,
+				92A1D3376888FEA0B35B95778CB8014C /* YTKJsCommand.m */,
+				6C7783F4D2FE111458EAA1977ADAFE91 /* YTKJsCommandHandler.h */,
+				BF80672E72D2560699390BE8EAF1ABAE /* YTKJsCommandManager.h */,
+				86F2E7C46E2847528F0C82F9F49601E6 /* YTKJsCommandManager.m */,
+				7F069B536636C6CBAB9CEFFD61E273F3 /* YTKJsEventHandler.h */,
+				DB7449A44787126A958D5A2C6EF52697 /* YTKJsEventHandler.m */,
+				926B838E94D8DFE0BB1A0C6AD3AB7222 /* YTKJsUtils.h */,
+				5C43BD8598E5BE0FD975DEB01C253C98 /* YTKJsUtils.m */,
+				A9A6E54F0EA2AB0198588C1B1E846760 /* Pod */,
+				31A09AB3E229E242100BF9CC955B10AE /* Support Files */,
+			);
+			name = YTKJsBridge;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		31A09AB3E229E242100BF9CC955B10AE /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE7A7993068C5AC9F856FE195C04EC7A /* Info.plist */,
+				DE66CCDAB734454203F0330D84530B65 /* YTKJsBridge.modulemap */,
+				6E8A37F35C1B908FFF7698D100B42DDB /* YTKJsBridge.xcconfig */,
+				159C585CD98ACF906E9C584E7B89D8E7 /* YTKJsBridge-dummy.m */,
+				97BE9209A1F84F2AEF456400A1699506 /* YTKJsBridge-prefix.pch */,
+				CAD380AAEDDC36011DF80E917CEB5994 /* YTKJsBridge-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/YTKJsBridge";
+			sourceTree = "<group>";
+		};
 		5E0D919E635D23B70123790B8308F8EF /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,56 +202,21 @@
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				FC4E54BB3C1023A4614FB3F13978DB2B /* Development Pods */,
+				BD8E6D49C41BFC9EBEE95817406A4070 /* Development Pods */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
 				DBDCCD4289F1AE8E98E3C58692B98F65 /* Products */,
 				6BAC1FCFC414A8165B8185904DE373C8 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		7DD4B4DAEB6482CB9F8438F4528951EC /* YTKJsBridge */ = {
+		A9A6E54F0EA2AB0198588C1B1E846760 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				68301A418C95159737BED3AE550F5D1F /* UIWebView+JavaScriptContext.h */,
-				27E472EDEE05EAA2C5DD3D413EA0A6C0 /* UIWebView+JavaScriptContext.m */,
-				1E997760406C79D6D873CD75B21BB86B /* YTKJsBridge.h */,
-				0CAD278CCF0088510D78957897256319 /* YTKJsBridge.m */,
-				FCA5F706E603E7C5E14182806F8641A5 /* YTKJsCommand.h */,
-				FB18A4F71DC91484DB287FBF0A00D469 /* YTKJsCommand.m */,
-				E4C92B3E313C81709F81A5F51B39621D /* YTKJsCommandHandler.h */,
-				D7FB73DF3D3ABBCC46C37609951A8995 /* YTKJsCommandManager.h */,
-				0C1D625C535FBB604FE4485A5E338826 /* YTKJsCommandManager.m */,
-				CB31B52A8696E8ABF0965C8F16899268 /* YTKJsUtils.h */,
-				03AAE4C51CC2102E70D1B57CB43CE4AB /* YTKJsUtils.m */,
-				8DF3526C7AD72D708C098C6BB34F1C4D /* Pod */,
-				A395171CC8FF5E58812822B7F2B5FDA4 /* Support Files */,
-			);
-			name = YTKJsBridge;
-			path = ../..;
-			sourceTree = "<group>";
-		};
-		8DF3526C7AD72D708C098C6BB34F1C4D /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				C9E1E4AAEA3A58676CF51CAC07312BC0 /* LICENSE */,
-				7BCA5579DF431B0AB7FBA71A4FA79F57 /* README.md */,
-				E30EC9034FD75F1F4914BDE02F987E4C /* YTKJsBridge.podspec */,
+				2CBB3453347E89EB68D428426DD1C326 /* LICENSE */,
+				AFDA2D27CA967D91A1458D3B1EC5F0BE /* README.md */,
+				BBC1194D8CC5A6C8E6B5B1FC74FA9F37 /* YTKJsBridge.podspec */,
 			);
 			name = Pod;
-			sourceTree = "<group>";
-		};
-		A395171CC8FF5E58812822B7F2B5FDA4 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				F45C985C64875D8BBE65971293CECA11 /* Info.plist */,
-				1758DE632E788EC57015229DFE6255EC /* YTKJsBridge.modulemap */,
-				BB4932DE95089196806DE55CE2F0FFA4 /* YTKJsBridge.xcconfig */,
-				F4B52BDD26BA9C8375BF56494D2D8873 /* YTKJsBridge-dummy.m */,
-				D49FF9CCFFAA573BBC431F0816FCE4A5 /* YTKJsBridge-prefix.pch */,
-				02955B53C3E78977CC69F5522B3431DE /* YTKJsBridge-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/YTKJsBridge";
 			sourceTree = "<group>";
 		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
@@ -221,6 +227,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BD8E6D49C41BFC9EBEE95817406A4070 /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				26EEDAC108661684C923438DCD3E23EC /* YTKJsBridge */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
 		DBDCCD4289F1AE8E98E3C58692B98F65 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,14 +243,6 @@
 				09D247AC8AA525FA6ABB9774203BD939 /* YTKJsBridge.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		FC4E54BB3C1023A4614FB3F13978DB2B /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7DD4B4DAEB6482CB9F8438F4528951EC /* YTKJsBridge */,
-			);
-			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		FDAC98A84C7877E0F5CFCE2C1793A02E /* Pods-YTKJsBridge_Tests */ = {
@@ -268,25 +274,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		746D076F34AD7C1B0682DB69AF34650B /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F49E0019257E98CCF3B1F8F6D9D69492 /* UIWebView+JavaScriptContext.h in Headers */,
-				5AFE47BB8A8C70FF6361ED040375419E /* YTKJsBridge-umbrella.h in Headers */,
-				2AD4960A23B69936DFFCE836E800C1A5 /* YTKJsBridge.h in Headers */,
-				8C260979BDFA10D09A0207BCC4E57D76 /* YTKJsCommand.h in Headers */,
-				DFA72D823356E567B0E436234B527585 /* YTKJsCommandHandler.h in Headers */,
-				411C5D77863FEE22C84F2E6063D1035C /* YTKJsCommandManager.h in Headers */,
-				E12E375FA450D3E2105EF5D64D2008EC /* YTKJsUtils.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9A297F4837D72B5F7CDE38328173B403 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E7006B82724A4B200D1FC61D78EE19A9 /* Pods-YTKJsBridge_Tests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE1BD74BDC04D602E3CA2911D14AC00F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A5CE2255C74EBC176F75B9CCFC20E25 /* UIWebView+JavaScriptContext.h in Headers */,
+				77501919E2E1725BEEAFF70D8B168151 /* YTKJsBridge-umbrella.h in Headers */,
+				C35E098F262E8E530D055AE3597526E8 /* YTKJsBridge.h in Headers */,
+				74823FE0ED9EE1372A55AAEEF103C2D6 /* YTKJsCommand.h in Headers */,
+				93BFEA048B1155E5F09E9436CDFC52FE /* YTKJsCommandHandler.h in Headers */,
+				7295ED98B0DC17B81F3CDF81150241AC /* YTKJsCommandManager.h in Headers */,
+				ABBB5EB75FF6234221AB156A89BAB44F /* YTKJsEventHandler.h in Headers */,
+				495A10921CD1A43C8AC9CA8C9FD9668A /* YTKJsUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,9 +322,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 068532574AD759C380EE9504E0C1B660 /* Build configuration list for PBXNativeTarget "YTKJsBridge" */;
 			buildPhases = (
-				3ADD699A2D7C4200C30A0BE73F77CA35 /* Sources */,
+				1E53B1B5F7BF289CC9EDB9E3CE7D0C61 /* Sources */,
 				E7337951B69FB96A871AE707D49F8BC1 /* Frameworks */,
-				746D076F34AD7C1B0682DB69AF34650B /* Headers */,
+				BE1BD74BDC04D602E3CA2911D14AC00F /* Headers */,
 			);
 			buildRules = (
 			);
@@ -375,16 +382,17 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3ADD699A2D7C4200C30A0BE73F77CA35 /* Sources */ = {
+		1E53B1B5F7BF289CC9EDB9E3CE7D0C61 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C719D886BE0521CE7C28A7BDC5F6834 /* UIWebView+JavaScriptContext.m in Sources */,
-				5A3E54A93FCF77652C446BC160F8358B /* YTKJsBridge-dummy.m in Sources */,
-				A89618ADA1453671D79B141D6E74A0E2 /* YTKJsBridge.m in Sources */,
-				C9A5288D490FEEAB08B20A3D7A07EE30 /* YTKJsCommand.m in Sources */,
-				3A4D4E3C875BE008B502C0625CC7F7C9 /* YTKJsCommandManager.m in Sources */,
-				DE45762CC105730C5481C40CB6A2240C /* YTKJsUtils.m in Sources */,
+				C41AC760A380431C3E688AFD608ADE98 /* UIWebView+JavaScriptContext.m in Sources */,
+				721ACFC7F7CB68F29748F94E49497D18 /* YTKJsBridge-dummy.m in Sources */,
+				ED27B4E11BFFBCFC49F8C8039AD24CAF /* YTKJsBridge.m in Sources */,
+				3F3A7B72E3B06FF11879DA2CFC57CD9D /* YTKJsCommand.m in Sources */,
+				300CD8B4ED6A40351C0E9F423C8E7613 /* YTKJsCommandManager.m in Sources */,
+				DDCD3C2C941AE5483E799F52E6AEAB4D /* YTKJsEventHandler.m in Sources */,
+				0662DFEFB4CA32F379D90F1A29114EB5 /* YTKJsUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,7 +466,7 @@
 		};
 		15E75676364927794076AC3D5FE9BCA4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB4932DE95089196806DE55CE2F0FFA4 /* YTKJsBridge.xcconfig */;
+			baseConfigurationReference = 6E8A37F35C1B908FFF7698D100B42DDB /* YTKJsBridge.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -652,7 +660,7 @@
 		};
 		A38481B781DCDC8C8302D49D6931D324 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB4932DE95089196806DE55CE2F0FFA4 /* YTKJsBridge.xcconfig */;
+			baseConfigurationReference = 6E8A37F35C1B908FFF7698D100B42DDB /* YTKJsBridge.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
