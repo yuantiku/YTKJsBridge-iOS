@@ -11,14 +11,15 @@
 
 @class YTKJsCommand;
 
-typedef void (^YTKDataBlock) (NSError * __nullable error, id __nullable data);
-typedef void (^YTKAsyncBlock) (NSDictionary * __nullable arguments, YTKDataBlock block);
-typedef id (^YTKSyncBlock) (NSDictionary * __nullable arguments);
-typedef void (^YTKEventBlock) (id __nullable arguments);
+typedef void (^YTKDataCallback) (NSError * __nullable error, id __nullable data);
+typedef void (^YTKAsyncCallback) (NSDictionary * __nullable argument, YTKDataCallback block);
+typedef id (^YTKSyncCallback) (NSDictionary * __nullable argument);
+typedef void (^YTKEventCallback) (id __nullable argument);
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol YTKJsCommandHandler;
+@protocol YTKJsEventListener;
 
 @interface YTKJsBridge : NSObject
 
@@ -31,12 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeJsCommandHandlerForNamespace:(nullable NSString *)namespace;
 
 /** 注入js同步方法commandName，方法实现block */
-- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncBlock)handler;
-- (void)addSyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKSyncBlock)handler;
+- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncCallback)handler;
+- (void)addSyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKSyncCallback)handler;
 
 /** 注入js异步方法commandName，方法实现block */
-- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncBlock)handler;
-- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKAsyncBlock)handler;
+- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncCallback)handler;
+- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKAsyncCallback)handler;
 
 /** 移除命名空间namespace下的注入的js commandName方法 */
 - (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace;
@@ -46,13 +47,17 @@ NS_ASSUME_NONNULL_BEGIN
                        argument:(NSArray *)argument;
 
 /** 注册js事件监听处理block */
-- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler;
+- (void)listenEvent:(NSString *)event callback:(YTKEventCallback)callback;
 
 /** 移除事件监听 */
-- (void)unlistenJsEvent:(NSString *)event;
+- (void)unlistenEvent:(NSString *)event;
+
+- (void)addListener:(id<YTKJsEventListener>)listener forEvent:(NSString *)event;
+
+- (void)removeListener:(id<YTKJsEventListener>)listener forEvent:(NSString *)event;
 
 /** native发起事件通知给JS */
-- (void)notifyEvent:(NSString *)event argument:(nullable id)argument;
+- (void)emit:(NSString *)event argument:(nullable id)argument;
 
 - (void)setDebugMode:(BOOL)debug;
 

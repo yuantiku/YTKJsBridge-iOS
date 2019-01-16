@@ -64,19 +64,19 @@
     [self.manager removeJsCommandHandlerForNamespace:namespace];
 }
 
-- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncBlock)handler {
+- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncCallback)handler {
     [self.manager addSyncJsCommandName:commandName handler:handler];
 }
 
-- (void)addSyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKSyncBlock)handler {
+- (void)addSyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKSyncCallback)handler {
     [self.manager addSyncJsCommandName:commandName namespace:namespace handler:handler];
 }
 
-- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncBlock)handler {
+- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncCallback)handler {
     [self.manager addAsyncJsCommandName:commandName handler:handler];
 }
 
-- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKAsyncBlock)handler {
+- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKAsyncCallback)handler {
     [self.manager addAsyncJsCommandName:commandName namespace:namespace handler:handler];
 }
 
@@ -95,16 +95,24 @@
 }
 
 /** event related */
-- (void)listenJsEvent:(NSString *)event handler:(YTKEventBlock)handler {
-    [self.eventHandler listenJsEvent:event handler:handler];
+- (void)listenEvent:(NSString *)event callback:(YTKEventCallback)callback {
+    [self.eventHandler listenEvent:event callback:callback];
 }
 
-- (void)unlistenJsEvent:(NSString *)event {
-    [self.eventHandler unlistenJsEvent:event];
+- (void)unlistenEvent:(NSString *)event {
+    [self.eventHandler unlistenEvent:event];
 }
 
-- (void)notifyEvent:(NSString *)event argument:(id)argument {
-    [self.eventHandler notifyEvent:event argument:argument];
+- (void)addListener:(id<YTKJsEventListener>)listener forEvent:(NSString *)event {
+    [self.eventHandler addListener:listener forEvent:event];
+}
+
+- (void)removeListener:(id<YTKJsEventListener>)listener forEvent:(NSString *)event {
+    [self.eventHandler removeListener:listener forEvent:event];
+}
+
+- (void)emit:(NSString *)event argument:(id)argument {
+    [self.eventHandler emit:event argument:argument];
 }
 
 - (void)setDebugMode:(BOOL)debug {

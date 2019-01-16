@@ -12,9 +12,9 @@
 
 @interface YTKJsCommandManager ()
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, YTKAsyncBlock> *asyncHandlers;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, YTKAsyncCallback> *asyncHandlers;
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, YTKSyncBlock> *syncHandlers;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, YTKSyncCallback> *syncHandlers;
 
 @property (nonatomic, strong) NSString *jsCache;
 
@@ -65,8 +65,8 @@
                     /** sync */
                     id(*action)(id, SEL, id) = (id(*)(id, SEL, id))objc_msgSend;
 
-                    YTKSyncBlock block = (id)^(NSDictionary *arguments) {
-                        id ret = action(obj, sel, arguments);
+                    YTKSyncCallback block = (id)^(NSDictionary *argument) {
+                        id ret = action(obj, sel, argument);
                         return ret;
                     };
                     [self addSyncJsCommandName:commandName namespace:namespace handler:block];
@@ -74,8 +74,8 @@
                     /** async */
                     void(*action)(id, SEL, id, id) = (void(*)(id, SEL, id, id))objc_msgSend;
 
-                    YTKAsyncBlock block = ^(NSDictionary *arguments, YTKDataBlock dataBlock) {
-                        action(obj, sel, arguments, dataBlock);
+                    YTKAsyncCallback block = ^(NSDictionary *argument, YTKDataCallback dataBlock) {
+                        action(obj, sel, argument, dataBlock);
                     };
                     [self addAsyncJsCommandName:commandName namespace:namespace handler:block];
                 }
@@ -89,8 +89,8 @@
         namespace = @"";
     }
 
-    NSDictionary<NSString *, YTKSyncBlock> *syncHandlers = [self.syncHandlers copy];
-    [syncHandlers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, YTKSyncBlock  _Nonnull obj, BOOL * _Nonnull stop) {
+    NSDictionary<NSString *, YTKSyncCallback> *syncHandlers = [self.syncHandlers copy];
+    [syncHandlers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, YTKSyncCallback  _Nonnull obj, BOOL * _Nonnull stop) {
         NSArray *arr = [YTKJsUtils parseNamespace:key];
         NSString *namespace = arr.firstObject;
         if ([namespace isKindOfClass:[NSString class]] && [namespace isEqualToString:namespace]) {
@@ -98,8 +98,8 @@
         }
     }];
 
-    NSDictionary<NSString *, YTKAsyncBlock> *asyncHandlers = [self.asyncHandlers copy];
-    [asyncHandlers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, YTKAsyncBlock  _Nonnull obj, BOOL * _Nonnull stop) {
+    NSDictionary<NSString *, YTKAsyncCallback> *asyncHandlers = [self.asyncHandlers copy];
+    [asyncHandlers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, YTKAsyncCallback  _Nonnull obj, BOOL * _Nonnull stop) {
         NSArray *arr = [YTKJsUtils parseNamespace:key];
         NSString *namespace = arr.firstObject;
         if ([namespace isKindOfClass:[NSString class]] && [namespace isEqualToString:namespace]) {
@@ -108,11 +108,11 @@
     }];
 }
 
-- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncBlock)handler {
+- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncCallback)handler {
     [self addSyncJsCommandName:commandName namespace:nil handler:handler];
 }
 
-- (void)addSyncJsCommandName:(NSString *)commandName namespace:(NSString *)namespace handler:(YTKSyncBlock)handler {
+- (void)addSyncJsCommandName:(NSString *)commandName namespace:(NSString *)namespace handler:(YTKSyncCallback)handler {
     if (NO == [commandName isKindOfClass:[NSString class]] || commandName.length == 0 || nil == handler) {
         return;
     }
@@ -124,11 +124,11 @@
     [self.syncHandlers setObject:handler forKey:name];
 }
 
-- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncBlock)handler {
+- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncCallback)handler {
     [self addAsyncJsCommandName:commandName namespace:nil handler:handler];
 }
 
-- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(NSString *)namespace handler:(YTKAsyncBlock)handler {
+- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(NSString *)namespace handler:(YTKAsyncCallback)handler {
     if (NO == [commandName isKindOfClass:[NSString class]] || commandName.length == 0 || nil == handler) {
         return;
     }
@@ -200,7 +200,7 @@
         /** async call */
         __weak typeof(self) weakSelf = self;
 
-        YTKDataBlock completionHandler = ^(NSError *error, id value) {
+        YTKDataCallback completionHandler = ^(NSError *error, id value) {
             [result setObject:@0 forKey:@"code"];
             if (value != nil) {
                 [result setObject:value forKey:@"ret"];
@@ -213,14 +213,14 @@
             [strongSelf callJsCallbackWithJsString:js];
         };
 
-        YTKAsyncBlock action = [self.asyncHandlers objectForKey:commandName];
+        YTKAsyncCallback action = [self.asyncHandlers objectForKey:commandName];
         if (action) {
             founded = YES;
             action(args, completionHandler);
         }
     } else {
         /** sync call */
-        YTKSyncBlock action = [self.syncHandlers objectForKey:commandName];
+        YTKSyncCallback action = [self.syncHandlers objectForKey:commandName];
         if (action) {
             founded = YES;
             id ret = action(args);

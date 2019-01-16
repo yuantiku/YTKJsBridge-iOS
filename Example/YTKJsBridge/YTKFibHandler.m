@@ -19,13 +19,13 @@
     }
 }
 
-- (NSNumber *)fib:(NSDictionary *)arguments {
-    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+- (NSNumber *)fib:(NSDictionary *)argument {
+    NSInteger n = [[argument objectForKey:@"n"] integerValue];
     return @([self fibSequence:n]);
 }
 
-- (void)asyncFib:(NSDictionary *)arguments completion:(YTKDataBlock)completion {
-    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+- (void)asyncFib:(NSDictionary *)argument completion:(YTKDataCallback)completion {
+    NSInteger n = [[argument objectForKey:@"n"] integerValue];
     completion(nil, @([self fibSequence:n]));
 }
 

@@ -10,8 +10,9 @@
 #import "YTKJsBridge.h"
 #import "YTKAlertHandler.h"
 #import "YTKFibHandler.h"
+#import "YTKJsCommandHandler.h"
 
-@interface YTKViewController ()
+@interface YTKViewController () <YTKJsEventListener>
 
 @property (nonatomic, strong) UIWebView *webView;
 
@@ -31,18 +32,19 @@
     [self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
 //    [self.bridge addJsCommandHandlers:@[[YTKFibHandler new]] namespace:@"math"];
     __weak typeof(self)weakSelf = self;
-    [self.bridge addSyncJsCommandName:@"fib" namespace:@"math" handler:(id)^(NSDictionary *arguments) {
-        NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+    [self.bridge addSyncJsCommandName:@"fib" namespace:@"math" handler:(id)^(NSDictionary *argument) {
+        NSInteger n = [[argument objectForKey:@"n"] integerValue];
         return @([weakSelf fibSequence:n]);
     }];
-    [self.bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" handler:^(NSDictionary *arguments, YTKDataBlock block) {
-        NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+    [self.bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" handler:^(NSDictionary *argument, YTKDataCallback block) {
+        NSInteger n = [[argument objectForKey:@"n"] integerValue];
         block(nil, @([weakSelf fibSequence:n]));
     }];
-    [self.bridge listenJsEvent:@"resize" handler:^(NSDictionary *arguments) {
+    [self.bridge listenEvent:@"resize" callback:^(NSDictionary *argument) {
         // 客户端监听js页面大小发生变化事件
-        NSLog(@"%@", arguments);
+        NSLog(@"block %@", argument);
     }];
+    [self.bridge addListener:self forEvent:@"resize"];
     NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
                                              withExtension:@"htm"];
     [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
@@ -55,8 +57,12 @@
     [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)handleJsEventWithArgument:(id)argument {
+    NSLog(@"listener %@", argument);
+}
+
 - (void)btnPressed:(UIButton *)btn {
-    [self.bridge notifyEvent:@"close" argument:@"close page notification"];
+    [self.bridge emit:@"close" argument:@"close page notification"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -121,14 +121,14 @@ UIWebView *webView = [UIWebView new];
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 
 // 向JS注入在命名空间math之下的同步方法fib
-[bridge addSyncJsCommandName:@"fib" namespace:@"math" handler:(id)^(NSDictionary *arguments) {
-    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+[bridge addSyncJsCommandName:@"fib" namespace:@"math" handler:(id)^(NSDictionary *argument) {
+    NSInteger n = [[argument objectForKey:@"n"] integerValue];
     return @([self fibSequence:n]);
 }];
 
 // 向JS注入在命名空间math之下的异步方法asyncFib
-[bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" handler:^(NSDictionary *arguments, YTKDataBlock block) {
-    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+[bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" handler:^(NSDictionary *argument, YTKDataBlock block) {
+    NSInteger n = [[argument objectForKey:@"n"] integerValue];
     block(nil, @([self fibSequence:n]));
 }];
 
@@ -146,14 +146,14 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 
 // fibSequence的实现忽略，与前面demo代码实现一致
 // 同步方法fib
-- (NSNumber *)fib:(NSDictionary *)arguments {
-    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+- (NSNumber *)fib:(NSDictionary *)argument {
+    NSInteger n = [[argument objectForKey:@"n"] integerValue];
     return @([self fibSequence:n]);
 }
 
 // 异步方法asyncFib，带有异步方法回调completion
-- (void)asyncFib:(NSDictionary *)arguments completion:(YTKDataBlock)completion {
-    NSInteger n = [[arguments objectForKey:@"n"] integerValue];
+- (void)asyncFib:(NSDictionary *)argument completion:(YTKDataBlock)completion {
+    NSInteger n = [[argument objectForKey:@"n"] integerValue];
     completion(nil, @([self fibSequence:n]));
 }
 @end
@@ -234,9 +234,18 @@ sendEvent(event); // sendEvent是native注入的全局函数
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
-[bridge listenJsEvent:@"resize" handler:^(id arguments) {
+
+// 便捷block方式
+[bridge listenEvent:@"resize" callback:^(id argument) {
     // 客户端监听js页面大小发生变化事件
 }];
+
+// 添加监听者对象id<YTKJsEventListener>的方式
+[bridge addListener:self forEvent:@"resize"]
+// 实现YTKJsEventListener代理方法
+- (void)handleJsEventWithArgument:(id)argument {
+    // 客户端监听js页面大小发生变化事件
+}
 ```
 
 ### native向JS发送事件通知

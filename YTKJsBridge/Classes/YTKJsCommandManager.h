@@ -17,18 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addJsCommandHandlers:(NSArray<id> *)handlers forNamespace:(nullable NSString *)namespace;
 
 /** 向JS注入同步处理block */
-- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncBlock)handler;
+- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncCallback)handler;
 
 - (void)addSyncJsCommandName:(NSString *)commandName
                    namespace:(nullable NSString *)namespace
-                     handler:(YTKSyncBlock)handler;
+                     handler:(YTKSyncCallback)handler;
 
 /** 向JS注入异步处理block */
-- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncBlock)handler;
+- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncCallback)handler;
 
 - (void)addAsyncJsCommandName:(NSString *)commandName
                     namespace:(nullable NSString *)namespace
-                      handler:(YTKAsyncBlock)handler;
+                      handler:(YTKAsyncCallback)handler;
 
 /** 移除命名空间namespace对应的方法类数组 */
 - (void)removeJsCommandHandlerForNamespace:(nullable NSString *)namespace;
