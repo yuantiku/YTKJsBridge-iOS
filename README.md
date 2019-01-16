@@ -220,8 +220,8 @@ JS发送页面大小发生变化resize事件给客户端，如下所示：
 
 ```JavaScript
 var event = {
-"event": "resize", // event名
-"arg": {"width": xxx, "height": xxx}, // 参数
+    "event": "resize", // event名
+    "arg": {"width": xxx, "height": xxx}, // 参数
 };
 sendEvent(event); // sendEvent是native注入的全局函数
 ```
