@@ -41,6 +41,9 @@
         NSInteger n = [argument.firstObject integerValue];
         block(nil, @([weakSelf fibSequence:n]));
     }];
+    [self.bridge addVoidSyncJsCommandName:@"voidSyncCall" namespace:@"math" impBlock:^(NSArray * _Nullable argument) {
+        NSLog(@"js call native voidSyncCall method");
+    }];
     [self.bridge listenEvent:@"resize" callback:^(NSArray *argument) {
         // 客户端监听js页面大小发生变化事件
         NSLog(@"block %@", argument);

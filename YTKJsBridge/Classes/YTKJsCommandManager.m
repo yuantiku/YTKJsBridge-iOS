@@ -329,8 +329,8 @@
     } else {
         /** sync call */
         YTKCommandInfo *commandInfo = [self commandInfoWithCommandName:commandName argTypes:argTypes];
-        BOOL hasReturnValue = ![commandInfo.returnType isEqualToString:@"v"];
         if (commandInfo) {
+            BOOL hasReturnValue = ![commandInfo.returnType isEqualToString:@"v"];
             NSInvocation *invocation = [self.handlers objectForKey:commandInfo];
             if (invocation) {
                 founded = YES;
@@ -349,25 +349,22 @@
             }
         }
         if (NO == founded) {
-            if (hasReturnValue) {
-                if ([self.blockHandler canHandleSyncMethod:commandName]) {
-                    founded = YES;
-                    id ret = [self.blockHandler performSyncMethod:commandName argments:args];
-                    if (ret) {
-                        [result setValue:ret forKey:@"ret"];
-                    }
+            if ([self.blockHandler canHandleSyncMethod:commandName]) {
+                founded = YES;
+                id ret = [self.blockHandler performSyncMethod:commandName argments:args];
+                if (ret) {
+                    [result setValue:ret forKey:@"ret"];
                 }
-            } else {
-                if ([self.blockHandler canHandleVoidSyncMethod:commandName]) {
-                    founded = YES;
-                    [self.blockHandler performVoidSyncMethod:commandName arguments:args];
-                }
+            } else if ([self.blockHandler canHandleVoidSyncMethod:commandName]) {
+                founded = YES;
+                [self.blockHandler performVoidSyncMethod:commandName arguments:args];
             }
         }
     }
 
     [result setObject:callId ?: @"" forKey:@"callId"];
     if (NO == founded) {
+        [result setObject:error forKey:@"message"];
         NSString *js = error;
         if (self.isDebug) {
             js = [NSString stringWithFormat:@"window.alert(decodeURIComponent(\"%@\"));", js];
