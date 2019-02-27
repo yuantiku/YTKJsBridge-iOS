@@ -64,20 +64,27 @@
     [self.manager removeJsCommandHandlerForNamespace:namespace];
 }
 
-- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncCallback)handler {
-    [self.manager addSyncJsCommandName:commandName handler:handler];
+- (void)addSyncJsCommandName:(NSString *)commandName impBlock:(YTKSyncCallback)impBlock {
+    [self.manager addSyncJsCommandName:commandName impBlock:impBlock];
 }
 
-- (void)addSyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKSyncCallback)handler {
-    [self.manager addSyncJsCommandName:commandName namespace:namespace handler:handler];
+- (void)addSyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace impBlock:(YTKSyncCallback)impBlock {
+    [self.manager addSyncJsCommandName:commandName namespace:namespace impBlock:impBlock];
 }
 
-- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncCallback)handler {
-    [self.manager addAsyncJsCommandName:commandName handler:handler];
+- (void)addVoidSyncJsCommandName:(NSString *)commandName impBlock:(YTKVoidSyncCallback)impBlock {
+    [self.manager addVoidSyncJsCommandName:commandName impBlock:impBlock];
+}
+- (void)addVoidSyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace impBlock:(YTKVoidSyncCallback)impBlock {
+    [self.manager addVoidSyncJsCommandName:commandName namespace:namespace impBlock:impBlock];
 }
 
-- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace handler:(YTKAsyncCallback)handler {
-    [self.manager addAsyncJsCommandName:commandName namespace:namespace handler:handler];
+- (void)addAsyncJsCommandName:(NSString *)commandName impBlock:(YTKAsyncCallback)impBlock {
+    [self.manager addAsyncJsCommandName:commandName impBlock:impBlock];
+}
+
+- (void)addAsyncJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace impBlock:(YTKAsyncCallback)impBlock {
+    [self.manager addAsyncJsCommandName:commandName namespace:namespace impBlock:impBlock];
 }
 
 - (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace {
@@ -111,7 +118,7 @@
     [self.eventHandler removeListener:listener forEvent:event];
 }
 
-- (void)emit:(NSString *)event argument:(id)argument {
+- (void)emit:(NSString *)event argument:(NSArray *)argument {
     [self.eventHandler emit:event argument:argument];
 }
 

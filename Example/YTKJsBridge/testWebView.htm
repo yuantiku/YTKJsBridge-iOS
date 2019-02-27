@@ -7,10 +7,10 @@
         
         <button type='button' onclick='alert("Alert!")'>Alert!</button>
          
-         <button type='button' onclick='YTKJsBridge({methodName:"yuantiku.syncSayHello", args:{title:"sync: hello world"}, callId:-1})'>Sync Say Hello!</button>
-         <button type='button' onclick='YTKJsBridge({methodName:"yuantiku.asyncSayHello", args:{title:"async: hello world"}, callId:123})'>Async Say Hello!</button>
-         <button type='button' onclick='syncFib()'>Sync Fib!</button>
-         <button type='button' onclick='notify()'>notify!</button>
+         <button type='button' onclick='YTKJsBridge({methodName:"yuantiku.syncSayHello", args:["sync: hello world"], callId:-1})'>Call Natvie Sync Say Hello!</button>
+         <button type='button' onclick='YTKJsBridge({methodName:"yuantiku.asyncSayHello", args:["async: hello world"], callId:123})'>Call Natvie Async Say Hello!</button>
+         <button type='button' onclick='syncFib()'>Call Natvie Sync Fib!</button>
+         <button type='button' onclick='notify()'>notify Js Resize Event!</button>
 
     </form>
 
@@ -18,7 +18,7 @@
         function syncFib() {
             var data = {
                 methodName:"math.fib",
-                args:{n:10},
+                args:[10],
                 callId:-1
             }
             var dict = YTKJsBridge(data);
@@ -27,14 +27,14 @@
         function notify() {
             var event = {
                 "event": "resize", // event名
-                "arg": {"width": 100, "height": 100}, // 参数
+                "arg": [100, 100], // 参数
             };
             sendEvent(event); // sendEvent是native注入的全局函数
         }
         window.dispatchNativeEvent = function(obj) {
-            if (obj.event == "close") {
+            if (obj.event == "click") {
                 // 处理close事件
-                alert(obj.arg);
+                alert(obj.arg[0]);
             }
         }
     </script>

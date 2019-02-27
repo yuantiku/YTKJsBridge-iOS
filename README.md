@@ -63,7 +63,7 @@ JS调用客户端的数据格式如下：
 ```JavaScript
 {
     "methodName": "math.fib" // 方法名，math是命名空间，fib为具体方法名
-    "args": {key1: value1, key2: value2, ...} // 参数字典
+    "args": [value1, value2, ...] // 参数数组
     "callId": xxx // 同步为-1， 异步为非-1
 }
 ```
@@ -74,7 +74,7 @@ JS调用客户端的数据格式如下：
 {
     "callId": xxx, // 同步调用callId为-1，异步调用不是-1，用以标记回传与调用的对应关系
     "code": 0, // 非0表示失败
-    "ret": object, // 回传数据
+    "ret": object, // 回传数据，可以是任意格式，字典、数组、字符串、数字、BOOL等
     "message": "", // 错误描述
 }
 ```
@@ -121,21 +121,21 @@ UIWebView *webView = [UIWebView new];
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 
 // 向JS注入在命名空间math之下的同步方法fib
-[bridge addSyncJsCommandName:@"fib" namespace:@"math" handler:(id)^(NSDictionary *argument) {
-    NSInteger n = [[argument objectForKey:@"n"] integerValue];
+[bridge addSyncJsCommandName:@"fib" namespace:@"math" impBlock:^id(NSArray * _Nullable argument) {
+    NSInteger n = [argument.firstObject integerValue];
     return @([self fibSequence:n]);
 }];
 
 // 向JS注入在命名空间math之下的异步方法asyncFib
-[bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" handler:^(NSDictionary *argument, YTKDataBlock block) {
-    NSInteger n = [[argument objectForKey:@"n"] integerValue];
+[bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" impBlock:^(NSArray * _Nullable argument, YTKDataCallback block) {
+    NSInteger n = [argument.firstObject integerValue];
     block(nil, @([self fibSequence:n]));
 }];
 
 ```
 
-为了避免客户端的代码以block的形式注入会比较分散，YTKJsBridge提供以对象的形式向JS注入方法。
-首先需要创建一个方法的实现类，下面就是向网页注入在命名空间math下的同步fib以及异步asyncFib的方法例子，方法功能是计算斐波那契数列，如下所示：
+为了避免客户端的代码以block的形式注入会比较分散，YTKJsBridge提供以对象的形式向JS注入方法，并且对象的方法实现将JS传递的参数打平到方法的形参上，例如：有3个参数的方法@selector(method:arg1:arg2)。
+首先需要创建一个方法的实现类，下面就是向网页注入在命名空间math下的同步fib以及异步asyncFib的方法例子，方法功能是计算斐波那契数列，方法接收一个参数num用来计算fib，如下所示：
 
 ```objective-c
 @interface YTKFibHandler : NSObject
@@ -146,16 +146,17 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 
 // fibSequence的实现忽略，与前面demo代码实现一致
 // 同步方法fib
-- (NSNumber *)fib:(NSDictionary *)argument {
-    NSInteger n = [[argument objectForKey:@"n"] integerValue];
-    return @([self fibSequence:n]);
+- (NSNumber *)fib:(NSNumber *)num {
+    NSInteger fib = [self fibSequence:num.integerValue];
+    return @(fib);
 }
 
 // 异步方法asyncFib，带有异步方法回调completion
-- (void)asyncFib:(NSDictionary *)argument completion:(YTKDataBlock)completion {
-    NSInteger n = [[argument objectForKey:@"n"] integerValue];
-    completion(nil, @([self fibSequence:n]));
+- (void)asyncFib:(NSNumber *)num completion:(YTKDataCallback)completion {
+    NSInteger fib = [self fibSequence:num.integerValue];
+    completion(nil, @(fib));
 }
+
 @end
 ```
 然后客户端向网页注入该方法类即可，下面就是向网页注入YTKFibHandler，代码如下：
@@ -164,7 +165,7 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
-// 向JS注入在命名空间yuantiku之下的sayHello方法
+// 向JS注入在命名空间math之下的fib和asyncFib方法
 [bridge addJsCommandHandlers:@[[YTKFibHandler new]] namespace:@"math"];
 ```
 
@@ -173,10 +174,10 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 下面就是网页调用客户端来异步执行math命名空间下的asyncFib方法的代码，客户端注入的asyncFib方法需要参数n，如下所示：
 
 ```JavaScript
-// 准备要传给客户端异步方法asyncSayHello的数据，包括指令，数据，回调等，
+// 准备要传给客户端异步方法asyncFib的数据，包括指令，数据，回调等，
 var data = {
     methodName:"math.asyncFib", // 带有命名空间的方法名
-    args:{n: 5},  // 参数
+    args:[5],  // 参数
     callId:123  // callId为-1表示同步调用，否则为异步调用
 };
 // 直接使用这个客户端注入的全局YTKJsBridge方法调用math命名空间下的asyncFib方法执行
@@ -187,10 +188,10 @@ YTKJsBridge(data);
 下面就是网页调用客户端来同步执行math命名空间下的fib方法的代码，客户端注入的fib方法需要参数n，如下所示：
 
 ```JavaScript
-// 准备要传给客户端同步方法syncSayHello的数据，包括指令，数据，回调等，
+// 准备要传给客户端同步方法fib的数据，包括指令，数据，回调等，
 var data = {
     methodName:"math.fib", // 带有命名空间的方法名
-    args:{n: 8},  // 参数
+    args:[8],  // 参数
     callId:-1  // callId为-1表示同步调用，否则为异步调用
 };
 // 直接使用这个客户端注入的全局YTKJsBridge方法调用math命名空间下的fib方法执行
@@ -207,11 +208,9 @@ UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 // 准备传入JS的数据，包括指令，数据等
-NSDictionary *parameter = @{@"message" : @"hello, world",
-                        @"cancelTitle" : @"cancel",
-                       @"confirmTitle" : @"confirm"};
+NSArray *parameter = @[@"hello, world", @"cancel", @"confirm"];
 // 客户端调用网页的alert方法，弹出alert弹窗
-[bridge callJsCommandName:@"alert" argument:@[parameter]];
+[bridge callJsCommandName:@"alert" argument:parameter];
 ```
 
 ### JS向native发送事件通知
@@ -221,7 +220,7 @@ JS发送页面大小发生变化resize事件给客户端，如下所示：
 ```JavaScript
 var event = {
     "event": "resize", // event名
-    "arg": {"width": xxx, "height": xxx}, // 参数
+    "arg": [width, height], // 参数
 };
 sendEvent(event); // sendEvent是native注入的全局函数
 ```
@@ -236,27 +235,27 @@ UIWebView *webView = [UIWebView new];
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 
 // 便捷block方式
-[bridge listenEvent:@"resize" callback:^(id argument) {
+[bridge listenEvent:@"resize" callback:^(NSArray *argument) {
     // 客户端监听js页面大小发生变化事件
 }];
 
 // 添加监听者对象id<YTKJsEventListener>的方式
 [bridge addListener:self forEvent:@"resize"]
 // 实现YTKJsEventListener代理方法
-- (void)handleJsEventWithArgument:(id)argument {
+- (void)handleJsEventWithArgument:(NSArray *)argument {
     // 客户端监听js页面大小发生变化事件
 }
 ```
 
 ### native向JS发送事件通知
 
-下面例子就是客户端发送close事件的例子，如下所示：
+下面例子就是客户端发送click事件的例子，如下所示：
 
 ```objective-c
 UIWebView *webView = [UIWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
-[bridge notifyEvent:@"close" argument:@"close page event"];
+[bridge notifyEvent:@"click" argument:@[@"click event"]];
 ```
 
 ### JS监听native事件
@@ -266,9 +265,9 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 ```JavaScript
 // obj是native传入的event事件对象，dispatchNativeEvent是用来处理事件的全局函数
 window.dispatchNativeEvent = function(obj) {
-    if (obj.event == "close") {
+    if (obj.event == "click") {
         // 处理close事件，这里通过alert将arg显示出来
-        alert(obj.arg);
+        alert(obj.arg[0]);
     }
 }
 ```

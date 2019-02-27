@@ -80,11 +80,11 @@
     [self.eventListeners setObject:listeners forKey:event];
 }
 
-- (void)emit:(NSString *)event argument:(nullable id)argument {
+- (void)emit:(NSString *)event argument:(NSArray *)argument {
     if (NO == [event isKindOfClass:[NSString class]]) {
         return;
     }
-    NSString *json = [YTKJsUtils objToJsonString:@{@"event" : event, @"arg" : argument ?: @""}];
+    NSString *json = [YTKJsUtils objToJsonString:@{@"event" : event, @"arg" : argument ?: @[]}];
     NSString *js = [NSString stringWithFormat:@"window.dispatchNativeEvent(%@)", json];
     if (self.isDebug) {
         NSLog(@"### send native event: %@", js);

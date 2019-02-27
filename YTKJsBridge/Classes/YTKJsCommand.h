@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** 方法名称 */
 @property (nonatomic, copy) NSString *methodName;
 /** 参数 */
-@property (nonatomic, copy) NSDictionary *args;
+@property (nonatomic, copy) NSArray *args;
 /** 回调id */
 @property (nonatomic, copy) NSString *callId;
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *event;
 
-@property (nonatomic, strong) id arg;
+@property (nonatomic, copy) NSArray *arg;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

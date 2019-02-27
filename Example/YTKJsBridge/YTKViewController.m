@@ -9,6 +9,7 @@
 #import "YTKViewController.h"
 #import "YTKJsBridge.h"
 #import "YTKAlertHandler.h"
+#import "YTKIsLastHandler.h"
 #import "YTKFibHandler.h"
 #import "YTKJsCommandHandler.h"
 
@@ -32,15 +33,15 @@
     [self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
 //    [self.bridge addJsCommandHandlers:@[[YTKFibHandler new]] namespace:@"math"];
     __weak typeof(self)weakSelf = self;
-    [self.bridge addSyncJsCommandName:@"fib" namespace:@"math" handler:(id)^(NSDictionary *argument) {
-        NSInteger n = [[argument objectForKey:@"n"] integerValue];
+    [self.bridge addSyncJsCommandName:@"fib" namespace:@"math" impBlock:^id(NSArray * _Nullable argument) {
+        NSInteger n = [argument.firstObject integerValue];
         return @([weakSelf fibSequence:n]);
     }];
-    [self.bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" handler:^(NSDictionary *argument, YTKDataCallback block) {
-        NSInteger n = [[argument objectForKey:@"n"] integerValue];
+    [self.bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" impBlock:^(NSArray * _Nullable argument, YTKDataCallback block) {
+        NSInteger n = [argument.firstObject integerValue];
         block(nil, @([weakSelf fibSequence:n]));
     }];
-    [self.bridge listenEvent:@"resize" callback:^(NSDictionary *argument) {
+    [self.bridge listenEvent:@"resize" callback:^(NSArray *argument) {
         // 客户端监听js页面大小发生变化事件
         NSLog(@"block %@", argument);
     }];
@@ -50,19 +51,19 @@
     [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
 
     UIButton *btn = [UIButton new];
-    [btn setBackgroundColor:UIColor.greenColor];
-    [btn setTitle:@"close" forState:UIControlStateNormal];
+    [btn setBackgroundColor:UIColor.grayColor];
+    [btn setTitle:@"Notify Native Click Event" forState:UIControlStateNormal];
     [self.view addSubview:btn];
-    btn.frame = CGRectMake(100, 500, 200, 100);
+    btn.frame = CGRectMake(63, 500, 250, 100);
     [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)handleJsEventWithArgument:(id)argument {
+- (void)handleJsEventWithArgument:(NSArray *)argument {
     NSLog(@"listener %@", argument);
 }
 
 - (void)btnPressed:(UIButton *)btn {
-    [self.bridge emit:@"close" argument:@"close page notification"];
+    [self.bridge emit:@"click" argument:@[@"click event"]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

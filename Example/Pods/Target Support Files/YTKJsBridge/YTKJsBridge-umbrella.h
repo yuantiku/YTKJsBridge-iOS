@@ -11,6 +11,8 @@
 #endif
 
 #import "UIWebView+JavaScriptContext.h"
+#import "YTKBlockHandler.h"
+#import "YTKJsBlockHeader.h"
 #import "YTKJsBridge.h"
 #import "YTKJsCommand.h"
 #import "YTKJsCommandHandler.h"

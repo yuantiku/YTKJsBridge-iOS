@@ -9,6 +9,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface YTKMethodInfo : NSObject <NSCopying>
+
+@property (nonatomic, copy) NSString *methodName;
+
+@property (nonatomic, copy) NSString *firstMethodName;
+
+@property (nonatomic, copy) NSString *returnType;
+
+@property (nonatomic) NSInteger argumentNum;
+
+@property (nonatomic, copy) NSString *lastArgType;
+
+@property (nonatomic, copy) NSArray<NSString *> *argTypes;
+
+@end
+
 @interface YTKJsUtils : NSObject
 
 + (nullable NSString *)objToJsonString:(nonnull id)dict;
@@ -21,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nonnull NSArray<NSString *> *)parseNamespace:(nonnull NSString *)method;
 
-+ (NSArray<NSString *> *)allMethodFromClass:(Class)class;
++ (NSArray<YTKMethodInfo *> *)allMethodFromClass:(Class)class;
 
 @end
 

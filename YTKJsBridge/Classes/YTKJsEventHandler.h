@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeListener:(id<YTKJsEventListener>)listener forEvent:(NSString *)event;
 
 /** native发起事件通知给JS */
-- (void)emit:(NSString *)event argument:(nullable id)argument;
+- (void)emit:(NSString *)event argument:(nullable NSArray *)argument;
 
 - (void)setDebugMode:(BOOL)debug;
 

@@ -23,8 +23,8 @@
         } else if ([callId respondsToSelector:@selector(stringValue)]) {
             _callId = [callId stringValue];
         }
-        NSDictionary *args = [dictionary objectForKey:@"args"];
-        if ([args isKindOfClass:[NSDictionary class]]) {
+        NSArray *args = [dictionary objectForKey:@"args"];
+        if ([args isKindOfClass:[NSArray class]]) {
             _args = args;
         }
     }

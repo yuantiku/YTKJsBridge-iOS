@@ -14,27 +14,39 @@ NS_ASSUME_NONNULL_BEGIN
 @interface YTKJsCommandManager : NSObject <YTKJsCommandHandler>
 
 /** 向JS注入命名空间namespace的处理方法类对象数组 */
-- (void)addJsCommandHandlers:(NSArray<id> *)handlers forNamespace:(nullable NSString *)namespace;
+- (void)addJsCommandHandlers:(NSArray<id> *)handlers
+                forNamespace:(nullable NSString *)namespace;
 
-/** 向JS注入同步处理block */
-- (void)addSyncJsCommandName:(NSString *)commandName handler:(YTKSyncCallback)handler;
+/** 向JS注入带有返回值的同步处理block */
+- (void)addSyncJsCommandName:(NSString *)commandName
+                    impBlock:(YTKSyncCallback)impBlock;
 
 - (void)addSyncJsCommandName:(NSString *)commandName
                    namespace:(nullable NSString *)namespace
-                     handler:(YTKSyncCallback)handler;
+                    impBlock:(YTKSyncCallback)impBlock;
+
+/** 向JS注入无返回值的同步处理block */
+- (void)addVoidSyncJsCommandName:(NSString *)commandName
+                        impBlock:(YTKVoidSyncCallback)impBlock;
+
+- (void)addVoidSyncJsCommandName:(NSString *)commandName
+                       namespace:(nullable NSString *)namespace
+                        impBlock:(YTKVoidSyncCallback)impBlock;
 
 /** 向JS注入异步处理block */
-- (void)addAsyncJsCommandName:(NSString *)commandName handler:(YTKAsyncCallback)handler;
+- (void)addAsyncJsCommandName:(NSString *)commandName
+                     impBlock:(YTKAsyncCallback)impBlock;
 
 - (void)addAsyncJsCommandName:(NSString *)commandName
                     namespace:(nullable NSString *)namespace
-                      handler:(YTKAsyncCallback)handler;
+                     impBlock:(YTKAsyncCallback)impBlock;
 
-/** 移除命名空间namespace对应的方法类数组 */
+/** 移除命名空间namespace对应的所有方法 */
 - (void)removeJsCommandHandlerForNamespace:(nullable NSString *)namespace;
 
 /** 移除命名空间namespace下的commandName方法 */
-- (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace;
+- (void)removeJsCommandName:(NSString *)commandName
+                  namespace:(nullable NSString *)namespace;
 
 /** 调用JS方法 */
 - (nullable NSString *)callJsWithDictionary:(NSDictionary *)dictionary;
