@@ -22,9 +22,9 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _syncBlocks = @{}.mutableCopy;
-        _voidSyncBlocks = @{}.mutableCopy;
-        _asyncBlocks = @{}.mutableCopy;
+        _syncBlocks = [NSMutableDictionary dictionary];
+        _voidSyncBlocks = [NSMutableDictionary dictionary];
+        _asyncBlocks = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -42,28 +42,28 @@
 }
 
 - (void)addSyncMethod:(NSString *)method block:(YTKSyncCallback)block {
-    if (NO == [method isKindOfClass:[NSString class]] || nil == block || [block isKindOfClass:[NSNull class]]) {
+    if (![method isKindOfClass:[NSString class]] || !block || [block isKindOfClass:[NSNull class]]) {
         return;
     }
     [self.syncBlocks setObject:block forKey:method];
 }
 
 - (void)addVoidSyncMethod:(NSString *)method block:(YTKVoidSyncCallback)block {
-    if (NO == [method isKindOfClass:[NSString class]] || nil == block || [block isKindOfClass:[NSNull class]]) {
+    if (![method isKindOfClass:[NSString class]] || !block || [block isKindOfClass:[NSNull class]]) {
         return;
     }
     [self.voidSyncBlocks setObject:block forKey:method];
 }
 
 - (void)addAsyncMethod:(NSString *)method block:(YTKAsyncCallback)block {
-    if (NO == [method isKindOfClass:[NSString class]] || nil == block || [block isKindOfClass:[NSNull class]]) {
+    if (![method isKindOfClass:[NSString class]] || !block || [block isKindOfClass:[NSNull class]]) {
         return;
     }
     [self.asyncBlocks setObject:block forKey:method];
 }
 
 - (void)removeMethodForNamespace:(NSString *)namespace {
-    if (NO == [namespace isKindOfClass:[NSString class]]) {
+    if (![namespace isKindOfClass:[NSString class]]) {
         return;
     }
     [self removeMethodForNamespace:namespace inBlocks:self.syncBlocks];
@@ -96,21 +96,21 @@
 }
 
 - (void)removeSyncMethod:(NSString *)method {
-    if (NO == [method isKindOfClass:[NSString class]]) {
+    if (![method isKindOfClass:[NSString class]]) {
         return;
     }
     [self.syncBlocks removeObjectForKey:method];
 }
 
 - (void)removeVoidSyncMethod:(NSString *)method {
-    if (NO == [method isKindOfClass:[NSString class]]) {
+    if (![method isKindOfClass:[NSString class]]) {
         return;
     }
     [self.voidSyncBlocks removeObjectForKey:method];
 }
 
 - (void)removeAsyncMethod:(NSString *)method {
-    if (NO == [method isKindOfClass:[NSString class]]) {
+    if (![method isKindOfClass:[NSString class]]) {
         return;
     }
     [self.asyncBlocks removeObjectForKey:method];
@@ -137,10 +137,11 @@
     if (block) {
         block(argumets, callback);
     } else {
-        if (callback) {
-            NSError *error = [NSError errorWithDomain:@"YTKMethodNotFound" code:0 userInfo:nil];
-            callback(error, nil);
+        if (!callback) {
+            return;
         }
+        NSError *error = [NSError errorWithDomain:@"YTKMethodNotFound" code:0 userInfo:nil];
+        callback(error, nil);
     }
 }
 

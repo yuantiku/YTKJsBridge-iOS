@@ -93,11 +93,10 @@
 
 - (NSString *)callJsCommandName:(NSString *)commandName
                        argument:(NSArray *)argument {
-    if (NO == [commandName isKindOfClass:[NSString class]]) {
+    if (![commandName isKindOfClass:[NSString class]]) {
         return nil;
     }
-
-    NSDictionary *dict = @{@"methodName" : commandName, @"args" : argument, @"callId" : @(self.callId ++)};
+    NSDictionary *dict = @{@"methodName" : commandName, @"args" : argument ?: @[], @"callId" : @(self.callId ++)};
     return [self.manager callJsWithDictionary:dict];
 }
 
@@ -131,13 +130,13 @@
 #pragma mark - Utils
 
 - (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler forCommandName:(NSString *)commandName toContext:(JSContext *)context {
-    if (nil == handler || NO == [commandName isKindOfClass:[NSString class]] || nil == context) {
+    if (!handler || ![commandName isKindOfClass:[NSString class]] || !context) {
         return;
     }
     handler.webView = self.webView;
     __weak typeof(self) weakSelf = self;
     context[commandName] = ^id(JSValue *data) {
-        if (nil == weakSelf) {
+        if (!weakSelf) {
             return nil;
         }
         __strong typeof(self) strongSelf = weakSelf;
@@ -154,13 +153,13 @@
 }
 
 - (void)addJsEventHandler:(id<YTKJsEventHandler>)handler forEvent:(NSString *)event toContext:(JSContext *)context {
-    if (nil == handler || NO == [event isKindOfClass:[NSString class]] || nil == context) {
+    if (!handler || ![event isKindOfClass:[NSString class]] || !context) {
         return;
     }
     handler.webView = self.webView;
     __weak typeof(self) weakSelf = self;
     context[event] = ^(JSValue *data) {
-        if (nil == weakSelf) {
+        if (!weakSelf) {
             return;
         }
         __strong typeof(self) strongSelf = weakSelf;
@@ -185,14 +184,14 @@
 #pragma mark - Getter
 
 - (YTKJsCommandManager *)manager {
-    if (nil == _manager) {
+    if (!_manager) {
         _manager = [YTKJsCommandManager new];
     }
     return _manager;
 }
 
 - (YTKJsEventHandler *)eventHandler {
-    if (nil == _eventHandler) {
+    if (!_eventHandler) {
         _eventHandler = [YTKJsEventHandler new];
     }
     return _eventHandler;

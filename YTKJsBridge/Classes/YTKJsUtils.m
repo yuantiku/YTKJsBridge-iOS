@@ -10,18 +10,6 @@
 
 @implementation YTKMethodInfo
 
-- (id)copyWithZone:(nullable NSZone *)zone {
-    YTKMethodInfo *methodInfo = [[[self class] allocWithZone:zone] init];
-
-    methodInfo.methodName = self.methodName;
-    methodInfo.firstMethodName = self.firstMethodName;
-    methodInfo.returnType = self.returnType;
-    methodInfo.argumentNum = self.argumentNum;
-    methodInfo.lastArgType = self.lastArgType;
-    methodInfo.argTypes = [self.argTypes copyWithZone:zone];
-    return methodInfo;
-}
-
 @end
 
 @implementation YTKJsUtils
@@ -38,13 +26,12 @@
     if (!jsonData) {
         return @"{}";
     } else {
-        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        return jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
-    return jsonString;
 }
 
 + (nullable id)jsonStringToObject:(nonnull NSString *)jsonString {
-    if (jsonString == nil) {
+    if (!jsonString) {
         return nil;
     }
 
@@ -53,7 +40,7 @@
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
-    if(err) {
+    if (err) {
         NSLog(@"json解析失败：%@",err);
         return nil;
     }
@@ -64,30 +51,32 @@
                                selName:(nullable NSString *)selName
                                  class:(nonnull Class)class {
     __block NSString *result = nil;
-    if(class){
-        NSArray<YTKMethodInfo *> *arr = [self allMethodFromClass:class];
-        [arr enumerateObjectsUsingBlock:^(YTKMethodInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSRange range = [obj.methodName rangeOfString:@":"];
-            if (range.length > 0) {
-                NSString *methodName = [obj.methodName substringWithRange:NSMakeRange(0, range.location)];
-                /** method的前面两个参数是self、SEL，因此要减2 */
-                if ([methodName isEqualToString:selName] && obj.argumentNum - 2 == argNum) {
-                    result = obj.methodName;
-                    *stop = YES;
-                }
-            }
-        }];
+    if (!class) {
+        return result;
     }
+    NSArray<YTKMethodInfo *> *arr = [self allMethodFromClass:class];
+    [arr enumerateObjectsUsingBlock:^(YTKMethodInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSRange range = [obj.methodName rangeOfString:@":"];
+        if (range.length <= 0) {
+            return;
+        }
+        NSString *methodName = [obj.methodName substringWithRange:NSMakeRange(0, range.location)];
+        /** method的前面两个参数是self、SEL，因此要减2 */
+        if ([methodName isEqualToString:selName] && obj.argumentNum - 2 == argNum) {
+            result = obj.methodName;
+            *stop = YES;
+        }
+    }];
     return result;
 }
 
 + (nonnull NSArray<NSString *> *)parseNamespace:(nonnull NSString *)method {
-    if (NO == [method isKindOfClass:[NSString class]] || method.length == 0) {
+    if (![method isKindOfClass:[NSString class]] || method.length == 0) {
         return @[@"", @""];
     }
     NSRange range = [method rangeOfString:@"." options:NSBackwardsSearch];
     NSString *namespace = @"";
-    if(range.location != NSNotFound) {
+    if (range.location != NSNotFound) {
         namespace = [method substringToIndex:range.location];
         method = [method substringFromIndex:range.location + 1];
     }
@@ -115,8 +104,8 @@
             methodInfo.argumentNum = num;
             if (num >= 3) {
                 NSMutableArray *argTypes = @[].mutableCopy;
-                for (unsigned int i = 2; i < num ; i ++) {
-                    const char *argumentType = method_copyArgumentType(method[i], i);
+                for (unsigned int j = 2; j < num ; j ++) {
+                    const char *argumentType = method_copyArgumentType(method[i], j);
                     if (argumentType && *argumentType != '\0') {
                         NSString *strArgType = [NSString stringWithUTF8String:argumentType];
                         [argTypes addObject:strArgType];

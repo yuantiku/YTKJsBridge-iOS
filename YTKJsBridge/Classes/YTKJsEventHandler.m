@@ -26,7 +26,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _eventHandlers = @{}.mutableCopy;
+        _eventHandlers = [NSMutableDictionary dictionary];
         _eventListeners = [NSMapTable strongToStrongObjectsMapTable];
     }
     return self;
@@ -41,7 +41,7 @@
 #pragma mark - Public Methods
 
 - (void)listenEvent:(NSString *)event callback:(YTKEventCallback)callback {
-    if (NO == [event isKindOfClass:[NSString class]] || event.length == 0 || nil == callback) {
+    if (![event isKindOfClass:[NSString class]] || event.length == 0 || !callback) {
         return;
     }
 
@@ -49,7 +49,7 @@
 }
 
 - (void)unlistenEvent:(NSString *)event {
-    if (NO == [event isKindOfClass:[NSString class]] || event.length == 0) {
+    if (![event isKindOfClass:[NSString class]] || event.length == 0) {
         return;
     }
 
@@ -57,7 +57,7 @@
 }
 
 - (void)addListener:(id<YTKJsEventListener>)listener forEvent:(NSString *)event {
-    if (NO == [event isKindOfClass:[NSString class]] || event.length == 0 || !listener || NO == [listener conformsToProtocol:@protocol(YTKJsEventListener)]) {
+    if (![event isKindOfClass:[NSString class]] || event.length == 0 || !listener || ![listener conformsToProtocol:@protocol(YTKJsEventListener)]) {
         return;
     }
     NSHashTable *listeners = [self.eventListeners objectForKey:event];
@@ -69,7 +69,7 @@
 }
 
 - (void)removeListener:(id<YTKJsEventListener>)listener forEvent:(NSString *)event {
-    if (NO == [event isKindOfClass:[NSString class]] || event.length == 0 || !listener || NO == [listener conformsToProtocol:@protocol(YTKJsEventListener)]) {
+    if (![event isKindOfClass:[NSString class]] || event.length == 0 || !listener || ![listener conformsToProtocol:@protocol(YTKJsEventListener)]) {
         return;
     }
     NSHashTable *listeners = [self.eventListeners objectForKey:event];
@@ -81,7 +81,7 @@
 }
 
 - (void)emit:(NSString *)event argument:(NSArray *)argument {
-    if (NO == [event isKindOfClass:[NSString class]]) {
+    if (![event isKindOfClass:[NSString class]]) {
         return;
     }
     NSString *json = [YTKJsUtils objToJsonString:@{@"event" : event, @"arg" : argument ?: @[]}];
@@ -99,7 +99,7 @@
 #pragma mark - YTKJsEventHandler
 
 - (void)handleJsEvent:(YTKJsEvent *)event inWebView:(UIWebView *)webView {
-    if (NO == [event.event isKindOfClass:[NSString class]]) {
+    if (![event.event isKindOfClass:[NSString class]]) {
         return;
     }
     if (self.isDebug) {
@@ -114,12 +114,13 @@
     }
     NSHashTable *listeners = [self.eventListeners objectForKey:event.event];
     [listeners.allObjects enumerateObjectsUsingBlock:^(id<YTKJsEventListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj respondsToSelector:@selector(handleJsEventWithArgument:)]) {
-            founded = YES;
-            [obj handleJsEventWithArgument:event.arg];
+        if (![obj respondsToSelector:@selector(handleJsEventWithArgument:)]) {
+            return;
         }
+        founded = YES;
+        [obj handleJsEventWithArgument:event.arg];
     }];
-    if (NO == founded && self.isDebug) {
+    if (!founded && self.isDebug) {
         NSString *error = [NSString stringWithFormat:@"Error! \n event %@ is not invoked, since there is not a handler for it",event.event];
         NSLog(@"%@", error);
     }

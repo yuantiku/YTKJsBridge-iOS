@@ -11,34 +11,9 @@
 #import "YTKJsUtils.h"
 #import <objc/message.h>
 
-@interface YTKCommandInfo : NSObject <NSCopying>
-
-@property (nonatomic, copy) NSString *commandName; /** 格式namespace.methodName */
-
-@property (nonatomic, copy) NSArray<NSString *> *argTypes; /** 参数类型编码数组 */
-
-@property (nonatomic, copy) NSString *returnType; /** 返回值类型编码 */
-
-@end
-
-@implementation YTKCommandInfo
-
-- (id)copyWithZone:(nullable NSZone *)zone {
-    YTKCommandInfo *command = [[[self class] allocWithZone:zone] init];
-
-    command.commandName = self.commandName;
-    command.argTypes = [self.argTypes copyWithZone:zone];
-    command.returnType = self.returnType;
-    return command;
-}
-
-@end
-
 @interface YTKJsCommandManager ()
 
-@property (nonatomic, strong) NSMutableDictionary<YTKCommandInfo *, id> *handlers;
-
-@property (nonatomic, strong) NSMutableArray *objects;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSArray *> *namespaceHandlers;
 
 @property (nonatomic, strong) YTKBlockHandler *blockHandler;
 
@@ -55,8 +30,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _handlers = @{}.mutableCopy;
-        _objects = @[].mutableCopy;
+        _namespaceHandlers = [NSMutableDictionary dictionary];
         _jsCache = @"";
         _isDebug = NO;
         _blockHandler = [YTKBlockHandler new];
@@ -65,37 +39,33 @@
 }
 
 - (void)dealloc {
-    if (self.isDebug) {
-        NSLog(@"%@ %@", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
+    if (!self.isDebug) {
+        return;
     }
+    NSLog(@"%@ %@", NSStringFromClass(self.class), NSStringFromSelector(_cmd));
 }
 
 #pragma mark - Public Methods
 
 - (void)addJsCommandHandlers:(NSArray<id> *)handlers forNamespace:(nullable NSString *)namespace {
-    if (NO == [handlers isKindOfClass:NSArray.class] || handlers.count == 0) {
-        if (self.isDebug) {
-            NSLog(@"ERROR, invalid add parameter");
+    if (![handlers isKindOfClass:NSArray.class] || handlers.count == 0) {
+        if (!self.isDebug) {
+            return;
         }
+        NSLog(@"ERROR, invalid add parameter");
         return;
     }
-
-    [self.objects addObjectsFromArray:handlers];
-    [handlers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSArray<YTKMethodInfo *> *methodInfos = [YTKJsUtils allMethodFromClass:[obj class]];
-        [methodInfos enumerateObjectsUsingBlock:^(YTKMethodInfo * _Nonnull method, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (method.argumentNum < 2) {
-                return;
-            }
-            SEL sel = NSSelectorFromString(method.methodName);
-            NSInvocation *invocation = [self invocationWithObj:obj sel:sel];
-            [self addJsCommandName:method.firstMethodName
-                          argTypes:method.argTypes
-                        returnType:method.returnType
-                         namespace:namespace
-                        invocation:invocation];
-        }];
-    }];
+    if (![namespace isKindOfClass:[NSString class]]) {
+        namespace = @"";
+    }
+    NSArray *arr = [self.namespaceHandlers objectForKey:namespace];
+    if (arr) {
+        NSMutableArray *mArr = arr.mutableCopy;
+        [mArr addObjectsFromArray:handlers];
+        [self.namespaceHandlers setObject:mArr.copy forKey:namespace];
+    } else {
+        [self.namespaceHandlers setObject:handlers forKey:namespace];
+    }
 }
 
 - (void)addSyncJsCommandName:(NSString *)commandName impBlock:(YTKSyncCallback)impBlock {
@@ -141,42 +111,28 @@
 }
 
 - (void)removeJsCommandHandlerForNamespace:(nullable NSString *)namespace {
-    if (namespace == nil) {
+    if (![namespace isKindOfClass:[NSString class]]) {
         namespace = @"";
     }
 
-    NSDictionary<YTKCommandInfo *, id> *handlers = [self.handlers copy];
-    [handlers enumerateKeysAndObjectsUsingBlock:^(YTKCommandInfo * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSArray *arr = [YTKJsUtils parseNamespace:key.commandName];
-        NSString *namespace = arr.firstObject;
-        if ([namespace isKindOfClass:[NSString class]] && [namespace isEqualToString:namespace]) {
-            [self.handlers removeObjectForKey:key];
-        }
-    }];
+    [self.namespaceHandlers removeObjectForKey:namespace];
     [self.blockHandler removeMethodForNamespace:namespace];
 }
 
 - (void)removeJsCommandName:(NSString *)commandName namespace:(NSString *)namespace {
-    if (NO == [commandName isKindOfClass:[NSString class]] || commandName.length == 0) {
+    if (![commandName isKindOfClass:[NSString class]] || commandName.length == 0) {
         return;
     }
     NSString *name = commandName;
     if ([namespace isKindOfClass:[NSString class]] && namespace.length > 0) {
         name = [NSString stringWithFormat:@"%@.%@", namespace, commandName];
     }
-
-    NSDictionary<YTKCommandInfo *, id> *handlers = [self.handlers copy];
-    [handlers enumerateKeysAndObjectsUsingBlock:^(YTKCommandInfo * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([key.commandName isEqualToString:name]) {
-            [self.handlers removeObjectForKey:key];
-        }
-    }];
     // remove block handler
     [self.blockHandler removeMethod:name];
 }
 
 - (NSString *)callJsWithDictionary:(NSDictionary *)dictionary {
-    if (self.webView == nil || NO == [dictionary isKindOfClass:[NSDictionary class]]) {
+    if (!self.webView || ![dictionary isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
     NSString *json = [YTKJsUtils objToJsonString:dictionary];
@@ -194,7 +150,7 @@
 #pragma mark - YTKJsCommandHandler
 
 - (NSDictionary *)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
-    if (NO == [command.methodName isKindOfClass:[NSString class]] || [command.methodName isEqualToString:@"makeCallback"]) {
+    if (![command.methodName isKindOfClass:[NSString class]] || [command.methodName isEqualToString:@"makeCallback"]) {
         return nil;
     }
     __weak typeof(self)weakSelf = self;
@@ -203,70 +159,67 @@
 
 #pragma mark - Utils
 
+- (void)invocationWithMethodName:(NSString *)methodName
+                       namespace:(NSString *)namespace
+                        argTypes:(NSArray *)argTypes
+                      completion:(void(^)(NSInvocation *, YTKMethodInfo *))completion {
+    if (![methodName isKindOfClass:[NSString class]]) {
+        if (completion) {
+            completion(nil, nil);
+        }
+        return;
+    }
+    if (![namespace isKindOfClass:[NSString class]]) {
+        namespace = @"";
+    }
+    __block NSInvocation *invocation = nil;
+    __block YTKMethodInfo *targetMethod = nil;
+    NSArray *handlers = [self.namespaceHandlers objectForKey:namespace];
+    [handlers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSArray<YTKMethodInfo *> *methods = [YTKJsUtils allMethodFromClass:[obj class]];
+        [methods enumerateObjectsUsingBlock:^(YTKMethodInfo * _Nonnull method, NSUInteger methodIdx, BOOL * _Nonnull methodStop) {
+            /** 检查方法名与参数个数 */
+            if (![methodName isEqualToString:method.firstMethodName] || method.argTypes.count != argTypes.count) {
+                return;
+            }
+            __block BOOL argMatched = YES;
+            /** 检查参数类型 */
+            [method.argTypes enumerateObjectsUsingBlock:^(NSString * _Nonnull argType, NSUInteger argIdx, BOOL * _Nonnull argStop) {
+                if (![argType isEqualToString:argTypes[argIdx]]) {
+                    argMatched = NO;
+                    *argStop = YES;
+                }
+            }];
+            if (!argMatched) {
+                return;
+            }
+            targetMethod = method;
+            *methodStop = YES;
+        }];
+        if (!targetMethod) {
+            return;
+        }
+        SEL sel = NSSelectorFromString(targetMethod.methodName);
+        invocation = [self invocationWithObj:obj sel:sel];
+        *stop = YES;
+    }];
+    if (completion) {
+        completion(invocation, targetMethod);
+    }
+}
+
 - (NSInvocation *)invocationWithObj:(id)obj sel:(SEL)sel {
+    if (self.isDebug) {
+        NSLog(@"###### performInvocation to obj: %@, sel: %@", [obj class], NSStringFromSelector(sel));
+    }
+    if (!obj) {
+        return nil;
+    }
     NSMethodSignature *signature = [obj methodSignatureForSelector:sel];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
     [invocation setTarget:obj];
     [invocation setSelector:sel];
-
     return invocation;
-}
-
-- (void)addJsCommandName:(NSString *)commandName
-                argTypes:(NSArray *)argTypes
-              returnType:(NSString *)returnType
-              invocation:(NSInvocation *)invocation {
-    [self addJsCommandName:commandName
-                  argTypes:argTypes
-                returnType:returnType
-                 namespace:nil
-                invocation:invocation];
-}
-
-- (void)addJsCommandName:(NSString *)commandName
-                argTypes:(NSArray *)argTypes
-              returnType:(NSString *)returnType
-               namespace:(NSString *)namespace
-              invocation:(NSInvocation *)invocation {
-    if (NO == [commandName isKindOfClass:[NSString class]] || commandName.length == 0 || nil == invocation || [invocation isKindOfClass:[NSNull class]]) {
-        return;
-    }
-    NSString *name = commandName;
-    if ([namespace isKindOfClass:[NSString class]] && namespace.length > 0) {
-        name = [NSString stringWithFormat:@"%@.%@", namespace, commandName];
-    }
-
-    YTKCommandInfo *command = [YTKCommandInfo new];
-    command.commandName = name;
-    command.argTypes = argTypes;
-    command.returnType = returnType;
-    [self.handlers setObject:invocation forKey:command];
-}
-
-- (YTKCommandInfo *)commandInfoWithCommandName:(NSString *)commandName argTypes:(NSArray *)argTypes {
-    if (NO == [commandName isKindOfClass:[NSString class]] || commandName.length <= 0) {
-        return nil;
-    }
-    __block YTKCommandInfo *commandInfo = nil;
-    [self.handlers enumerateKeysAndObjectsUsingBlock:^(YTKCommandInfo * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        /** 检查方法名与参数个数 */
-        if (NO == [key.commandName isEqualToString:commandName] || key.argTypes.count != argTypes.count) {
-            return;
-        }
-        __block BOOL argMatched = YES;
-        /** 检查参数类型 */
-        [key.argTypes enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull argStop) {
-            if (NO == [obj isEqualToString:argTypes[idx]]) {
-                argMatched = NO;
-                *argStop = YES;
-            }
-        }];
-        if (argMatched) {
-            commandInfo = key;
-            *stop = YES;
-        }
-    }];
-    return commandInfo;
 }
 
 - (NSDictionary *)callCommand:(YTKJsCommand *)command {
@@ -274,29 +227,31 @@
         NSLog(@"### receive methodName:%@, args:%@, callId:%@", command.methodName, command.args, command.callId);
     }
     NSString *commandName = command.methodName;
+    NSString *namespace = [YTKJsUtils parseNamespace:commandName].firstObject;
     NSArray *args = command.args;
     NSString *callId = command.callId;
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:@{@"code" : @-1, @"ret" : @""}];
     NSString *error = [NSString stringWithFormat:@"Error! \n Method %@ is not invoked, since there is not a implementation for it",commandName];
-    if (NO == [args isKindOfClass:[NSArray class]] || args == nil) {
+    if (![args isKindOfClass:[NSArray class]] || !args) {
         args = @[];
     }
 
-    NSMutableArray *argTypes = @[].mutableCopy;
+    NSMutableArray *argTypes = [NSMutableArray array];
     [args enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         /** 暂时认为从js传过来的参数数组里面，都是对象类型 */
+        // TODO: 后续考虑根据obj来获取类型编码
         [argTypes addObject:@"@"];
     }];
-    BOOL isAsync = callId && NO == [callId isEqualToString:@"-1"];
-    BOOL founded = NO;
+    BOOL isAsync = callId && ![callId isEqualToString:@"-1"];
+    __block BOOL founded = NO;
     if (isAsync) {
-        [argTypes addObject:@"@"];
+        [argTypes addObject:@"@?"]; /** 如果是异步，增加block参数类型编码 */
         /** async call */
         __weak typeof(self) weakSelf = self;
 
         YTKDataCallback completionHandler = ^(NSError *error, id value) {
             [result setObject:@0 forKey:@"code"];
-            if (value != nil) {
+            if (value) {
                 [result setObject:value forKey:@"ret"];
             }
             NSMutableDictionary *dict = result.mutableCopy;
@@ -308,9 +263,7 @@
         };
         [completionHandler copy];
 
-        YTKCommandInfo *commandInfo = [self commandInfoWithCommandName:commandName argTypes:argTypes];
-        if (commandInfo) {
-            NSInvocation *invocation = [self.handlers objectForKey:commandInfo];
+        [self invocationWithMethodName:commandName namespace:namespace argTypes:argTypes completion:^(NSInvocation *invocation, YTKMethodInfo *method) {
             if (invocation) {
                 founded = YES;
                 [args enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -318,52 +271,51 @@
                 }];
                 [invocation setArgument:&completionHandler atIndex:args.count+2];
                 [invocation invoke];
+            } else {
+                if ([self.blockHandler canHandleAsyncMethod:commandName]) {
+                    founded = YES;
+                    [self.blockHandler performAsyncMethod:commandName arguments:args callback:completionHandler];
+                }
             }
-        }
-        if (founded == NO) {
-            if ([self.blockHandler canHandleAsyncMethod:commandName]) {
-                founded = YES;
-                [self.blockHandler performAsyncMethod:commandName arguments:args callback:completionHandler];
-            }
-        }
+        }];
     } else {
         /** sync call */
-        YTKCommandInfo *commandInfo = [self commandInfoWithCommandName:commandName argTypes:argTypes];
-        if (commandInfo) {
-            BOOL hasReturnValue = ![commandInfo.returnType isEqualToString:@"v"];
-            NSInvocation *invocation = [self.handlers objectForKey:commandInfo];
+        [self invocationWithMethodName:commandName namespace:namespace argTypes:argTypes completion:^(NSInvocation *invocation, YTKMethodInfo *method) {
             if (invocation) {
+                BOOL hasReturnValue = ![method.returnType isEqualToString:@"v"];
                 founded = YES;
                 [args enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     [invocation setArgument:&obj atIndex:idx+2];
                 }];
                 [invocation invoke];
+                if (!hasReturnValue) {
+                    return;
+                }
                 void *tempRet = NULL;
-                if (hasReturnValue) {
-                    [invocation getReturnValue:&tempRet];
-                    if (tempRet) {
-                        id ret = (__bridge id)tempRet;
-                        [result setValue:ret forKey:@"ret"];
+                [invocation getReturnValue:&tempRet];
+                if (!tempRet) {
+                    return;
+                }
+                id ret = (__bridge id)tempRet;
+                [result setValue:ret forKey:@"ret"];
+            } else {
+                if ([self.blockHandler canHandleSyncMethod:commandName]) {
+                    founded = YES;
+                    id ret = [self.blockHandler performSyncMethod:commandName argments:args];
+                    if (!ret) {
+                        return;
                     }
-                }
-            }
-        }
-        if (NO == founded) {
-            if ([self.blockHandler canHandleSyncMethod:commandName]) {
-                founded = YES;
-                id ret = [self.blockHandler performSyncMethod:commandName argments:args];
-                if (ret) {
                     [result setValue:ret forKey:@"ret"];
+                } else if ([self.blockHandler canHandleVoidSyncMethod:commandName]) {
+                    founded = YES;
+                    [self.blockHandler performVoidSyncMethod:commandName arguments:args];
                 }
-            } else if ([self.blockHandler canHandleVoidSyncMethod:commandName]) {
-                founded = YES;
-                [self.blockHandler performVoidSyncMethod:commandName arguments:args];
             }
-        }
+        }];
     }
 
     [result setObject:callId ?: @"" forKey:@"callId"];
-    if (NO == founded) {
+    if (!founded) {
         [result setObject:error forKey:@"message"];
         NSString *js = error;
         if (self.isDebug) {
@@ -384,13 +336,14 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         @synchronized (self) {
             self.jsCache = [self.jsCache stringByAppendingString:js];
-            if ([self.jsCache length] != 0) {
-                [self.webView stringByEvaluatingJavaScriptFromString:self.jsCache];
-                if (self.isDebug) {
-                    NSLog(@"### send callback JS: %@", self.jsCache);
-                }
-                self.jsCache = @"";
+            if ([self.jsCache length] == 0) {
+                return;
             }
+            if (self.isDebug) {
+                NSLog(@"### send callback JS: %@", self.jsCache);
+            }
+            [self.webView stringByEvaluatingJavaScriptFromString:self.jsCache];
+            self.jsCache = @"";
         }
     });
 }

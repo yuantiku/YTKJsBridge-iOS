@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YTKMethodInfo : NSObject <NSCopying>
+@interface YTKMethodInfo : NSObject
 
 @property (nonatomic, copy) NSString *methodName;
 
