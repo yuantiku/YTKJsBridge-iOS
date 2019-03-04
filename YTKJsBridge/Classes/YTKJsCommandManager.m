@@ -269,7 +269,7 @@
                 [args enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     [invocation setArgument:&obj atIndex:idx+2];
                 }];
-                [invocation setArgument:&completionHandler atIndex:args.count+2];
+                [invocation setArgument:(void *)&completionHandler atIndex:args.count+2];
                 [invocation invoke];
             } else {
                 if ([self.blockHandler canHandleAsyncMethod:commandName]) {
