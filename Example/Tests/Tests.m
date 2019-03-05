@@ -6,9 +6,17 @@
 //  Copyright (c) 2018 lihc. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+#import "YTKJsBridge.h"
+#import "YTKAlertHandler.h"
+
 @import XCTest;
 
 @interface Tests : XCTestCase
+
+@property (nonatomic, strong) UIWebView *webView;
+
+@property (nonatomic, strong) YTKJsBridge *bridge;
 
 @end
 
@@ -28,7 +36,26 @@
 
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    [self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
+    NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
+                                             withExtension:@"htm"];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
+    XCTAssertTrue(true);
+}
+
+- (UIWebView *)webView {
+    if (nil == _webView) {
+        _webView = [UIWebView new];
+    }
+    return _webView;
+}
+
+- (YTKJsBridge *)bridge {
+    if (nil == _bridge) {
+        _bridge = [[YTKJsBridge alloc] initWithWebView:self.webView];
+        [_bridge setDebugMode:YES];
+    }
+    return _bridge;
 }
 
 @end
