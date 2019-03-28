@@ -7,127 +7,177 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10FBF4F2791E62A4C58EB587A7E68D6E /* Pods-YTKJsBridge_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 08CF40AAA980398142F94FECB5CB5C5A /* Pods-YTKJsBridge_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B795161A31FDAB3EBFB7CFA25812985 /* Pods-YTKJsBridge_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DAA9AACB464EEA97CAB2CF3CB9896A /* Pods-YTKJsBridge_Tests-dummy.m */; };
-		232A390A162806D3C9163E6C61D17285 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		2AD4960A23B69936DFFCE836E800C1A5 /* YTKJsBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E997760406C79D6D873CD75B21BB86B /* YTKJsBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3A4D4E3C875BE008B502C0625CC7F7C9 /* YTKJsCommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D625C535FBB604FE4485A5E338826 /* YTKJsCommandManager.m */; };
-		3EF5F2FB49C7FC0AB39A632193C523EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		411C5D77863FEE22C84F2E6063D1035C /* YTKJsCommandManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D7FB73DF3D3ABBCC46C37609951A8995 /* YTKJsCommandManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50206FAF7674218D5E8AB095C117BD6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		5A3E54A93FCF77652C446BC160F8358B /* YTKJsBridge-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B52BDD26BA9C8375BF56494D2D8873 /* YTKJsBridge-dummy.m */; };
-		5AFE47BB8A8C70FF6361ED040375419E /* YTKJsBridge-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 02955B53C3E78977CC69F5522B3431DE /* YTKJsBridge-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7C719D886BE0521CE7C28A7BDC5F6834 /* UIWebView+JavaScriptContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E472EDEE05EAA2C5DD3D413EA0A6C0 /* UIWebView+JavaScriptContext.m */; };
-		8C260979BDFA10D09A0207BCC4E57D76 /* YTKJsCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = FCA5F706E603E7C5E14182806F8641A5 /* YTKJsCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A89618ADA1453671D79B141D6E74A0E2 /* YTKJsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAD278CCF0088510D78957897256319 /* YTKJsBridge.m */; };
-		C9A5288D490FEEAB08B20A3D7A07EE30 /* YTKJsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = FB18A4F71DC91484DB287FBF0A00D469 /* YTKJsCommand.m */; };
-		CE0A000FEA9AC0B45EEFD1CEB1FC1BA4 /* Pods-YTKJsBridge_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E8F0B8F6828D690336FAA2B9DAE6D5 /* Pods-YTKJsBridge_Example-dummy.m */; };
-		DE45762CC105730C5481C40CB6A2240C /* YTKJsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AAE4C51CC2102E70D1B57CB43CE4AB /* YTKJsUtils.m */; };
-		DFA72D823356E567B0E436234B527585 /* YTKJsCommandHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = E4C92B3E313C81709F81A5F51B39621D /* YTKJsCommandHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E12E375FA450D3E2105EF5D64D2008EC /* YTKJsUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CB31B52A8696E8ABF0965C8F16899268 /* YTKJsUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E7006B82724A4B200D1FC61D78EE19A9 /* Pods-YTKJsBridge_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE3C01C3B8309057AE50A02A39829F73 /* Pods-YTKJsBridge_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F49E0019257E98CCF3B1F8F6D9D69492 /* UIWebView+JavaScriptContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 68301A418C95159737BED3AE550F5D1F /* UIWebView+JavaScriptContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0B1E6241994B473FBF58DFCDF57871FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6DFF15000AFE2A371BF499E7AFDA808 /* Foundation.framework */; };
+		1528E66D2BAAE9F7F6DCC3292FFD59B9 /* YTKJsBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 368A4523ADCBDF13CBB0FD9B955478EC /* YTKJsBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		164E3F608AE040321B9C29E8AAFD9588 /* Pods-YTKJsBridge_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE3C01C3B8309057AE50A02A39829F73 /* Pods-YTKJsBridge_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		350CBC81908162C92A2DDA81175AB5A6 /* YTKJsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B223B865E0EA9B1F4ADDBD4D1EB7AD6 /* YTKJsUtils.m */; };
+		388CB1EC9C1BA69B59C7CD8F74839A1E /* YTKJsCommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3302C3B226420E81B21DF7A998922F3 /* YTKJsCommandManager.m */; };
+		3961EE1BD46B231E05599EE04DAD5569 /* YTKJsEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F6C1BD0096A522FB5B0AB5D394C7C477 /* YTKJsEventHandler.m */; };
+		4E23E4B440AB62A88C99733CFF9FF475 /* YTKBlockHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F28A5EF43854509E66D89C0A3B7A085 /* YTKBlockHandler.m */; };
+		66F778492B686537F9752BDEF4ACF4A3 /* YTKJsBlockHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = CA984AAC712DE45D64D815715E6155DF /* YTKJsBlockHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F09D70D15B9EF0152F160D86E03BD81 /* Pods-YTKJsBridge_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DAA9AACB464EEA97CAB2CF3CB9896A /* Pods-YTKJsBridge_Tests-dummy.m */; };
+		7DB4E5737E778E395058691920D59293 /* YTKJsEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 64FF266761DFB83AEF3D6379C3358169 /* YTKJsEventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		833457DF533059F9D7BE11BCCCDDAF32 /* YTKJsUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C92936F14BDF9D55D05DD34F1EC7DBD /* YTKJsUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8A38F534F91FFDAE9F21CB0F047A3759 /* Pods-YTKJsBridge_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E8F0B8F6828D690336FAA2B9DAE6D5 /* Pods-YTKJsBridge_Example-dummy.m */; };
+		8FDE25694EC5CC02C75BA1F3CB613F5C /* YTKJsCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = D716E4E0E00A965D56CB64D79D2B41DA /* YTKJsCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A31258E33AD8A6CA06CD9F4D36D254AD /* UIWebView+JavaScriptContext.h in Headers */ = {isa = PBXBuildFile; fileRef = EABACB54096B84536ECA5195A530C93D /* UIWebView+JavaScriptContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C2C7B3A290EF1B808089EA34A9B3F7C3 /* YTKBlockHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B0E651FE37C692FB29ABC60831A48E21 /* YTKBlockHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C755A1D36E4AFF79B75EF1E88E78E2E3 /* Pods-YTKJsBridge_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 08CF40AAA980398142F94FECB5CB5C5A /* Pods-YTKJsBridge_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D071A11FD751B8CF79FD663323392708 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6DFF15000AFE2A371BF499E7AFDA808 /* Foundation.framework */; };
+		D2E6CD07EE39BF9C081DE6CF623F3BF4 /* YTKJsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = EC677041468596F84472AA5759430D76 /* YTKJsBridge.m */; };
+		D564AB29DE49C1FD278B82C07717B249 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6DFF15000AFE2A371BF499E7AFDA808 /* Foundation.framework */; };
+		E19BC4356D10787C9522C18757C4A9A3 /* YTKJsBridge-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A117256AA5A8CA0F4CC714668B4113D0 /* YTKJsBridge-dummy.m */; };
+		EA94C6F0EA507BE43A0D7E67738677AD /* YTKJsCommandManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 423D624D7846F14BB16928B1E559DDDC /* YTKJsCommandManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB5BC2C179251D591413FA8E9557A08E /* YTKJsBridge-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D1F8C9711393A5ACEECF86F1861DC81 /* YTKJsBridge-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EF8CF4ACACD45D8AC437F13ADAD848AB /* YTKJsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF45C8ACBF5931E94312ED3D53BC51 /* YTKJsCommand.m */; };
+		F979842994710540A6AF1F8E7E3D8487 /* YTKJsCommandHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AFF50E3BF286754713F6B47FFD7FA01 /* YTKJsCommandHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDF21F729D0EDB81EB04F1D053CA1238 /* UIWebView+JavaScriptContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E83958C4BCBA2BDA80E150D0FF0BC134 /* UIWebView+JavaScriptContext.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B21DD565803664E7C1E8811DC7977447 /* PBXContainerItemProxy */ = {
+		046F7D1E679038DCACC2B0344093FAD6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 38D4A916BA19D9558A65B937F49805F9;
-			remoteInfo = "Pods-YTKJsBridge_Example";
+			remoteGlobalIDString = 4C9DFC3F3BEC43F9E53CE63A2EB76118;
+			remoteInfo = YTKJsBridge;
 		};
-		E7A9B9728F9D4CE5741DB6A3184E929A /* PBXContainerItemProxy */ = {
+		BC738068F9965FA8F767BA10E0ACD5BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 6971E15C12CC957FD36211C0106D1192;
+			remoteGlobalIDString = 4C9DFC3F3BEC43F9E53CE63A2EB76118;
 			remoteInfo = YTKJsBridge;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		02955B53C3E78977CC69F5522B3431DE /* YTKJsBridge-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTKJsBridge-umbrella.h"; sourceTree = "<group>"; };
-		03AAE4C51CC2102E70D1B57CB43CE4AB /* YTKJsUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsUtils.m; path = YTKJsBridge/Classes/YTKJsUtils.m; sourceTree = "<group>"; };
 		08CF40AAA980398142F94FECB5CB5C5A /* Pods-YTKJsBridge_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-YTKJsBridge_Example-umbrella.h"; sourceTree = "<group>"; };
 		09D247AC8AA525FA6ABB9774203BD939 /* YTKJsBridge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = YTKJsBridge.framework; path = YTKJsBridge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0C1D625C535FBB604FE4485A5E338826 /* YTKJsCommandManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsCommandManager.m; path = YTKJsBridge/Classes/YTKJsCommandManager.m; sourceTree = "<group>"; };
-		0CAD278CCF0088510D78957897256319 /* YTKJsBridge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsBridge.m; path = YTKJsBridge/Classes/YTKJsBridge.m; sourceTree = "<group>"; };
 		0F0897795B15B5A3D347F38F32E912B6 /* Pods-YTKJsBridge_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YTKJsBridge_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		1758DE632E788EC57015229DFE6255EC /* YTKJsBridge.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = YTKJsBridge.modulemap; sourceTree = "<group>"; };
-		1E997760406C79D6D873CD75B21BB86B /* YTKJsBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsBridge.h; path = YTKJsBridge/Classes/YTKJsBridge.h; sourceTree = "<group>"; };
-		27E472EDEE05EAA2C5DD3D413EA0A6C0 /* UIWebView+JavaScriptContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+JavaScriptContext.m"; path = "YTKJsBridge/Classes/UIWebView+JavaScriptContext.m"; sourceTree = "<group>"; };
+		1C208F14E555E8E098257462AEB6D2E5 /* YTKJsBridge.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = YTKJsBridge.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		2AFF50E3BF286754713F6B47FFD7FA01 /* YTKJsCommandHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommandHandler.h; path = YTKJsBridge/Classes/YTKJsCommandHandler.h; sourceTree = "<group>"; };
+		2C92936F14BDF9D55D05DD34F1EC7DBD /* YTKJsUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsUtils.h; path = YTKJsBridge/Classes/YTKJsUtils.h; sourceTree = "<group>"; };
 		2CF2194C4248F55A32FD8923606A30D0 /* Pods-YTKJsBridge_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-YTKJsBridge_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		368A4523ADCBDF13CBB0FD9B955478EC /* YTKJsBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsBridge.h; path = YTKJsBridge/Classes/YTKJsBridge.h; sourceTree = "<group>"; };
+		3F28A5EF43854509E66D89C0A3B7A085 /* YTKBlockHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKBlockHandler.m; path = YTKJsBridge/Classes/YTKBlockHandler.m; sourceTree = "<group>"; };
 		40D4043E83970C43FF4C7B06CE978A5E /* Pods-YTKJsBridge_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-YTKJsBridge_Example-acknowledgements.plist"; sourceTree = "<group>"; };
+		423D624D7846F14BB16928B1E559DDDC /* YTKJsCommandManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommandManager.h; path = YTKJsBridge/Classes/YTKJsCommandManager.h; sourceTree = "<group>"; };
 		43DA1B0BAB10D33AAAD7E8A1195EEB26 /* Pods-YTKJsBridge_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YTKJsBridge_Tests-frameworks.sh"; sourceTree = "<group>"; };
+		4649F10A8B087A126463345D915724A8 /* YTKJsBridge.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YTKJsBridge.xcconfig; sourceTree = "<group>"; };
 		4DC435A1438BFE5B08AE9CBC6E6DA7CD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56E3C512A407D0AC8D8DA830C1AA7452 /* Pods_YTKJsBridge_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_YTKJsBridge_Tests.framework; path = "Pods-YTKJsBridge_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		68301A418C95159737BED3AE550F5D1F /* UIWebView+JavaScriptContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIWebView+JavaScriptContext.h"; path = "YTKJsBridge/Classes/UIWebView+JavaScriptContext.h"; sourceTree = "<group>"; };
-		7BCA5579DF431B0AB7FBA71A4FA79F57 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		5B223B865E0EA9B1F4ADDBD4D1EB7AD6 /* YTKJsUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsUtils.m; path = YTKJsBridge/Classes/YTKJsUtils.m; sourceTree = "<group>"; };
+		64FF266761DFB83AEF3D6379C3358169 /* YTKJsEventHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsEventHandler.h; path = YTKJsBridge/Classes/YTKJsEventHandler.h; sourceTree = "<group>"; };
 		9033B4528C2A23B6A168A5932D9E789F /* Pods-YTKJsBridge_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YTKJsBridge_Tests-resources.sh"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93BC2058C0176017187BB41D2FD435A7 /* Pods-YTKJsBridge_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-YTKJsBridge_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		9C0BBF2687D1FFADFF3FAA26608862A6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D1F8C9711393A5ACEECF86F1861DC81 /* YTKJsBridge-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTKJsBridge-umbrella.h"; sourceTree = "<group>"; };
+		A117256AA5A8CA0F4CC714668B4113D0 /* YTKJsBridge-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YTKJsBridge-dummy.m"; sourceTree = "<group>"; };
+		A3302C3B226420E81B21DF7A998922F3 /* YTKJsCommandManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsCommandManager.m; path = YTKJsBridge/Classes/YTKJsCommandManager.m; sourceTree = "<group>"; };
 		AA8700E639C04143C6B016FE9DB1AA1E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BB4932DE95089196806DE55CE2F0FFA4 /* YTKJsBridge.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YTKJsBridge.xcconfig; sourceTree = "<group>"; };
+		B0E651FE37C692FB29ABC60831A48E21 /* YTKBlockHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKBlockHandler.h; path = YTKJsBridge/Classes/YTKBlockHandler.h; sourceTree = "<group>"; };
 		C7F55F47DC2D151373AA47D3F3E8EB78 /* Pods-YTKJsBridge_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-YTKJsBridge_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C7F8ECA4B989BDC9084C4C46AADA7AEF /* Pods_YTKJsBridge_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_YTKJsBridge_Example.framework; path = "Pods-YTKJsBridge_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C91E21BA795A59BD6B12764E64EF0535 /* Pods-YTKJsBridge_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-YTKJsBridge_Tests.modulemap"; sourceTree = "<group>"; };
-		C9E1E4AAEA3A58676CF51CAC07312BC0 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		CB31B52A8696E8ABF0965C8F16899268 /* YTKJsUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsUtils.h; path = YTKJsBridge/Classes/YTKJsUtils.h; sourceTree = "<group>"; };
+		CA984AAC712DE45D64D815715E6155DF /* YTKJsBlockHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsBlockHeader.h; path = YTKJsBridge/Classes/YTKJsBlockHeader.h; sourceTree = "<group>"; };
+		CCBA1E0E8D65833FE2B666DBA100C4F4 /* YTKJsBridge-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTKJsBridge-prefix.pch"; sourceTree = "<group>"; };
 		CF2A0729FB31D6ECEF8937E17B1ED407 /* Pods-YTKJsBridge_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YTKJsBridge_Example.release.xcconfig"; sourceTree = "<group>"; };
 		D0DAA9AACB464EEA97CAB2CF3CB9896A /* Pods-YTKJsBridge_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-YTKJsBridge_Tests-dummy.m"; sourceTree = "<group>"; };
 		D1E58080EF1CFAE9984428A4CEB38FBE /* Pods-YTKJsBridge_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YTKJsBridge_Example-resources.sh"; sourceTree = "<group>"; };
-		D49FF9CCFFAA573BBC431F0816FCE4A5 /* YTKJsBridge-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YTKJsBridge-prefix.pch"; sourceTree = "<group>"; };
 		D67222DA4687FC280E71D11FFFD7BEA6 /* Pods-YTKJsBridge_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-YTKJsBridge_Example.modulemap"; sourceTree = "<group>"; };
-		D7FB73DF3D3ABBCC46C37609951A8995 /* YTKJsCommandManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommandManager.h; path = YTKJsBridge/Classes/YTKJsCommandManager.h; sourceTree = "<group>"; };
+		D6B3B7E4695599AC9A15824465BCF9F5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		D6DFF15000AFE2A371BF499E7AFDA808 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		D716E4E0E00A965D56CB64D79D2B41DA /* YTKJsCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommand.h; path = YTKJsBridge/Classes/YTKJsCommand.h; sourceTree = "<group>"; };
 		DE3C01C3B8309057AE50A02A39829F73 /* Pods-YTKJsBridge_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-YTKJsBridge_Tests-umbrella.h"; sourceTree = "<group>"; };
-		E30EC9034FD75F1F4914BDE02F987E4C /* YTKJsBridge.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = YTKJsBridge.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		E4C92B3E313C81709F81A5F51B39621D /* YTKJsCommandHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommandHandler.h; path = YTKJsBridge/Classes/YTKJsCommandHandler.h; sourceTree = "<group>"; };
 		E7E8F0B8F6828D690336FAA2B9DAE6D5 /* Pods-YTKJsBridge_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-YTKJsBridge_Example-dummy.m"; sourceTree = "<group>"; };
+		E83958C4BCBA2BDA80E150D0FF0BC134 /* UIWebView+JavaScriptContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+JavaScriptContext.m"; path = "YTKJsBridge/Classes/UIWebView+JavaScriptContext.m"; sourceTree = "<group>"; };
+		E9CF45C8ACBF5931E94312ED3D53BC51 /* YTKJsCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsCommand.m; path = YTKJsBridge/Classes/YTKJsCommand.m; sourceTree = "<group>"; };
 		EA59B1DA7465451B81FC05CC9FC5FC64 /* Pods-YTKJsBridge_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YTKJsBridge_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		EAB5E10B0F0D1FDF33F001F7F68779FC /* YTKJsBridge.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = YTKJsBridge.modulemap; sourceTree = "<group>"; };
+		EABACB54096B84536ECA5195A530C93D /* UIWebView+JavaScriptContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIWebView+JavaScriptContext.h"; path = "YTKJsBridge/Classes/UIWebView+JavaScriptContext.h"; sourceTree = "<group>"; };
+		EC677041468596F84472AA5759430D76 /* YTKJsBridge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsBridge.m; path = YTKJsBridge/Classes/YTKJsBridge.m; sourceTree = "<group>"; };
 		EE12C271D1E96FCEF08BB76A24553AC7 /* Pods-YTKJsBridge_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YTKJsBridge_Example-frameworks.sh"; sourceTree = "<group>"; };
 		F424FACE5ECD5506DB8F4B1A93E0FB57 /* Pods-YTKJsBridge_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YTKJsBridge_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		F45C985C64875D8BBE65971293CECA11 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4B52BDD26BA9C8375BF56494D2D8873 /* YTKJsBridge-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YTKJsBridge-dummy.m"; sourceTree = "<group>"; };
-		FB18A4F71DC91484DB287FBF0A00D469 /* YTKJsCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsCommand.m; path = YTKJsBridge/Classes/YTKJsCommand.m; sourceTree = "<group>"; };
-		FCA5F706E603E7C5E14182806F8641A5 /* YTKJsCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YTKJsCommand.h; path = YTKJsBridge/Classes/YTKJsCommand.h; sourceTree = "<group>"; };
+		F6C1BD0096A522FB5B0AB5D394C7C477 /* YTKJsEventHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YTKJsEventHandler.m; path = YTKJsBridge/Classes/YTKJsEventHandler.m; sourceTree = "<group>"; };
+		FF9E0937988AFD61C2C2A58F1FB3B545 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		9D7DD46F796DD5723253CF547C3B7280 /* Frameworks */ = {
+		25536F1E40E7C700149201D778D3B0EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50206FAF7674218D5E8AB095C117BD6A /* Foundation.framework in Frameworks */,
+				0B1E6241994B473FBF58DFCDF57871FC /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B1A73DEA16090F73577A655DF8DBD0A2 /* Frameworks */ = {
+		8632C795386BEDDA1037CD5394E0B925 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3EF5F2FB49C7FC0AB39A632193C523EE /* Foundation.framework in Frameworks */,
+				D564AB29DE49C1FD278B82C07717B249 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E7337951B69FB96A871AE707D49F8BC1 /* Frameworks */ = {
+		E5F0F8EAF2C677BC379A379ABDB7E7DD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				232A390A162806D3C9163E6C61D17285 /* Foundation.framework in Frameworks */,
+				D071A11FD751B8CF79FD663323392708 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5E0D919E635D23B70123790B8308F8EF /* iOS */ = {
+		0FFDE40D2A4DA7AE734FADE51A97F481 /* YTKJsBridge */ = {
 			isa = PBXGroup;
 			children = (
-				5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */,
+				EABACB54096B84536ECA5195A530C93D /* UIWebView+JavaScriptContext.h */,
+				E83958C4BCBA2BDA80E150D0FF0BC134 /* UIWebView+JavaScriptContext.m */,
+				B0E651FE37C692FB29ABC60831A48E21 /* YTKBlockHandler.h */,
+				3F28A5EF43854509E66D89C0A3B7A085 /* YTKBlockHandler.m */,
+				CA984AAC712DE45D64D815715E6155DF /* YTKJsBlockHeader.h */,
+				368A4523ADCBDF13CBB0FD9B955478EC /* YTKJsBridge.h */,
+				EC677041468596F84472AA5759430D76 /* YTKJsBridge.m */,
+				D716E4E0E00A965D56CB64D79D2B41DA /* YTKJsCommand.h */,
+				E9CF45C8ACBF5931E94312ED3D53BC51 /* YTKJsCommand.m */,
+				2AFF50E3BF286754713F6B47FFD7FA01 /* YTKJsCommandHandler.h */,
+				423D624D7846F14BB16928B1E559DDDC /* YTKJsCommandManager.h */,
+				A3302C3B226420E81B21DF7A998922F3 /* YTKJsCommandManager.m */,
+				64FF266761DFB83AEF3D6379C3358169 /* YTKJsEventHandler.h */,
+				F6C1BD0096A522FB5B0AB5D394C7C477 /* YTKJsEventHandler.m */,
+				2C92936F14BDF9D55D05DD34F1EC7DBD /* YTKJsUtils.h */,
+				5B223B865E0EA9B1F4ADDBD4D1EB7AD6 /* YTKJsUtils.m */,
+				828863213390ACCC1AB3F123DE31CF26 /* Pod */,
+				51E23C2FA1AED0227AE2B52C4ACB35D3 /* Support Files */,
+			);
+			name = YTKJsBridge;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		44D5347904CF754D6785B84253F2574A /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D6DFF15000AFE2A371BF499E7AFDA808 /* Foundation.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		51E23C2FA1AED0227AE2B52C4ACB35D3 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				9C0BBF2687D1FFADFF3FAA26608862A6 /* Info.plist */,
+				EAB5E10B0F0D1FDF33F001F7F68779FC /* YTKJsBridge.modulemap */,
+				4649F10A8B087A126463345D915724A8 /* YTKJsBridge.xcconfig */,
+				A117256AA5A8CA0F4CC714668B4113D0 /* YTKJsBridge-dummy.m */,
+				CCBA1E0E8D65833FE2B666DBA100C4F4 /* YTKJsBridge-prefix.pch */,
+				9D1F8C9711393A5ACEECF86F1861DC81 /* YTKJsBridge-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/YTKJsBridge";
 			sourceTree = "<group>";
 		};
 		6BAC1FCFC414A8165B8185904DE373C8 /* Targets Support Files */ = {
@@ -161,62 +211,35 @@
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				FC4E54BB3C1023A4614FB3F13978DB2B /* Development Pods */,
+				A3DB8436052D392796E1A14252893BD6 /* Development Pods */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
 				DBDCCD4289F1AE8E98E3C58692B98F65 /* Products */,
 				6BAC1FCFC414A8165B8185904DE373C8 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		7DD4B4DAEB6482CB9F8438F4528951EC /* YTKJsBridge */ = {
+		828863213390ACCC1AB3F123DE31CF26 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				68301A418C95159737BED3AE550F5D1F /* UIWebView+JavaScriptContext.h */,
-				27E472EDEE05EAA2C5DD3D413EA0A6C0 /* UIWebView+JavaScriptContext.m */,
-				1E997760406C79D6D873CD75B21BB86B /* YTKJsBridge.h */,
-				0CAD278CCF0088510D78957897256319 /* YTKJsBridge.m */,
-				FCA5F706E603E7C5E14182806F8641A5 /* YTKJsCommand.h */,
-				FB18A4F71DC91484DB287FBF0A00D469 /* YTKJsCommand.m */,
-				E4C92B3E313C81709F81A5F51B39621D /* YTKJsCommandHandler.h */,
-				D7FB73DF3D3ABBCC46C37609951A8995 /* YTKJsCommandManager.h */,
-				0C1D625C535FBB604FE4485A5E338826 /* YTKJsCommandManager.m */,
-				CB31B52A8696E8ABF0965C8F16899268 /* YTKJsUtils.h */,
-				03AAE4C51CC2102E70D1B57CB43CE4AB /* YTKJsUtils.m */,
-				8DF3526C7AD72D708C098C6BB34F1C4D /* Pod */,
-				A395171CC8FF5E58812822B7F2B5FDA4 /* Support Files */,
-			);
-			name = YTKJsBridge;
-			path = ../..;
-			sourceTree = "<group>";
-		};
-		8DF3526C7AD72D708C098C6BB34F1C4D /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				C9E1E4AAEA3A58676CF51CAC07312BC0 /* LICENSE */,
-				7BCA5579DF431B0AB7FBA71A4FA79F57 /* README.md */,
-				E30EC9034FD75F1F4914BDE02F987E4C /* YTKJsBridge.podspec */,
+				D6B3B7E4695599AC9A15824465BCF9F5 /* LICENSE */,
+				FF9E0937988AFD61C2C2A58F1FB3B545 /* README.md */,
+				1C208F14E555E8E098257462AEB6D2E5 /* YTKJsBridge.podspec */,
 			);
 			name = Pod;
 			sourceTree = "<group>";
 		};
-		A395171CC8FF5E58812822B7F2B5FDA4 /* Support Files */ = {
+		A3DB8436052D392796E1A14252893BD6 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F45C985C64875D8BBE65971293CECA11 /* Info.plist */,
-				1758DE632E788EC57015229DFE6255EC /* YTKJsBridge.modulemap */,
-				BB4932DE95089196806DE55CE2F0FFA4 /* YTKJsBridge.xcconfig */,
-				F4B52BDD26BA9C8375BF56494D2D8873 /* YTKJsBridge-dummy.m */,
-				D49FF9CCFFAA573BBC431F0816FCE4A5 /* YTKJsBridge-prefix.pch */,
-				02955B53C3E78977CC69F5522B3431DE /* YTKJsBridge-umbrella.h */,
+				0FFDE40D2A4DA7AE734FADE51A97F481 /* YTKJsBridge */,
 			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/YTKJsBridge";
+			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5E0D919E635D23B70123790B8308F8EF /* iOS */,
+				44D5347904CF754D6785B84253F2574A /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -229,14 +252,6 @@
 				09D247AC8AA525FA6ABB9774203BD939 /* YTKJsBridge.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		FC4E54BB3C1023A4614FB3F13978DB2B /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7DD4B4DAEB6482CB9F8438F4528951EC /* YTKJsBridge */,
-			);
-			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		FDAC98A84C7877E0F5CFCE2C1793A02E /* Pods-YTKJsBridge_Tests */ = {
@@ -260,64 +275,69 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		6EB77DAC1A35BDD72BB0E5B77CEBC549 /* Headers */ = {
+		7FBC80AB0087F3B6FDC1592D70BD3504 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10FBF4F2791E62A4C58EB587A7E68D6E /* Pods-YTKJsBridge_Example-umbrella.h in Headers */,
+				A31258E33AD8A6CA06CD9F4D36D254AD /* UIWebView+JavaScriptContext.h in Headers */,
+				C2C7B3A290EF1B808089EA34A9B3F7C3 /* YTKBlockHandler.h in Headers */,
+				66F778492B686537F9752BDEF4ACF4A3 /* YTKJsBlockHeader.h in Headers */,
+				EB5BC2C179251D591413FA8E9557A08E /* YTKJsBridge-umbrella.h in Headers */,
+				1528E66D2BAAE9F7F6DCC3292FFD59B9 /* YTKJsBridge.h in Headers */,
+				8FDE25694EC5CC02C75BA1F3CB613F5C /* YTKJsCommand.h in Headers */,
+				F979842994710540A6AF1F8E7E3D8487 /* YTKJsCommandHandler.h in Headers */,
+				EA94C6F0EA507BE43A0D7E67738677AD /* YTKJsCommandManager.h in Headers */,
+				7DB4E5737E778E395058691920D59293 /* YTKJsEventHandler.h in Headers */,
+				833457DF533059F9D7BE11BCCCDDAF32 /* YTKJsUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		746D076F34AD7C1B0682DB69AF34650B /* Headers */ = {
+		9D3DBCB3703DF4FD80F7731A1A71C46D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F49E0019257E98CCF3B1F8F6D9D69492 /* UIWebView+JavaScriptContext.h in Headers */,
-				5AFE47BB8A8C70FF6361ED040375419E /* YTKJsBridge-umbrella.h in Headers */,
-				2AD4960A23B69936DFFCE836E800C1A5 /* YTKJsBridge.h in Headers */,
-				8C260979BDFA10D09A0207BCC4E57D76 /* YTKJsCommand.h in Headers */,
-				DFA72D823356E567B0E436234B527585 /* YTKJsCommandHandler.h in Headers */,
-				411C5D77863FEE22C84F2E6063D1035C /* YTKJsCommandManager.h in Headers */,
-				E12E375FA450D3E2105EF5D64D2008EC /* YTKJsUtils.h in Headers */,
+				C755A1D36E4AFF79B75EF1E88E78E2E3 /* Pods-YTKJsBridge_Example-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9A297F4837D72B5F7CDE38328173B403 /* Headers */ = {
+		A3D379DE768532B9D57D8C1BE53FB68A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7006B82724A4B200D1FC61D78EE19A9 /* Pods-YTKJsBridge_Tests-umbrella.h in Headers */,
+				164E3F608AE040321B9C29E8AAFD9588 /* Pods-YTKJsBridge_Tests-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		38D4A916BA19D9558A65B937F49805F9 /* Pods-YTKJsBridge_Example */ = {
+		31BD5FEC27875CA7654D2749FD2332D0 /* Pods-YTKJsBridge_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FE87D43B0CD5811C5822FD81EC0220F5 /* Build configuration list for PBXNativeTarget "Pods-YTKJsBridge_Example" */;
+			buildConfigurationList = 562BC84E0AD0DDB7B0C6D5575F2A5A07 /* Build configuration list for PBXNativeTarget "Pods-YTKJsBridge_Example" */;
 			buildPhases = (
-				412D4D70A54655D4F2E3C88FBC19715C /* Sources */,
-				9D7DD46F796DD5723253CF547C3B7280 /* Frameworks */,
-				6EB77DAC1A35BDD72BB0E5B77CEBC549 /* Headers */,
+				9D3DBCB3703DF4FD80F7731A1A71C46D /* Headers */,
+				7CBD6B6F8580A4D96D8FF47CA541D0EF /* Sources */,
+				25536F1E40E7C700149201D778D3B0EC /* Frameworks */,
+				84D85612A5D1C21B04EE9C6D5AEEB729 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9587270364BC96C00D79F64E94DD9D8F /* PBXTargetDependency */,
+				16D36F2444C807D3E71DF780921B1C39 /* PBXTargetDependency */,
 			);
 			name = "Pods-YTKJsBridge_Example";
 			productName = "Pods-YTKJsBridge_Example";
 			productReference = C7F8ECA4B989BDC9084C4C46AADA7AEF /* Pods_YTKJsBridge_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		6971E15C12CC957FD36211C0106D1192 /* YTKJsBridge */ = {
+		4C9DFC3F3BEC43F9E53CE63A2EB76118 /* YTKJsBridge */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 068532574AD759C380EE9504E0C1B660 /* Build configuration list for PBXNativeTarget "YTKJsBridge" */;
+			buildConfigurationList = FE5AE37045B390D040AAF8D572066CD7 /* Build configuration list for PBXNativeTarget "YTKJsBridge" */;
 			buildPhases = (
-				3ADD699A2D7C4200C30A0BE73F77CA35 /* Sources */,
-				E7337951B69FB96A871AE707D49F8BC1 /* Frameworks */,
-				746D076F34AD7C1B0682DB69AF34650B /* Headers */,
+				7FBC80AB0087F3B6FDC1592D70BD3504 /* Headers */,
+				14DF771543634F21B1D483892D581A81 /* Sources */,
+				8632C795386BEDDA1037CD5394E0B925 /* Frameworks */,
+				0ACF96086937BC44155FE490B6E3E883 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -328,18 +348,19 @@
 			productReference = 09D247AC8AA525FA6ABB9774203BD939 /* YTKJsBridge.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B11D2C1CF0B960A10A37BB7BBC2797BE /* Pods-YTKJsBridge_Tests */ = {
+		A43ACFB003818B3D0CD3C6A6BC1EC9D3 /* Pods-YTKJsBridge_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EEA22C07FF255F8012C0042A3998423D /* Build configuration list for PBXNativeTarget "Pods-YTKJsBridge_Tests" */;
+			buildConfigurationList = 5ED1FCBE7A2270266C6E3B8932F46905 /* Build configuration list for PBXNativeTarget "Pods-YTKJsBridge_Tests" */;
 			buildPhases = (
-				B2BCA098F117569CE1E42072BD468943 /* Sources */,
-				B1A73DEA16090F73577A655DF8DBD0A2 /* Frameworks */,
-				9A297F4837D72B5F7CDE38328173B403 /* Headers */,
+				A3D379DE768532B9D57D8C1BE53FB68A /* Headers */,
+				5560B1818265E5A89C72E259FAFE1D2D /* Sources */,
+				E5F0F8EAF2C677BC379A379ABDB7E7DD /* Frameworks */,
+				F5C93EDD5A678635293A08C5C2A79760 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9471684B709A6506660E632DC26B0032 /* PBXTargetDependency */,
+				F405460180430CDE1866A34325577FB4 /* PBXTargetDependency */,
 			);
 			name = "Pods-YTKJsBridge_Tests";
 			productName = "Pods-YTKJsBridge_Tests";
@@ -367,64 +388,90 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				38D4A916BA19D9558A65B937F49805F9 /* Pods-YTKJsBridge_Example */,
-				B11D2C1CF0B960A10A37BB7BBC2797BE /* Pods-YTKJsBridge_Tests */,
-				6971E15C12CC957FD36211C0106D1192 /* YTKJsBridge */,
+				31BD5FEC27875CA7654D2749FD2332D0 /* Pods-YTKJsBridge_Example */,
+				A43ACFB003818B3D0CD3C6A6BC1EC9D3 /* Pods-YTKJsBridge_Tests */,
+				4C9DFC3F3BEC43F9E53CE63A2EB76118 /* YTKJsBridge */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		0ACF96086937BC44155FE490B6E3E883 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84D85612A5D1C21B04EE9C6D5AEEB729 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5C93EDD5A678635293A08C5C2A79760 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		3ADD699A2D7C4200C30A0BE73F77CA35 /* Sources */ = {
+		14DF771543634F21B1D483892D581A81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C719D886BE0521CE7C28A7BDC5F6834 /* UIWebView+JavaScriptContext.m in Sources */,
-				5A3E54A93FCF77652C446BC160F8358B /* YTKJsBridge-dummy.m in Sources */,
-				A89618ADA1453671D79B141D6E74A0E2 /* YTKJsBridge.m in Sources */,
-				C9A5288D490FEEAB08B20A3D7A07EE30 /* YTKJsCommand.m in Sources */,
-				3A4D4E3C875BE008B502C0625CC7F7C9 /* YTKJsCommandManager.m in Sources */,
-				DE45762CC105730C5481C40CB6A2240C /* YTKJsUtils.m in Sources */,
+				FDF21F729D0EDB81EB04F1D053CA1238 /* UIWebView+JavaScriptContext.m in Sources */,
+				4E23E4B440AB62A88C99733CFF9FF475 /* YTKBlockHandler.m in Sources */,
+				E19BC4356D10787C9522C18757C4A9A3 /* YTKJsBridge-dummy.m in Sources */,
+				D2E6CD07EE39BF9C081DE6CF623F3BF4 /* YTKJsBridge.m in Sources */,
+				EF8CF4ACACD45D8AC437F13ADAD848AB /* YTKJsCommand.m in Sources */,
+				388CB1EC9C1BA69B59C7CD8F74839A1E /* YTKJsCommandManager.m in Sources */,
+				3961EE1BD46B231E05599EE04DAD5569 /* YTKJsEventHandler.m in Sources */,
+				350CBC81908162C92A2DDA81175AB5A6 /* YTKJsUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		412D4D70A54655D4F2E3C88FBC19715C /* Sources */ = {
+		5560B1818265E5A89C72E259FAFE1D2D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE0A000FEA9AC0B45EEFD1CEB1FC1BA4 /* Pods-YTKJsBridge_Example-dummy.m in Sources */,
+				6F09D70D15B9EF0152F160D86E03BD81 /* Pods-YTKJsBridge_Tests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B2BCA098F117569CE1E42072BD468943 /* Sources */ = {
+		7CBD6B6F8580A4D96D8FF47CA541D0EF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B795161A31FDAB3EBFB7CFA25812985 /* Pods-YTKJsBridge_Tests-dummy.m in Sources */,
+				8A38F534F91FFDAE9F21CB0F047A3759 /* Pods-YTKJsBridge_Example-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9471684B709A6506660E632DC26B0032 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-YTKJsBridge_Example";
-			target = 38D4A916BA19D9558A65B937F49805F9 /* Pods-YTKJsBridge_Example */;
-			targetProxy = B21DD565803664E7C1E8811DC7977447 /* PBXContainerItemProxy */;
-		};
-		9587270364BC96C00D79F64E94DD9D8F /* PBXTargetDependency */ = {
+		16D36F2444C807D3E71DF780921B1C39 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = YTKJsBridge;
-			target = 6971E15C12CC957FD36211C0106D1192 /* YTKJsBridge */;
-			targetProxy = E7A9B9728F9D4CE5741DB6A3184E929A /* PBXContainerItemProxy */;
+			target = 4C9DFC3F3BEC43F9E53CE63A2EB76118 /* YTKJsBridge */;
+			targetProxy = BC738068F9965FA8F767BA10E0ACD5BA /* PBXContainerItemProxy */;
+		};
+		F405460180430CDE1866A34325577FB4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = YTKJsBridge;
+			target = 4C9DFC3F3BEC43F9E53CE63A2EB76118 /* YTKJsBridge */;
+			targetProxy = 046F7D1E679038DCACC2B0344093FAD6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		01C9E66A1DA057CA6DB9B8DD9168234C /* Release */ = {
+		04955FC15A27BF05593189DAFCBC3E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F0897795B15B5A3D347F38F32E912B6 /* Pods-YTKJsBridge_Tests.release.xcconfig */;
+			baseConfigurationReference = F424FACE5ECD5506DB8F4B1A93E0FB57 /* Pods-YTKJsBridge_Example.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -436,12 +483,45 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-YTKJsBridge_Tests/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-YTKJsBridge_Example/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-YTKJsBridge_Tests/Pods-YTKJsBridge_Tests.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-YTKJsBridge_Example/Pods-YTKJsBridge_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		18F8A5602B47A66EABABAE47826E76A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF2A0729FB31D6ECEF8937E17B1ED407 /* Pods-YTKJsBridge_Example.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-YTKJsBridge_Example/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-YTKJsBridge_Example/Pods-YTKJsBridge_Example.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -456,9 +536,9 @@
 			};
 			name = Release;
 		};
-		15E75676364927794076AC3D5FE9BCA4 /* Release */ = {
+		71847BCBAE67C9D0825697A29D7F0564 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB4932DE95089196806DE55CE2F0FFA4 /* YTKJsBridge.xcconfig */;
+			baseConfigurationReference = 4649F10A8B087A126463345D915724A8 /* YTKJsBridge.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -487,7 +567,102 @@
 			};
 			name = Release;
 		};
-		1EE19F5DD95931924296F637BF18BD8F /* Debug */ = {
+		82862B5F162585D2C7B4085900EC715B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA59B1DA7465451B81FC05CC9FC5FC64 /* Pods-YTKJsBridge_Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-YTKJsBridge_Tests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-YTKJsBridge_Tests/Pods-YTKJsBridge_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		85B95B1234E227C814CCC2C7902D0916 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		A73625DEBD810B78234FA1958C191C8C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -541,118 +716,21 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		2A336A4516400A1ECBA86084436E852A /* Debug */ = {
+		DCD3A9C0327E84BC63E8E962A6C1452C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA59B1DA7465451B81FC05CC9FC5FC64 /* Pods-YTKJsBridge_Tests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-YTKJsBridge_Tests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-YTKJsBridge_Tests/Pods-YTKJsBridge_Tests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		62FA5A0D7BBF7F4CE5A89A466913735C /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CF2A0729FB31D6ECEF8937E17B1ED407 /* Pods-YTKJsBridge_Example.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-YTKJsBridge_Example/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-YTKJsBridge_Example/Pods-YTKJsBridge_Example.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		7947B7E9AB148A86E18D91CA0BEC2E1F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F424FACE5ECD5506DB8F4B1A93E0FB57 /* Pods-YTKJsBridge_Example.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-YTKJsBridge_Example/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-YTKJsBridge_Example/Pods-YTKJsBridge_Example.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		A38481B781DCDC8C8302D49D6931D324 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB4932DE95089196806DE55CE2F0FFA4 /* YTKJsBridge.xcconfig */;
+			baseConfigurationReference = 4649F10A8B087A126463345D915724A8 /* YTKJsBridge.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -680,99 +758,75 @@
 			};
 			name = Debug;
 		};
-		F4568DEE257655D290C2B9CEAB37C934 /* Release */ = {
+		E8F8401D052D9262BA74483E67928EB1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F0897795B15B5A3D347F38F32E912B6 /* Pods-YTKJsBridge_Tests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-YTKJsBridge_Tests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-YTKJsBridge_Tests/Pods-YTKJsBridge_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		068532574AD759C380EE9504E0C1B660 /* Build configuration list for PBXNativeTarget "YTKJsBridge" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A38481B781DCDC8C8302D49D6931D324 /* Debug */,
-				15E75676364927794076AC3D5FE9BCA4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1EE19F5DD95931924296F637BF18BD8F /* Debug */,
-				F4568DEE257655D290C2B9CEAB37C934 /* Release */,
+				A73625DEBD810B78234FA1958C191C8C /* Debug */,
+				85B95B1234E227C814CCC2C7902D0916 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EEA22C07FF255F8012C0042A3998423D /* Build configuration list for PBXNativeTarget "Pods-YTKJsBridge_Tests" */ = {
+		562BC84E0AD0DDB7B0C6D5575F2A5A07 /* Build configuration list for PBXNativeTarget "Pods-YTKJsBridge_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A336A4516400A1ECBA86084436E852A /* Debug */,
-				01C9E66A1DA057CA6DB9B8DD9168234C /* Release */,
+				04955FC15A27BF05593189DAFCBC3E02 /* Debug */,
+				18F8A5602B47A66EABABAE47826E76A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FE87D43B0CD5811C5822FD81EC0220F5 /* Build configuration list for PBXNativeTarget "Pods-YTKJsBridge_Example" */ = {
+		5ED1FCBE7A2270266C6E3B8932F46905 /* Build configuration list for PBXNativeTarget "Pods-YTKJsBridge_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7947B7E9AB148A86E18D91CA0BEC2E1F /* Debug */,
-				62FA5A0D7BBF7F4CE5A89A466913735C /* Release */,
+				82862B5F162585D2C7B4085900EC715B /* Debug */,
+				E8F8401D052D9262BA74483E67928EB1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE5AE37045B390D040AAF8D572066CD7 /* Build configuration list for PBXNativeTarget "YTKJsBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DCD3A9C0327E84BC63E8E962A6C1452C /* Debug */,
+				71847BCBAE67C9D0825697A29D7F0564 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

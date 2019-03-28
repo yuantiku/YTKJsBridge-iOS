@@ -5,12 +5,96 @@
     
     <form>
         
-        <button type='button' onclick='alert("Alert!")'>Alert!</button>
-         
-         <button type='button' onclick='YTKJsBridge({methodName:"yuantiku.syncSayHello", args:{title:"sync: hello world"}, callId:-1})'>Sync Say Hello!</button>
-         <button type='button' onclick='YTKJsBridge({methodName:"yuantiku.asyncSayHello", args:{title:"async: hello world"}, callId:123})'>Async Say Hello!</button>
+         <button type='button' onclick='alert("Alert!")'>Alert!</button>
+         <button type='button' onclick='syncSayHello()'>Call Natvie Sync Say Hello!</button>
+         <button type='button' onclick='asyncSayHello()'>Call Natvie Async Say Hello!</button>
+         <button type='button' onclick='syncFib()'>Call Natvie Sync Fib!</button>
+         <button type='button' onclick='voidSyncCall()'>Call Natvie Void return Sync method!</button>
+         <button type='button' onclick='asyncFib()'>Call Natvie Async fib!</button>
+         <button type='button' onclick='notify()'>notify Js Resize Event!</button>
 
     </form>
+
+    <script>
+        function callSyncMethod(data) {
+            var dict = YTKJsBridge(data);
+            if (dict['code'] == 0) {
+                append("[sync receive data]: " + dict['ret']);
+            } else {
+                append("[sync call error]: " + dict['message']);
+            }
+        }
+        function syncSayHello() {
+            var data = {
+                methodName:"yuantiku.syncSayHello",
+                args:["sync: hello world"],
+                callId:-1
+            }
+            callSyncMethod(data);
+        }
+        function asyncSayHello() {
+            var data = {
+                methodName:"yuantiku.asyncSayHello",
+                args:["async: hello world"],
+                callId:123
+            }
+            YTKJsBridge(data);
+        }
+        function syncFib() {
+            var data = {
+                methodName:"math.fib",
+                args:[10],
+                callId:-1
+            }
+            callSyncMethod(data);
+        }
+        function voidSyncCall() {
+            var data = {
+                methodName:"math.voidSyncCall",
+                args:[],
+                callId:-1
+            }
+            var dict = YTKJsBridge(data);
+            if (dict['code'] == 0) {
+                append("void sync call success");
+            } else {
+                append("[void sync call error]: " + dict['message']);
+            }
+        }
+        function asyncFib() {
+            var data = {
+                methodName:"math.asyncFib",
+                args:[20],
+                callId:1234
+            }
+            YTKJsBridge(data);
+        }
+        function notify() {
+            var event = {
+                "event": "resize", // event名
+                "arg": [100, 100], // 参数
+            };
+            sendEvent(event); // sendEvent是native注入的全局函数
+        }
+        window.dispatchNativeEvent = function(obj) {
+            if (obj.event == "click") {
+                // 处理close事件
+                append("[receive event]: " + obj.arg[0]);
+            }
+        }
+        window.dispatchCallbackFromNative = function(obj) {
+            if (obj.code == 0) {
+                append("[async receive data]: " + obj.ret);
+            } else {
+                append("[async call error]: " + obj.message);
+            }
+        }
+        function append(params) {
+            var ele = document.createElement('div');
+            ele.innerHTML = params;
+            document.body.appendChild(ele);
+        }
+    </script>
 
 </body>
 </html>

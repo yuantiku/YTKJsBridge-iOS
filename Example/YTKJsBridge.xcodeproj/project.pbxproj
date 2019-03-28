@@ -24,8 +24,10 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		A645C7FBAFC94412D17AE2F9 /* Pods_YTKJsBridge_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A95B9077891155B406945E36 /* Pods_YTKJsBridge_Example.framework */; };
+		FE074B9D221D407C00712806 /* YTKIsLastHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FE074B9C221D407C00712806 /* YTKIsLastHandler.m */; };
 		FE83DFB221D243930031F86E /* testWebView.htm in Resources */ = {isa = PBXBuildFile; fileRef = FE83DFB021D243930031F86E /* testWebView.htm */; };
 		FE83DFB321D243930031F86E /* YTKAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FE83DFB121D243930031F86E /* YTKAlertHandler.m */; };
+		FEB39DC021EC95FE001ED68B /* YTKFibHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB39DBF21EC95FE001ED68B /* YTKFibHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,9 +71,13 @@
 		A8A6FA25623F588F514A7794 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		A95B9077891155B406945E36 /* Pods_YTKJsBridge_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YTKJsBridge_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C84D7594941C3830B4479803 /* YTKJsBridge.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = YTKJsBridge.podspec; path = ../YTKJsBridge.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		FE074B9B221D407C00712806 /* YTKIsLastHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTKIsLastHandler.h; sourceTree = "<group>"; };
+		FE074B9C221D407C00712806 /* YTKIsLastHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTKIsLastHandler.m; sourceTree = "<group>"; };
 		FE83DFAF21D243930031F86E /* YTKAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTKAlertHandler.h; sourceTree = "<group>"; };
 		FE83DFB021D243930031F86E /* testWebView.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = testWebView.htm; sourceTree = "<group>"; };
 		FE83DFB121D243930031F86E /* YTKAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTKAlertHandler.m; sourceTree = "<group>"; };
+		FEB39DBE21EC95FE001ED68B /* YTKFibHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YTKFibHandler.h; sourceTree = "<group>"; };
+		FEB39DBF21EC95FE001ED68B /* YTKFibHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YTKFibHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +151,10 @@
 				FE83DFB021D243930031F86E /* testWebView.htm */,
 				FE83DFAF21D243930031F86E /* YTKAlertHandler.h */,
 				FE83DFB121D243930031F86E /* YTKAlertHandler.m */,
+				FEB39DBE21EC95FE001ED68B /* YTKFibHandler.h */,
+				FEB39DBF21EC95FE001ED68B /* YTKFibHandler.m */,
+				FE074B9B221D407C00712806 /* YTKIsLastHandler.h */,
+				FE074B9C221D407C00712806 /* YTKIsLastHandler.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -234,6 +244,7 @@
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
+				C76137085665383EF3249158 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -360,6 +371,28 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YTKJsBridge_Example/Pods-YTKJsBridge_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C76137085665383EF3249158 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-YTKJsBridge_Tests/Pods-YTKJsBridge_Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/YTKJsBridge/YTKJsBridge.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YTKJsBridge.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YTKJsBridge_Tests/Pods-YTKJsBridge_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -370,7 +403,9 @@
 				6003F59E195388D20070C39A /* YTKAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* YTKViewController.m in Sources */,
 				FE83DFB321D243930031F86E /* YTKAlertHandler.m in Sources */,
+				FE074B9D221D407C00712806 /* YTKIsLastHandler.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				FEB39DC021EC95FE001ED68B /* YTKFibHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

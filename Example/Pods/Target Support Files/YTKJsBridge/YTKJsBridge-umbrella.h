@@ -11,10 +11,13 @@
 #endif
 
 #import "UIWebView+JavaScriptContext.h"
+#import "YTKBlockHandler.h"
+#import "YTKJsBlockHeader.h"
 #import "YTKJsBridge.h"
 #import "YTKJsCommand.h"
 #import "YTKJsCommandHandler.h"
 #import "YTKJsCommandManager.h"
+#import "YTKJsEventHandler.h"
 #import "YTKJsUtils.h"
 
 FOUNDATION_EXPORT double YTKJsBridgeVersionNumber;

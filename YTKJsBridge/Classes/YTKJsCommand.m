@@ -23,9 +23,28 @@
         } else if ([callId respondsToSelector:@selector(stringValue)]) {
             _callId = [callId stringValue];
         }
-        NSDictionary *args = [dictionary objectForKey:@"args"];
-        if ([args isKindOfClass:[NSDictionary class]]) {
+        NSArray *args = [dictionary objectForKey:@"args"];
+        if ([args isKindOfClass:[NSArray class]]) {
             _args = args;
+        }
+    }
+    return self;
+}
+
+@end
+
+@implementation YTKJsEvent
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        NSString *event = [dictionary objectForKey:@"event"];
+        if ([event isKindOfClass:[NSString class]]) {
+            _event = event;
+        }
+        id arg = [dictionary objectForKey:@"arg"];
+        if (arg) {
+            _arg = arg;
         }
     }
     return self;
