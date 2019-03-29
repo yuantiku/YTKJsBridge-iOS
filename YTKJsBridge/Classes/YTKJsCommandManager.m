@@ -249,14 +249,15 @@
         /** async call */
         __weak typeof(self) weakSelf = self;
 
-        YTKDataCallback completionHandler = ^(NSError *error, id value) {
-            [result setObject:@0 forKey:@"code"];
+        YTKJsCallback completionHandler = ^(NSError *error, id value) {
+            if (!error) {
+                [result setObject:@0 forKey:@"code"];
+            }
             if (value) {
                 [result setObject:value forKey:@"ret"];
             }
-            NSMutableDictionary *dict = result.mutableCopy;
-            [dict setObject:callId forKey:@"callId"];
-            NSString *json = [YTKJsUtils objToJsonString:dict];
+            [result setObject:callId forKey:@"callId"];
+            NSString *json = [YTKJsUtils objToJsonString:result];
             NSString *js = [NSString stringWithFormat:@"window.dispatchCallbackFromNative(%@);", json];
             __strong typeof(self) strongSelf = weakSelf;
             [strongSelf callJsCallbackWithJsString:js];
@@ -325,11 +326,18 @@
         }
         if (isAsync) {
             [self evaluatingDictionary:result];
+            return nil;
+        } else {
+            return result;
         }
     } else {
-        [result setObject:@0 forKey:@"code"];
+        if (isAsync) {
+            return nil;
+        } else {
+            [result setObject:@0 forKey:@"code"];
+            return result;
+        }
     }
-    return result;
 }
 
 - (void)callJsCallbackWithJsString:(NSString *)js {

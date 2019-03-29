@@ -127,7 +127,7 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 }];
 
 // 向JS注入在命名空间math之下的异步方法asyncFib
-[bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" impBlock:^(NSArray * _Nullable argument, YTKDataCallback block) {
+[bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" impBlock:^(NSArray * _Nullable argument, YTKJsCallback block) {
     NSInteger n = [argument.firstObject integerValue];
     block(nil, @([self fibSequence:n]));
 }];
@@ -152,7 +152,7 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 }
 
 // 异步方法asyncFib，带有异步方法回调completion
-- (void)asyncFib:(NSNumber *)num completion:(YTKDataCallback)completion {
+- (void)asyncFib:(NSNumber *)num completion:(YTKJsCallback)completion {
     NSInteger fib = [self fibSequence:num.integerValue];
     completion(nil, @(fib));
 }

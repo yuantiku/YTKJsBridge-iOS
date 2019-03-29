@@ -132,7 +132,7 @@
     }
 }
 
-- (void)performAsyncMethod:(NSString *)method arguments:(NSArray *)argumets callback:(YTKDataCallback)callback {
+- (void)performAsyncMethod:(NSString *)method arguments:(NSArray *)argumets callback:(YTKJsCallback)callback {
     YTKAsyncCallback block = [self.asyncBlocks objectForKey:method];
     if (block) {
         block(argumets, callback);

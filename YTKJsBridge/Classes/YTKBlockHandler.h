@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)performAsyncMethod:(NSString *)method
                  arguments:(NSArray *)argumets
-                  callback:(YTKDataCallback)callback;
+                  callback:(YTKJsCallback)callback;
 
 @end
 
