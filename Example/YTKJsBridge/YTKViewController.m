@@ -37,7 +37,7 @@
         NSInteger n = [argument.firstObject integerValue];
         return @([weakSelf fibSequence:n]);
     }];
-    [self.bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" impBlock:^(NSArray * _Nullable argument, YTKDataCallback block) {
+    [self.bridge addAsyncJsCommandName:@"asyncFib" namespace:@"math" impBlock:^(NSArray * _Nullable argument, YTKJsCallback block) {
         NSInteger n = [argument.firstObject integerValue];
         block(nil, @([weakSelf fibSequence:n]));
     }];
