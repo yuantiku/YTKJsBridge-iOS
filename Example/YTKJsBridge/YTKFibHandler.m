@@ -24,7 +24,7 @@
     return @(fib);
 }
 
-- (void)asyncFib:(NSNumber *)num completion:(YTKDataCallback)completion {
+- (void)asyncFib:(NSNumber *)num completion:(YTKJsCallback)completion {
     NSInteger fib = [self fibSequence:num.integerValue];
     completion(nil, @(fib));
 }
