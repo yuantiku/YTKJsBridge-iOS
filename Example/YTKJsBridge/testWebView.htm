@@ -6,6 +6,7 @@
     <form>
         
          <button type='button' onclick='alert("Alert!")'>Alert!</button>
+         <button type='button' onclick='testPrompt()'>Prompt!</button>
          <button type='button' onclick='syncSayHello()'>Call Natvie Sync Say Hello!</button>
          <button type='button' onclick='asyncSayHello()'>Call Natvie Async Say Hello!</button>
          <button type='button' onclick='syncFib()'>Call Natvie Sync Fib!</button>
@@ -16,6 +17,15 @@
     </form>
 
     <script>
+        function testPrompt() {
+            var data = {
+                methodName:"yuantiku.syncSayHello",
+                args:["sync: hello world"],
+                callId:-1
+            }
+            var str = window.prompt("yuantiku", "prompt")
+            alert(str)
+        }
         function callSyncMethod(data) {
             var dict = YTKJsBridge(data);
             if (dict['code'] == 0) {
