@@ -18,7 +18,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "Wdeprecated-declarations"
-@property (nonatomic, weak) UIView *webView;
+@property (nonatomic, weak) UIWebView *webView;
 #pragma clang diagnostic pop
 
 /** 方法处理对象 */
@@ -43,15 +43,12 @@
 
 #pragma mark - Public Methods
 
-- (instancetype)initWithWebView:(UIView *)webView {
+- (instancetype)initWithWebView:(UIWebView *)webView {
     self = [super init];
     if (self) {
-        if ([webView isKindOfClass:[UIWebView class]]) {
-            UIWebView *web = (UIWebView *)webView;
-            __weak typeof(self) weakSelf = self;
-            web.ytk_delegate = weakSelf;
-        }
         _webView = webView;
+        __weak typeof(self) weakSelf = self;
+        webView.ytk_delegate = weakSelf;
     }
     return self;
 }
@@ -94,13 +91,13 @@
     [self.manager removeJsCommandName:commandName namespace:namespace];
 }
 
-- (void)callJsCommandName:(NSString *)commandName
-                 argument:(NSArray *)argument {
+- (NSString *)callJsCommandName:(NSString *)commandName
+                       argument:(NSArray *)argument {
     if (![commandName isKindOfClass:[NSString class]]) {
-        return;
+        return nil;
     }
     NSDictionary *dict = @{@"methodName" : commandName, @"args" : argument ?: @[], @"callId" : @(self.callId ++)};
-    [self.manager callJsWithDictionary:dict];
+    return [self.manager callJsWithDictionary:dict];
 }
 
 /** event related */
@@ -129,9 +126,8 @@
     [self.manager setDebugMode:debug];
     [self.eventHandler setDebugMode:debug];
 }
-// TODO: WKWebView JS 调用
 
-#pragma mark - Utils for UIWebView js
+#pragma mark - Utils
 
 - (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler forCommandName:(NSString *)commandName toContext:(JSContext *)context {
     if (!handler || ![commandName isKindOfClass:[NSString class]] || !context) {
