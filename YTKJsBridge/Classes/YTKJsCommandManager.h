@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
                   namespace:(nullable NSString *)namespace;
 
 /** 调用JS方法 */
-- (nullable NSString *)callJsWithDictionary:(NSDictionary *)dictionary;
+- (void)callJsWithDictionary:(NSDictionary *)dictionary;
 
 - (void)setDebugMode:(BOOL)debug;
 

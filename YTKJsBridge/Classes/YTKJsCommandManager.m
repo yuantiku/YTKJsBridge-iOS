@@ -9,6 +9,10 @@
 #import "YTKJsCommandHandler.h"
 #import "YTKBlockHandler.h"
 #import "YTKJsUtils.h"
+#import "YTKWebInterface.h"
+#import "YTKWebBasedUIWebView.h"
+#import "YTKWebBasedWKWebView.h"
+#import <WebKit/WebKit.h>
 #import <objc/message.h>
 
 @interface YTKJsCommandManager ()
@@ -17,9 +21,9 @@
 
 @property (nonatomic, strong) YTKBlockHandler *blockHandler;
 
-@property (nonatomic, strong) NSString *jsCache;
-
 @property (nonatomic) BOOL isDebug;
+
+@property (nonatomic, strong) id<YTKWebInterface> webInterface;
 
 @end
 
@@ -27,11 +31,19 @@
 
 @synthesize webView;
 
+- (void)setWebView:(UIView *)view {
+    webView = view;
+    if ([view isKindOfClass:[UIWebView class]]) {
+        self.webInterface = [[YTKWebBasedUIWebView alloc] initWithWebView:(UIWebView *)view];
+    } else if ([view isKindOfClass:[WKWebView class]]) {
+        self.webInterface = [[YTKWebBasedWKWebView alloc] initWithWebView:(WKWebView *)view];
+    }
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
         _namespaceHandlers = [NSMutableDictionary dictionary];
-        _jsCache = @"";
         _isDebug = NO;
         _blockHandler = [YTKBlockHandler new];
     }
@@ -131,16 +143,16 @@
     [self.blockHandler removeMethod:name];
 }
 
-- (NSString *)callJsWithDictionary:(NSDictionary *)dictionary {
+- (void)callJsWithDictionary:(NSDictionary *)dictionary {
     if (!self.webView || ![dictionary isKindOfClass:[NSDictionary class]]) {
-        return nil;
+        return;
     }
     NSString *json = [YTKJsUtils objToJsonString:dictionary];
     NSString *js = [NSString stringWithFormat:@"window.dispatchNativeCall(%@)", json];
     if (self.isDebug) {
         NSLog(@"### send native call: %@", js);
     }
-    return [self.webView stringByEvaluatingJavaScriptFromString:js];
+    [self.webInterface evaluateJavaScript:js];
 }
 
 - (void)setDebugMode:(BOOL)debug {
@@ -149,7 +161,7 @@
 
 #pragma mark - YTKJsCommandHandler
 
-- (NSDictionary *)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
+- (NSDictionary *)handleJsCommand:(YTKJsCommand *)command inWebView:(UIView *)webView {
     if (![command.methodName isKindOfClass:[NSString class]] || [command.methodName isEqualToString:@"makeCallback"]) {
         return nil;
     }
@@ -340,20 +352,27 @@
     }
 }
 
-- (void)callJsCallbackWithJsString:(NSString *)js {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        @synchronized (self) {
-            self.jsCache = [self.jsCache stringByAppendingString:js];
-            if ([self.jsCache length] == 0) {
-                return;
-            }
-            if (self.isDebug) {
-                NSLog(@"### send callback JS: %@", self.jsCache);
-            }
-            [self.webView stringByEvaluatingJavaScriptFromString:self.jsCache];
-            self.jsCache = @"";
+- (void)performBlockOnMainThread:(YTKVoidCallback)block {
+    if ([[NSThread currentThread] isMainThread]) {
+        if (block) {
+            block();
         }
-    });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (block) {
+                block();
+            }
+        });
+    }
+}
+
+- (void)callJsCallbackWithJsString:(NSString *)js {
+    if (self.isDebug) {
+        NSLog(@"### send callback JS: %@", js);
+    }
+    [self performBlockOnMainThread:^{
+        [self.webInterface evaluateJavaScript:js];
+    }];
 }
 
 - (void)evaluatingDictionary:(NSDictionary *)result {

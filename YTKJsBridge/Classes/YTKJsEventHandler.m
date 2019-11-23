@@ -8,6 +8,10 @@
 #import "YTKJsEventHandler.h"
 #import "YTKJsCommand.h"
 #import "YTKJsUtils.h"
+#import "YTKWebInterface.h"
+#import "YTKWebBasedUIWebView.h"
+#import "YTKWebBasedWKWebView.h"
+#import <WebKit/WebKit.h>
 
 @interface YTKJsEventHandler ()
 
@@ -17,11 +21,22 @@
 
 @property (nonatomic) BOOL isDebug;
 
+@property (nonatomic, strong) id<YTKWebInterface> webInterface;
+
 @end
 
 @implementation YTKJsEventHandler
 
 @synthesize webView;
+
+- (void)setWebView:(UIView *)view {
+    webView = view;
+    if ([view isKindOfClass:[UIWebView class]]) {
+        self.webInterface = [[YTKWebBasedUIWebView alloc] initWithWebView:(UIWebView *)view];
+    } else if ([view isKindOfClass:[WKWebView class]]) {
+        self.webInterface = [[YTKWebBasedWKWebView alloc] initWithWebView:(WKWebView *)view];
+    }
+}
 
 - (instancetype)init {
     self = [super init];
@@ -89,7 +104,7 @@
     if (self.isDebug) {
         NSLog(@"### send native event: %@", js);
     }
-    [self.webView stringByEvaluatingJavaScriptFromString:js];
+    [self.webInterface evaluateJavaScript:js];
 }
 
 - (void)setDebugMode:(BOOL)debug {
@@ -98,7 +113,7 @@
 
 #pragma mark - YTKJsEventHandler
 
-- (void)handleJsEvent:(YTKJsEvent *)event inWebView:(UIWebView *)webView {
+- (void)handleJsEvent:(YTKJsEvent *)event inWebView:(UIView *)webView {
     if (![event.event isKindOfClass:[NSString class]]) {
         return;
     }

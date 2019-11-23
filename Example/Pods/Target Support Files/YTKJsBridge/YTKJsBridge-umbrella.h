@@ -19,6 +19,9 @@
 #import "YTKJsCommandManager.h"
 #import "YTKJsEventHandler.h"
 #import "YTKJsUtils.h"
+#import "YTKWebBasedUIWebView.h"
+#import "YTKWebBasedWKWebView.h"
+#import "YTKWebInterface.h"
 
 FOUNDATION_EXPORT double YTKJsBridgeVersionNumber;
 FOUNDATION_EXPORT const unsigned char YTKJsBridgeVersionString[];
