@@ -12,10 +12,15 @@
 #import "YTKIsLastHandler.h"
 #import "YTKFibHandler.h"
 #import "YTKJsCommandHandler.h"
+#import <WebKit/WebKit.h>
+
+const static BOOL UseWK = YES;
 
 @interface YTKViewController () <YTKJsEventListener>
 
 @property (nonatomic, strong) UIWebView *webView;
+
+@property (nonatomic, strong) WKWebView *wkWebView;
 
 @property (nonatomic, strong) YTKJsBridge *bridge;
 
@@ -30,6 +35,13 @@
     [self.view addSubview:self.webView];
     self.webView.frame = self.view.frame;
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
+    if (UseWK) {
+        [self.view addSubview:self.wkWebView];
+        self.wkWebView.frame = self.view.frame;
+        self.wkWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    }
+
     [self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
 //    [self.bridge addJsCommandHandlers:@[[YTKFibHandler new]] namespace:@"math"];
     __weak typeof(self)weakSelf = self;
@@ -49,9 +61,15 @@
         NSLog(@"block %@", argument);
     }];
     [self.bridge addListener:self forEvent:@"resize"];
-    NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
-                                             withExtension:@"htm"];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
+    if (UseWK) {
+        NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"wkTestWebView"
+                                          withExtension:@"htm"];
+        [self.wkWebView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
+    } else {
+        NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
+                                                 withExtension:@"htm"];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
+    }
 
     UIButton *btn = [UIButton new];
     [btn setBackgroundColor:UIColor.grayColor];
@@ -88,9 +106,35 @@
     return _webView;
 }
 
+- (WKWebView *)wkWebView {
+    if (!_wkWebView) {
+        WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+        configuration.allowsInlineMediaPlayback = YES;
+        if (@available(iOS 9.0, *)) {
+            configuration.requiresUserActionForMediaPlayback = NO;
+        } else {
+            // Fallback on earlier versions
+        }
+        [configuration.preferences setValue:@YES forKey:@"allowFileAccessFromFileURLs"];
+        _wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
+
+        if (@available(iOS 11.0, *)) {
+            _webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
+    }
+    return _wkWebView;
+}
+
+
 - (YTKJsBridge *)bridge {
     if (nil == _bridge) {
-        _bridge = [[YTKJsBridge alloc] initWithWebView:self.webView];
+        if (UseWK) {
+            _bridge = [[YTKJsBridge alloc] initWithWebView:self.wkWebView];
+        } else {
+            _bridge = [[YTKJsBridge alloc] initWithWebView:self.webView];
+        }
         [_bridge setDebugMode:YES];
     }
     return _bridge;

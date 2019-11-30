@@ -8,6 +8,8 @@
 #import "YTKJsEventHandler.h"
 #import "YTKJsCommand.h"
 #import "YTKJsUtils.h"
+#import "YTKWebInterface.h"
+#import "YTKWebBasedWKWebView.h"
 
 @interface YTKJsEventHandler ()
 
@@ -16,6 +18,8 @@
 @property (nonatomic, strong) NSMapTable<NSString *, NSHashTable *> *eventListeners;
 
 @property (nonatomic) BOOL isDebug;
+
+@property (nonatomic, weak, nullable) UIView *web;
 
 @end
 
@@ -89,16 +93,22 @@
     if (self.isDebug) {
         NSLog(@"### send native event: %@", js);
     }
-    [self.webView stringByEvaluatingJavaScriptFromString:js];
+    [self.webInterface evaluateJavaScript:js];
 }
 
 - (void)setDebugMode:(BOOL)debug {
     _isDebug = debug;
 }
 
+#pragma mark - YTKJsEventDelegate
+
+- (void)webView:(id<YTKWebInterface>)webview didReceiveEvent:(YTKJsEvent *)event {
+    [self handleJsEvent:event inWebView:webview.webView];
+}
+
 #pragma mark - YTKJsEventHandler
 
-- (void)handleJsEvent:(YTKJsEvent *)event inWebView:(UIWebView *)webView {
+- (void)handleJsEvent:(YTKJsEvent *)event inWebView:(UIView *)webView {
     if (![event.event isKindOfClass:[NSString class]]) {
         return;
     }

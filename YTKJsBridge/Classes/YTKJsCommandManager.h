@@ -11,7 +11,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YTKJsCommandManager : NSObject <YTKJsCommandHandler>
+@protocol YTKWebInterface;
+@protocol YTKJsCommandDelegate;
+
+@interface YTKJsCommandManager : NSObject <YTKJsCommandHandler, YTKJsCommandDelegate>
+
+@property (nonatomic, weak, nullable) id<YTKWebInterface> webInterface;
 
 /** 向JS注入命名空间namespace的处理方法类对象数组 */
 - (void)addJsCommandHandlers:(NSArray<id> *)handlers
@@ -49,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
                   namespace:(nullable NSString *)namespace;
 
 /** 调用JS方法 */
-- (nullable NSString *)callJsWithDictionary:(NSDictionary *)dictionary;
+- (void)callJsWithDictionary:(NSDictionary *)dictionary;
 
 - (void)setDebugMode:(BOOL)debug;
 

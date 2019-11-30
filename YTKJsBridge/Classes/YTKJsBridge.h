@@ -44,8 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace;
 
 /** 调用js commandName方法 */
-- (NSString *)callJsCommandName:(NSString *)commandName
-                       argument:(NSArray *)argument;
+- (void)callJsCommandName:(NSString *)commandName
+                 argument:(NSArray *)argument;
 
 /** 注册js事件监听处理block */
 - (void)listenEvent:(NSString *)event callback:(YTKEventCallback)callback;

@@ -14,4 +14,6 @@ typedef id _Nullable (^YTKSyncCallback) (NSArray * __nullable argument);
 typedef void (^YTKVoidSyncCallback) (NSArray * __nullable argument);
 typedef void (^YTKEventCallback) (NSArray * __nullable argument);
 
+typedef void (^YTKVoidCallback) (void);
+
 #endif /* YTKJsBlockHeader_h */

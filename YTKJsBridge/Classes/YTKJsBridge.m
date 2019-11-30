@@ -13,12 +13,16 @@
 #import "YTKJsCommandManager.h"
 #import "YTKJsEventHandler.h"
 #import "YTKJsUtils.h"
+#import "YTKWebInterface.h"
+#import "YTKWebBasedUIWebView.h"
+#import "YTKWebBasedWKWebView.h"
+#import <WebKit/WebKit.h>
 
 @interface YTKJsBridge () <YTKWebViewDelegate>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "Wdeprecated-declarations"
-@property (nonatomic, weak) UIWebView *webView;
+@property (nonatomic, weak) UIView *webView;
 #pragma clang diagnostic pop
 
 /** 方法处理对象 */
@@ -26,6 +30,8 @@
 
 /** 事件处理对象 */
 @property (nonatomic, strong) YTKJsEventHandler *eventHandler;
+
+@property (nonatomic, strong) id<YTKWebInterface> webInterface;
 
 @property (nonatomic) UInt64 callId;
 
@@ -43,12 +49,22 @@
 
 #pragma mark - Public Methods
 
-- (instancetype)initWithWebView:(UIWebView *)webView {
+- (instancetype)initWithWebView:(UIView *)webView {
     self = [super init];
     if (self) {
+        if ([webView isKindOfClass:[UIWebView class]]) {
+            UIWebView *web = (UIWebView *)webView;
+            __weak typeof(self) weakSelf = self;
+            web.ytk_delegate = weakSelf;
+
+            self.webInterface = [[YTKWebBasedUIWebView alloc] initWithWebView:(UIWebView *)webView];
+        } else if ([webView isKindOfClass:[WKWebView class]]) {
+            YTKWebBasedWKWebView *web = [[YTKWebBasedWKWebView alloc] initWithWebView:(WKWebView *)webView];
+            web.delegate = self.manager;
+            web.eventDelegate = self.eventHandler;
+            self.webInterface = web;
+        }
         _webView = webView;
-        __weak typeof(self) weakSelf = self;
-        webView.ytk_delegate = weakSelf;
     }
     return self;
 }
@@ -91,13 +107,13 @@
     [self.manager removeJsCommandName:commandName namespace:namespace];
 }
 
-- (NSString *)callJsCommandName:(NSString *)commandName
-                       argument:(NSArray *)argument {
+- (void)callJsCommandName:(NSString *)commandName
+                 argument:(NSArray *)argument {
     if (![commandName isKindOfClass:[NSString class]]) {
-        return nil;
+        return;
     }
     NSDictionary *dict = @{@"methodName" : commandName, @"args" : argument ?: @[], @"callId" : @(self.callId ++)};
-    return [self.manager callJsWithDictionary:dict];
+    [self.manager callJsWithDictionary:dict];
 }
 
 /** event related */
@@ -127,7 +143,7 @@
     [self.eventHandler setDebugMode:debug];
 }
 
-#pragma mark - Utils
+#pragma mark - Utils for UIWebView js
 
 - (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler forCommandName:(NSString *)commandName toContext:(JSContext *)context {
     if (!handler || ![commandName isKindOfClass:[NSString class]] || !context) {
@@ -186,6 +202,8 @@
 - (YTKJsCommandManager *)manager {
     if (!_manager) {
         _manager = [YTKJsCommandManager new];
+        _manager.webView = self.webView;
+        _manager.webInterface = self.webInterface;
     }
     return _manager;
 }
@@ -193,6 +211,8 @@
 - (YTKJsEventHandler *)eventHandler {
     if (!_eventHandler) {
         _eventHandler = [YTKJsEventHandler new];
+        _eventHandler.webView = self.webView;
+        _eventHandler.webInterface = self.webInterface;
     }
     return _eventHandler;
 }
