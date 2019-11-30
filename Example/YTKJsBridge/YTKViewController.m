@@ -16,7 +16,7 @@
 
 const static BOOL UseWK = YES;
 
-@interface YTKViewController () <YTKJsEventListener>
+@interface YTKViewController () <YTKJsEventListener, WKUIDelegate>
 
 @property (nonatomic, strong) UIWebView *webView;
 
@@ -77,6 +77,9 @@ const static BOOL UseWK = YES;
     [self.view addSubview:btn];
     btn.frame = CGRectMake(63, 500, 250, 100);
     [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
+
+    // test
+    self.wkWebView.UIDelegate = self;
 }
 
 - (void)handleJsEventWithArgument:(NSArray *)argument {
@@ -98,6 +101,25 @@ const static BOOL UseWK = YES;
         return [self fibSequence:n - 1] + [self fibSequence:n -2];
     }
 }
+
+#pragma mark - WKUIDelegate
+
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    completionHandler();
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    completionHandler(YES);
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(nullable NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable result))completionHandler {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    completionHandler(nil);
+}
+
+#pragma mark - Properties
 
 - (UIWebView *)webView {
     if (nil == _webView) {

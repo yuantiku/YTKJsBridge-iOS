@@ -9,6 +9,7 @@
 #import <WebKit/WebKit.h>
 #import "YTKJsUtils.h"
 #import "YTKJsCommand.h"
+#import "WKWebView+YTKSwizzling.h"
 
 @interface YTKWebBasedWKWebView () <WKUIDelegate>
 
@@ -26,10 +27,34 @@
         if (webView.UIDelegate) {
             _uiDelegate = webView.UIDelegate;
         }
-        webView.UIDelegate = self;
+        [webView ytk_setUIDelegate:self];
         self.webView = webView;
+        [self registerNotifications];
     }
     return self;
+}
+
+- (void)dealloc {
+    [self unregisterNotifications];
+}
+
+#pragma mark - Notifications
+
+- (void)registerNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUIDelegateChangeNotification:) name:YTKWKUIDelegateDidChangeNotification object:nil];
+}
+
+- (void)unregisterNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)handleUIDelegateChangeNotification:(NSNotification *)notification {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    WKWebView *web = notification.object;
+    if (web == self.webView && web.UIDelegate != self) {
+        self.uiDelegate = web.UIDelegate;
+        [web ytk_setUIDelegate:self];
+    }
 }
 
 #pragma mark - YTKWebInterface
