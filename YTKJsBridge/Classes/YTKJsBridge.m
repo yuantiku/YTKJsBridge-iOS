@@ -7,18 +7,16 @@
 //
 
 #import "YTKJsBridge.h"
-#import "UIWebView+JavaScriptContext.h"
 #import "YTKJsCommandHandler.h"
 #import "YTKJsCommand.h"
 #import "YTKJsCommandManager.h"
 #import "YTKJsEventHandler.h"
 #import "YTKJsUtils.h"
 #import "YTKWebInterface.h"
-#import "YTKWebBasedUIWebView.h"
 #import "YTKWebBasedWKWebView.h"
 #import <WebKit/WebKit.h>
 
-@interface YTKJsBridge () <YTKWebViewDelegate>
+@interface YTKJsBridge ()
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "Wdeprecated-declarations"
@@ -52,13 +50,7 @@
 - (instancetype)initWithWebView:(UIView *)webView {
     self = [super init];
     if (self) {
-        if ([webView isKindOfClass:[UIWebView class]]) {
-            UIWebView *web = (UIWebView *)webView;
-            __weak typeof(self) weakSelf = self;
-            web.ytk_delegate = weakSelf;
-
-            self.webInterface = [[YTKWebBasedUIWebView alloc] initWithWebView:(UIWebView *)webView];
-        } else if ([webView isKindOfClass:[WKWebView class]]) {
+        if ([webView isKindOfClass:[WKWebView class]]) {
             YTKWebBasedWKWebView *web = [[YTKWebBasedWKWebView alloc] initWithWebView:(WKWebView *)webView];
             web.delegate = self.manager;
             web.eventDelegate = self.eventHandler;
@@ -141,60 +133,6 @@
     self.isDebug = debug;
     [self.manager setDebugMode:debug];
     [self.eventHandler setDebugMode:debug];
-}
-
-#pragma mark - Utils for UIWebView js
-
-- (void)addJsCommandHandler:(id<YTKJsCommandHandler>)handler forCommandName:(NSString *)commandName toContext:(JSContext *)context {
-    if (!handler || ![commandName isKindOfClass:[NSString class]] || !context) {
-        return;
-    }
-    handler.webView = self.webView;
-    __weak typeof(self) weakSelf = self;
-    context[commandName] = ^id(JSValue *data) {
-        if (!weakSelf) {
-            return nil;
-        }
-        __strong typeof(self) strongSelf = weakSelf;
-        JSValue *ret = nil;
-        if ([handler respondsToSelector:@selector(handleJsCommand:inWebView:)]) {
-            YTKJsCommand *commamd = [[YTKJsCommand alloc] initWithDictionary:[data toDictionary]];
-            NSDictionary *result = [handler handleJsCommand:commamd inWebView:strongSelf.webView];
-            if (result) {
-                ret = [JSValue valueWithObject:result inContext:[JSContext currentContext]];
-            }
-        }
-        return ret;
-    };
-}
-
-- (void)addJsEventHandler:(id<YTKJsEventHandler>)handler forEvent:(NSString *)event toContext:(JSContext *)context {
-    if (!handler || ![event isKindOfClass:[NSString class]] || !context) {
-        return;
-    }
-    handler.webView = self.webView;
-    __weak typeof(self) weakSelf = self;
-    context[event] = ^(JSValue *data) {
-        if (!weakSelf) {
-            return;
-        }
-        __strong typeof(self) strongSelf = weakSelf;
-        handler.webView = strongSelf.webView;
-        if ([handler respondsToSelector:@selector(handleJsEvent:inWebView:)]) {
-            YTKJsEvent *event = [[YTKJsEvent alloc] initWithDictionary:[data toDictionary]];
-            [handler handleJsEvent:event inWebView:strongSelf.webView];
-        }
-    };
-}
-
-#pragma mark - YTKWebViewDelegate
-
-- (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)context {
-    /** 向JS注入全局YTKJsBridge函数 */
-    __weak typeof(self) weakSelf = self;
-    [self addJsCommandHandler:weakSelf.manager forCommandName:self.class.description toContext:context];
-    [self addJsCommandHandler:weakSelf.manager forCommandName:@"makeCallback" toContext:context];
-    [self addJsEventHandler:weakSelf.eventHandler forEvent:@"sendEvent" toContext:context];
 }
 
 #pragma mark - Getter

@@ -7,7 +7,7 @@
 
 ## YTKJsBridge 是什么
 
-YTKJsBridge是基于OC语言实现的一套客户端与网页JS相互调用的iOS库，其中主要依赖JavaScriptCore、UIWebView来实现的，JavaScriptCore这个framework被广泛使用在JSPatch、RN等上面。
+YTKJsBridge是基于OC语言实现的一套客户端与网页JS相互调用的iOS库，其中主要依赖JavaScriptCore、WKWebView来实现的，JavaScriptCore这个framework被广泛使用在JSPatch、RN等上面。
 
 ## YTKJsBridge 提供了那些功能
 
@@ -19,9 +19,9 @@ YTKJsBridge是基于OC语言实现的一套客户端与网页JS相互调用的iO
 
 ## 哪些项目适合使用 YTKJsBridge
 
-YTKJsBridge 适合ObjectC实现的项目，并且项目中使用UIWebView作为网页的容器，并且有比较多的客户端与网页直接交互的需求。
+YTKJsBridge 适合ObjectC实现的项目，并且项目中使用WKWebView作为网页的容器，并且有比较多的客户端与网页直接交互的需求。
 
-如果你的项目中使用了UIwebView，并且有大量的客户端与网页的交互逻辑，使用YTKJsBridge将给你带来很大的帮助，简化客户端与网页交互的实现逻辑，并且交互都是同步的，与本地调用基本一样，提供交互效率。
+如果你的项目中使用了WKWebView，并且有大量的客户端与网页的交互逻辑，使用YTKJsBridge将给你带来很大的帮助，简化客户端与网页交互的实现逻辑，并且交互都是同步的，与本地调用基本一样，提供交互效率。
 
 ## YTKJsBridge 的基本思想
 
@@ -50,7 +50,7 @@ pod 'YTKJsBridge'
 
    | YTKJsBridge 版本 |  最低 iOS Target | 注意 |
    |:----------------:|:----------------:|:-----:|
-   | 0.1.3 | iOS 7 | 要求 Xcode 7 以上 |
+   | 0.1.3 | iOS 8 | 要求 Xcode 7 以上 |
 
 ## 例子
 
@@ -116,7 +116,7 @@ JS监听客户端的事件，数据以json序列化的字符串传递，json数�
     }
 }
 
-UIWebView *webView = [UIWebView new];
+WKWebView *webView = [WKWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 
@@ -162,7 +162,7 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 然后客户端向网页注入该方法类即可，下面就是向网页注入YTKFibHandler，代码如下：
 
 ```objective-c
-UIWebView *webView = [UIWebView new];
+WKWebView *webView = [WKWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 // 向JS注入在命名空间math之下的fib和asyncFib方法
@@ -175,13 +175,14 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 
 ```JavaScript
 // 准备要传给客户端异步方法asyncFib的数据，包括指令，数据，回调等，
-var data = {
-    methodName:"math.asyncFib", // 带有命名空间的方法名
-    args:[5],  // 参数
-    callId:123  // callId为-1表示同步调用，否则为异步调用
-};
-// 直接使用这个客户端注入的全局YTKJsBridge方法调用math命名空间下的asyncFib方法执行
-YTKJsBridge(data);
+// callId为-1表示同步调用，否则为异步调用
+var data = "{
+    \"methodName\":\"math.asyncFib\",
+    \"args\":[20],
+    \"callId\":1234
+}";
+// 直接使用prompt方法调用math命名空间下的asyncFib方法执行
+window.prompt(data, "");
 // 通过dispatchCallbackFromNative来接收回传数据
 ```
 
@@ -189,14 +190,15 @@ YTKJsBridge(data);
 
 ```JavaScript
 // 准备要传给客户端同步方法fib的数据，包括指令，数据，回调等，
-var data = {
-    methodName:"math.fib", // 带有命名空间的方法名
-    args:[8],  // 参数
-    callId:-1  // callId为-1表示同步调用，否则为异步调用
-};
-// 直接使用这个客户端注入的全局YTKJsBridge方法调用math命名空间下的fib方法执行
-var dict = YTKJsBridge(data);
-var fib = dict["ret"]; // fib就是客户端返回的结果
+// callId为-1表示同步调用，否则为异步调用
+var data = "{
+    \"methodName\":\"math.fib\",
+    \"args\":[10],
+    \"callId\":-1
+}";
+// 直接使用prompt方法调用math命名空间下的fib方法执行
+var result = YTKJsBridge(data);
+result 就是客户端返回的json字符串
 ```
 
 ### native调用JS方法
@@ -204,7 +206,7 @@ var fib = dict["ret"]; // fib就是客户端返回的结果
 直接调用YTKWebViewJsBridge的对象方法即可，下面就是客户端调用网页执行名为alert的JS方法，带有三个参数message，cancelTitle，confirmTitle，分别代表alert提示的文案、取消按钮文案、确认按钮文案，如下所示：
 
 ```objective-c
-UIWebView *webView = [UIWebView new];
+WKWebView *webView = [WKWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 // 准备传入JS的数据，包括指令，数据等
@@ -218,11 +220,11 @@ NSArray *parameter = @[@"hello, world", @"cancel", @"confirm"];
 JS发送页面大小发生变化resize事件给客户端，如下所示：
 
 ```JavaScript
-var event = {
-    "event": "resize", // event名
-    "arg": [width, height], // 参数
-};
-sendEvent(event); // sendEvent是native注入的全局函数
+var data = "{
+    \"event\":\"resize\",
+    \"arg\":[width, height]
+}";
+window.prompt(data, "");
 ```
 
 ### native监听JS事件
@@ -230,7 +232,7 @@ sendEvent(event); // sendEvent是native注入的全局函数
 下面例子就是客户端监听JS页面大小发生变化resize事件的例子，如下所示：
 
 ```objective-c
-UIWebView *webView = [UIWebView new];
+WKWebView *webView = [WKWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 
@@ -252,7 +254,7 @@ YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 下面例子就是客户端发送click事件的例子，如下所示：
 
 ```objective-c
-UIWebView *webView = [UIWebView new];
+WKWebView *webView = [WKWebView new];
 // webView加载代码省略...
 YTKJsBridge *bridge = [[YTKWebViewJsBridge alloc] initWithWebView:webView];
 [bridge notifyEvent:@"click" argument:@[@"click event"]];

@@ -14,11 +14,7 @@
 #import "YTKJsCommandHandler.h"
 #import <WebKit/WebKit.h>
 
-const static BOOL UseWK = YES;
-
 @interface YTKViewController () <YTKJsEventListener, WKUIDelegate>
-
-@property (nonatomic, strong) UIWebView *webView;
 
 @property (nonatomic, strong) WKWebView *wkWebView;
 
@@ -32,15 +28,9 @@ const static BOOL UseWK = YES;
 {
     [super viewDidLoad];
 
-    [self.view addSubview:self.webView];
-    self.webView.frame = self.view.frame;
-    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
-    if (UseWK) {
-        [self.view addSubview:self.wkWebView];
-        self.wkWebView.frame = self.view.frame;
-        self.wkWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    }
+    [self.view addSubview:self.wkWebView];
+    self.wkWebView.frame = self.view.frame;
+    self.wkWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     [self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
 //    [self.bridge addJsCommandHandlers:@[[YTKFibHandler new]] namespace:@"math"];
@@ -61,15 +51,9 @@ const static BOOL UseWK = YES;
         NSLog(@"block %@", argument);
     }];
     [self.bridge addListener:self forEvent:@"resize"];
-    if (UseWK) {
-        NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"wkTestWebView"
-                                          withExtension:@"htm"];
-        [self.wkWebView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
-    } else {
-        NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
-                                                 withExtension:@"htm"];
-        [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
-    }
+    NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"wkTestWebView"
+                                             withExtension:@"htm"];
+    [self.wkWebView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
 
     UIButton *btn = [UIButton new];
     [btn setBackgroundColor:UIColor.grayColor];
@@ -121,27 +105,18 @@ const static BOOL UseWK = YES;
 
 #pragma mark - Properties
 
-- (UIWebView *)webView {
-    if (nil == _webView) {
-        _webView = [UIWebView new];
-    }
-    return _webView;
-}
-
 - (WKWebView *)wkWebView {
     if (!_wkWebView) {
         WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
         configuration.allowsInlineMediaPlayback = YES;
         if (@available(iOS 9.0, *)) {
             configuration.requiresUserActionForMediaPlayback = NO;
-        } else {
-            // Fallback on earlier versions
         }
         [configuration.preferences setValue:@YES forKey:@"allowFileAccessFromFileURLs"];
         _wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
 
         if (@available(iOS 11.0, *)) {
-            _webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+            _wkWebView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         } else {
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
@@ -152,11 +127,7 @@ const static BOOL UseWK = YES;
 
 - (YTKJsBridge *)bridge {
     if (nil == _bridge) {
-        if (UseWK) {
-            _bridge = [[YTKJsBridge alloc] initWithWebView:self.wkWebView];
-        } else {
-            _bridge = [[YTKJsBridge alloc] initWithWebView:self.webView];
-        }
+        _bridge = [[YTKJsBridge alloc] initWithWebView:self.wkWebView];
         [_bridge setDebugMode:YES];
     }
     return _bridge;

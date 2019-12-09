@@ -13,7 +13,7 @@ NSString * const YTKWKUIDelegateDidChangeNotification = @"YTKDidCallSetUIDelegat
 @implementation WKWebView (YTKSwizzling)
 
 + (void)load {
-    // hook UIWebView
+    // hook WKWebView
     Method originalMethod = class_getInstanceMethod([WKWebView class], @selector(setUIDelegate:));
     Method swizzledMethod = class_getInstanceMethod([WKWebView class], @selector(ytk_setUIDelegate:));
     method_exchangeImplementations(originalMethod, swizzledMethod);
