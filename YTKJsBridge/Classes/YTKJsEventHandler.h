@@ -11,7 +11,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YTKJsEventHandler : NSObject <YTKJsEventHandler>
+@protocol YTKWebInterface;
+@protocol YTKJsEventDelegate;
+
+@interface YTKJsEventHandler : NSObject <YTKJsEventHandler, YTKJsEventDelegate>
+
+@property (nonatomic, weak, nullable) id<YTKWebInterface> webInterface;
 
 /** 向JS注入事件监听处理callback */
 - (void)listenEvent:(NSString *)event callback:(YTKEventCallback)callback;

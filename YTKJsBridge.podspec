@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'YTKJsBridge'
   s.version          = '0.1.4'
-  s.summary          = 'YTKJsBridge is used for UIWebview javascript function injection and call javascript code.'
+  s.summary          = 'YTKJsBridge is used for WKWebview javascript function injection and call javascript code.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-YTKJsBridge use JavascriptCore for ObjectC function js injection, use UIWebView stringByEvaluatingJavaScriptFromString selector for call javascript code. The implementation code all in the YTKWebViewJsBridge.
+  YTKJsBridge use JavascriptCore for ObjectC function js injection, use WKWebView evaluateJavaScript:completionHandler: selector for call javascript code. The implementation code all in the YTKWebViewJsBridge.
                        DESC
 
   s.homepage         = 'https://github.com/yuantiku/YTKJsBridge-iOS'

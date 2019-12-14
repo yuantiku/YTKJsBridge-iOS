@@ -1,0 +1,67 @@
+<html>
+<head>
+</head>
+<body>
+    
+    <form>
+        
+         <button type='button' onclick='alert("Alert!")'>Alert!</button>
+         <button type='button' onclick='syncSayHello()'>Call Natvie Sync Say Hello!</button>
+         <button type='button' onclick='asyncSayHello()'>Call Natvie Async Say Hello!</button>
+         <button type='button' onclick='syncFib()'>Call Natvie Sync Fib!</button>
+         <button type='button' onclick='voidSyncCall()'>Call Natvie Void return Sync method!</button>
+         <button type='button' onclick='asyncFib()'>Call Natvie Async fib!</button>
+         <button type='button' onclick='notify()'>notify Js Resize Event!</button>
+
+    </form>
+
+    <script>
+        function callSyncMethod(data) {
+            var result = window.prompt(data, "");
+            append(result);
+        }
+        function syncSayHello() {
+            var data = "{\"methodName\":\"yuantiku.syncSayHello\", \"args\":[\"sync: hello world\"], \"callId\":-1}";
+            callSyncMethod(data);
+        }
+        function asyncSayHello() {
+            var data = "{\"methodName\":\"yuantiku.asyncSayHello\", \"args\":[\"async: hello world\"], \"callId\":123}";
+            window.prompt(data, "");
+        }
+        function syncFib() {
+            var data = "{\"methodName\":\"math.fib\", \"args\":[10], \"callId\":-1}";
+            callSyncMethod(data);
+        }
+        function voidSyncCall() {
+            var data = "{\"methodName\":\"math.voidSyncCall\", \"args\":[], \"callId\":-1}";
+            callSyncMethod(data);
+        }
+        function asyncFib() {
+            var data = "{\"methodName\":\"math.asyncFib\", \"args\":[20], \"callId\":1234}";
+            window.prompt(data, "");
+        }
+        function notify() {
+            var data = "{\"event\":\"resize\", \"arg\":[100, 100]}";
+            window.prompt(data, "");
+        }
+        window.dispatchNativeEvent = function(obj) {
+            if (obj.event == "click") {
+                append("[receive event]: " + obj.arg[0]);
+            }
+        }
+        window.dispatchCallbackFromNative = function(obj) {
+            if (obj.code == 0) {
+                append("[receive callback]: success")
+            } else {
+                append("[receive callback]: failed")
+            }
+        }
+        function append(params) {
+            var ele = document.createElement('div');
+            ele.innerHTML = params;
+            document.body.appendChild(ele);
+        }
+    </script>
+
+</body>
+</html>

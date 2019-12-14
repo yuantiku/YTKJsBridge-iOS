@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "YTKJsBridge.h"
 #import "YTKAlertHandler.h"
+#import <WebKit/WebKit.h>
 
 @import XCTest;
 
 @interface Tests : XCTestCase
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 
 @property (nonatomic, strong) YTKJsBridge *bridge;
 
@@ -37,15 +38,15 @@
 - (void)testExample
 {
     [self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
-    NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
+    NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"wkTestWebView"
                                              withExtension:@"htm"];
     [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
     XCTAssertTrue(true);
 }
 
-- (UIWebView *)webView {
+- (WKWebView *)webView {
     if (nil == _webView) {
-        _webView = [UIWebView new];
+        _webView = [WKWebView new];
     }
     return _webView;
 }

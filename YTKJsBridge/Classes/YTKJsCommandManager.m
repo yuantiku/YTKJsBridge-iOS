@@ -9,6 +9,8 @@
 #import "YTKJsCommandHandler.h"
 #import "YTKBlockHandler.h"
 #import "YTKJsUtils.h"
+#import "YTKWebInterface.h"
+#import "YTKWebBasedWKWebView.h"
 #import <objc/message.h>
 
 @interface YTKJsCommandManager ()
@@ -16,8 +18,6 @@
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSArray *> *namespaceHandlers;
 
 @property (nonatomic, strong) YTKBlockHandler *blockHandler;
-
-@property (nonatomic, strong) NSString *jsCache;
 
 @property (nonatomic) BOOL isDebug;
 
@@ -31,7 +31,6 @@
     self = [super init];
     if (self) {
         _namespaceHandlers = [NSMutableDictionary dictionary];
-        _jsCache = @"";
         _isDebug = NO;
         _blockHandler = [YTKBlockHandler new];
     }
@@ -131,25 +130,34 @@
     [self.blockHandler removeMethod:name];
 }
 
-- (NSString *)callJsWithDictionary:(NSDictionary *)dictionary {
+- (void)callJsWithDictionary:(NSDictionary *)dictionary {
     if (!self.webView || ![dictionary isKindOfClass:[NSDictionary class]]) {
-        return nil;
+        return;
     }
     NSString *json = [YTKJsUtils objToJsonString:dictionary];
     NSString *js = [NSString stringWithFormat:@"window.dispatchNativeCall(%@)", json];
     if (self.isDebug) {
         NSLog(@"### send native call: %@", js);
     }
-    return [self.webView stringByEvaluatingJavaScriptFromString:js];
+    if (![self.webInterface respondsToSelector:@selector(evaluateJavaScript:)]) {
+        return;
+    }
+    [self.webInterface evaluateJavaScript:js];
 }
 
 - (void)setDebugMode:(BOOL)debug {
     _isDebug = debug;
 }
 
+#pragma mark - YTKJsCommandDelegate
+
+- (nullable NSDictionary *)webView:(id<YTKWebInterface>)webView didReceiveCommand:(YTKJsCommand *)command {
+    return [self handleJsCommand:command inWebView:webView.webView];
+}
+
 #pragma mark - YTKJsCommandHandler
 
-- (NSDictionary *)handleJsCommand:(YTKJsCommand *)command inWebView:(UIWebView *)webView {
+- (NSDictionary *)handleJsCommand:(YTKJsCommand *)command inWebView:(UIView *)webView {
     if (![command.methodName isKindOfClass:[NSString class]] || [command.methodName isEqualToString:@"makeCallback"]) {
         return nil;
     }
@@ -226,12 +234,13 @@
     if (self.isDebug) {
         NSLog(@"### receive methodName:%@, args:%@, callId:%@", command.methodName, command.args, command.callId);
     }
-    NSString *commandName = command.methodName;
-    NSString *namespace = [YTKJsUtils parseNamespace:commandName].firstObject;
+    NSArray *arr = [YTKJsUtils parseNamespace:command.methodName];
+    NSString *namespace = arr.firstObject;
+    NSString *commandName = arr.lastObject;
     NSArray *args = command.args;
     NSString *callId = command.callId;
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:@{@"code" : @-1, @"ret" : @""}];
-    NSString *error = [NSString stringWithFormat:@"Error! \n Method %@ is not invoked, since there is not a implementation for it",commandName];
+    NSString *error = [NSString stringWithFormat:@"Error! \n Method %@ is not invoked, since there is not a implementation for it", command.methodName];
     if (![args isKindOfClass:[NSArray class]] || !args) {
         args = @[];
     }
@@ -273,9 +282,9 @@
                 [invocation setArgument:(void *)&completionHandler atIndex:args.count+2];
                 [invocation invoke];
             } else {
-                if ([self.blockHandler canHandleAsyncMethod:commandName]) {
+                if ([self.blockHandler canHandleAsyncMethod:command.methodName]) {
                     founded = YES;
-                    [self.blockHandler performAsyncMethod:commandName arguments:args callback:completionHandler];
+                    [self.blockHandler performAsyncMethod:command.methodName arguments:args callback:completionHandler];
                 }
             }
         }];
@@ -300,16 +309,16 @@
                 id ret = (__bridge id)tempRet;
                 [result setValue:ret forKey:@"ret"];
             } else {
-                if ([self.blockHandler canHandleSyncMethod:commandName]) {
+                if ([self.blockHandler canHandleSyncMethod:command.methodName]) {
                     founded = YES;
-                    id ret = [self.blockHandler performSyncMethod:commandName argments:args];
+                    id ret = [self.blockHandler performSyncMethod:command.methodName argments:args];
                     if (!ret) {
                         return;
                     }
                     [result setValue:ret forKey:@"ret"];
-                } else if ([self.blockHandler canHandleVoidSyncMethod:commandName]) {
+                } else if ([self.blockHandler canHandleVoidSyncMethod:command.methodName]) {
                     founded = YES;
-                    [self.blockHandler performVoidSyncMethod:commandName arguments:args];
+                    [self.blockHandler performVoidSyncMethod:command.methodName arguments:args];
                 }
             }
         }];
@@ -340,20 +349,26 @@
     }
 }
 
+- (void)performBlockOnMainThread:(YTKVoidCallback)block {
+    if (!block) {
+        return;
+    }
+    if ([[NSThread currentThread] isMainThread]) {
+        block();
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block();
+        });
+    }
+}
+
 - (void)callJsCallbackWithJsString:(NSString *)js {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        @synchronized (self) {
-            self.jsCache = [self.jsCache stringByAppendingString:js];
-            if ([self.jsCache length] == 0) {
-                return;
-            }
-            if (self.isDebug) {
-                NSLog(@"### send callback JS: %@", self.jsCache);
-            }
-            [self.webView stringByEvaluatingJavaScriptFromString:self.jsCache];
-            self.jsCache = @"";
-        }
-    });
+    if (self.isDebug) {
+        NSLog(@"### send callback JS: %@", js);
+    }
+    [self performBlockOnMainThread:^{
+        [self.webInterface evaluateJavaScript:js];
+    }];
 }
 
 - (void)evaluatingDictionary:(NSDictionary *)result {

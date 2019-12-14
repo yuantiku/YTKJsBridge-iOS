@@ -12,10 +12,11 @@
 #import "YTKIsLastHandler.h"
 #import "YTKFibHandler.h"
 #import "YTKJsCommandHandler.h"
+#import <WebKit/WebKit.h>
 
-@interface YTKViewController () <YTKJsEventListener>
+@interface YTKViewController () <YTKJsEventListener, WKUIDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *wkWebView;
 
 @property (nonatomic, strong) YTKJsBridge *bridge;
 
@@ -27,9 +28,10 @@
 {
     [super viewDidLoad];
 
-    [self.view addSubview:self.webView];
-    self.webView.frame = self.view.frame;
-    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.wkWebView];
+    self.wkWebView.frame = self.view.frame;
+    self.wkWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
     [self.bridge addJsCommandHandlers:@[[YTKAlertHandler new]] namespace:@"yuantiku"];
 //    [self.bridge addJsCommandHandlers:@[[YTKFibHandler new]] namespace:@"math"];
     __weak typeof(self)weakSelf = self;
@@ -49,9 +51,9 @@
         NSLog(@"block %@", argument);
     }];
     [self.bridge addListener:self forEvent:@"resize"];
-    NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"testWebView"
+    NSURL *htmlURL = [[NSBundle mainBundle] URLForResource:@"wkTestWebView"
                                              withExtension:@"htm"];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
+    [self.wkWebView loadRequest:[NSURLRequest requestWithURL:htmlURL]];
 
     UIButton *btn = [UIButton new];
     [btn setBackgroundColor:UIColor.grayColor];
@@ -59,6 +61,9 @@
     [self.view addSubview:btn];
     btn.frame = CGRectMake(63, 500, 250, 100);
     [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
+
+    // test
+    self.wkWebView.UIDelegate = self;
 }
 
 - (void)handleJsEventWithArgument:(NSArray *)argument {
@@ -81,16 +86,48 @@
     }
 }
 
-- (UIWebView *)webView {
-    if (nil == _webView) {
-        _webView = [UIWebView new];
-    }
-    return _webView;
+#pragma mark - WKUIDelegate
+
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    completionHandler();
 }
+
+- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    completionHandler(YES);
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(nullable NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable result))completionHandler {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    completionHandler(nil);
+}
+
+#pragma mark - Properties
+
+- (WKWebView *)wkWebView {
+    if (!_wkWebView) {
+        WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+        configuration.allowsInlineMediaPlayback = YES;
+        if (@available(iOS 9.0, *)) {
+            configuration.requiresUserActionForMediaPlayback = NO;
+        }
+        [configuration.preferences setValue:@YES forKey:@"allowFileAccessFromFileURLs"];
+        _wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
+
+        if (@available(iOS 11.0, *)) {
+            _wkWebView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
+    }
+    return _wkWebView;
+}
+
 
 - (YTKJsBridge *)bridge {
     if (nil == _bridge) {
-        _bridge = [[YTKJsBridge alloc] initWithWebView:self.webView];
+        _bridge = [[YTKJsBridge alloc] initWithWebView:self.wkWebView];
         [_bridge setDebugMode:YES];
     }
     return _bridge;

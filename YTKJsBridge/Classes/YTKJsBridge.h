@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YTKJsBridge : NSObject
 
-- (instancetype)initWithWebView:(UIWebView *)webView;
+- (instancetype)initWithWebView:(UIView *)webView;
 
 /** 注入js方法实现类数组handlers，这些handlers同属于同一个命名空间namespace */
 - (void)addJsCommandHandlers:(NSArray *)handlers namespace:(nullable NSString *)namespace;
@@ -44,8 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeJsCommandName:(NSString *)commandName namespace:(nullable NSString *)namespace;
 
 /** 调用js commandName方法 */
-- (NSString *)callJsCommandName:(NSString *)commandName
-                       argument:(NSArray *)argument;
+- (void)callJsCommandName:(NSString *)commandName
+                 argument:(NSArray *)argument;
 
 /** 注册js事件监听处理block */
 - (void)listenEvent:(NSString *)event callback:(YTKEventCallback)callback;
